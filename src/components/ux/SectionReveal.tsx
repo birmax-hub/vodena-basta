@@ -4,6 +4,7 @@ import { PropsWithChildren, useEffect } from "react";
 import { useAnimate, useInView, useReducedMotion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
+import { easeOutSoft, fadeInUpTimings, fadeInUpTransforms } from "@/lib/motionVariants";
 
 type SectionRevealProps = PropsWithChildren<{
   className?: string;
@@ -19,7 +20,7 @@ export function SectionReveal({
   delay = 0,
   once = true,
   childSelector,
-  stagger = 0.12,
+  stagger = fadeInUpTimings.stagger,
 }: SectionRevealProps) {
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const isInView = useInView(scope, { once });
@@ -44,13 +45,13 @@ export function SectionReveal({
     }
 
     node.style.opacity = "0";
-    node.style.transform = "translate3d(0, 24px, 0) scale(0.98)";
+    node.style.transform = fadeInUpTransforms.parentFrom;
     node.style.filter = "blur(18px)";
 
     if (childSelector) {
       node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
         element.style.opacity = "0";
-        element.style.transform = "translate3d(0, 28px, 0)";
+        element.style.transform = fadeInUpTransforms.childFrom;
         element.style.filter = "blur(18px)";
       });
     }
@@ -60,17 +61,15 @@ export function SectionReveal({
     const node = scope.current;
     if (!node || !isInView || prefersReducedMotion) return;
 
-    const ease: [number, number, number, number] = [0.22, 0.61, 0.36, 1];
-
     const runAnimation = async () => {
       await animate(
         node,
         {
           opacity: [0, 1],
-          transform: ["translate3d(0, 24px, 0) scale(0.98)", "translate3d(0, 0, 0) scale(1)"],
+          transform: [fadeInUpTransforms.parentFrom, fadeInUpTransforms.parentTo],
           filter: ["blur(18px)", "blur(0px)"],
         },
-        { duration: 0.85, delay, ease },
+        { duration: fadeInUpTimings.parentDuration, delay, ease: easeOutSoft },
       );
 
       if (childSelector) {
@@ -81,13 +80,13 @@ export function SectionReveal({
               element,
               {
                 opacity: [0, 1],
-                transform: ["translate3d(0, 28px, 0)", "translate3d(0, 0, 0)"],
+                transform: [fadeInUpTransforms.childFrom, fadeInUpTransforms.childTo],
                 filter: ["blur(18px)", "blur(0px)"],
               },
               {
-                duration: 0.65,
-                ease,
-                delay: index * stagger,
+                duration: fadeInUpTimings.childDuration,
+                ease: easeOutSoft,
+                delay: index * (stagger ?? fadeInUpTimings.stagger),
               },
             );
           });

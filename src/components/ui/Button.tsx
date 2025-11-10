@@ -73,6 +73,7 @@ export function ButtonLink({
 }: LinkButtonProps) {
   return (
     <Link
+      prefetch={false}
       className={cn(
         "relative inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-tight transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-900 motion-safe:hover:scale-[1.05] motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98] focus-visible:scale-[1.02] before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:bg-white/10 before:opacity-0 before:transition-opacity before:duration-300 after:pointer-events-none after:absolute after:inset-[-22%] after:rounded-full after:bg-[radial-gradient(circle,rgba(82,255,227,0.22)_0%,rgba(82,255,227,0)_70%)] after:opacity-0 after:transition-opacity after:duration-300 motion-safe:hover:before:opacity-55 motion-safe:hover:after:opacity-100 link-plain",
         getVariantClasses(variant),

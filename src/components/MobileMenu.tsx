@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 
 import { PrimaryLink } from "@/components/ui/Buttons";
 import { Icon } from "@/components/ui/Icon";
+import { cn } from "@/lib/utils";
 
 type NavItem = {
   href: string;
@@ -58,14 +59,17 @@ export function MobileMenu({ links, isOpen, onToggle, activeSection }: MobileMen
                 return (
                   <li key={link.href}>
                     <Link
+                      key={link.href}
                       href={link.href}
+                      prefetch={false}
                       onClick={() => onToggle(false)}
                       aria-current={isActive ? "page" : undefined}
-                      className={`block rounded-2xl border px-4 py-3 text-lg font-medium transition backdrop-blur focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60 ${
+                      className={cn(
+                        "block rounded-2xl px-6 py-4 text-lg font-semibold text-white/80 transition",
                         isActive
                           ? "border-aqua-500/40 bg-white/[0.05] text-white"
                           : "border-white/[0.02] bg-white/[0.015] text-accent-200/80 hover:border-aqua-500/40 hover:text-accent-200"
-                      }`}
+                      )}
                     >
                       {link.label}
                     </Link>

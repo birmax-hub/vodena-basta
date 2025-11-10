@@ -57,6 +57,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
               <p className="flex-1 text-sm leading-relaxed text-accent-200/80">{projects[current].description}</p>
               <Link
                 href={projects[current].href}
+                prefetch={false}
                 className="group inline-flex w-fit items-center gap-2 rounded-full border border-aqua-500/25 px-5 py-2 text-sm font-semibold text-aqua-200 transition hover:border-aqua-500/50 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60"
               >
                 Pitaj za sličan projekat

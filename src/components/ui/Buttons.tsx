@@ -94,7 +94,7 @@ export function PrimaryLink({ href = "#", className, children, intent = "default
 
 export function GhostLink({ className, children, href, ...rest }: LinkProps) {
   return (
-    <Link href={href} className={cn(baseButtonClasses, ghostClasses, className)} {...rest}>
+    <Link href={href} prefetch={false} className={cn(baseButtonClasses, ghostClasses, className)} {...rest}>
       {children}
     </Link>
   );

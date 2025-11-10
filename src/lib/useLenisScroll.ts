@@ -30,7 +30,9 @@ export function useLenisScroll(enabled = true) {
       rafId = requestAnimationFrame(raf);
     };
 
-    rafId = requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(raf);
+    });
 
     return () => {
       cancelAnimationFrame(rafId);

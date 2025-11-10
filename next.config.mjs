@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    unoptimized: true,
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
@@ -8,6 +10,7 @@ const nextConfig = {
         pathname: "/storage/v1/object/**",
       },
     ],
+    domains: ["vmzkfwmyypbgjyjkvoim.supabase.co"],
   },
 };
 

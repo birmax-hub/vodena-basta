@@ -1,7 +1,8 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useReducedMotion } from "framer-motion";
@@ -11,15 +12,15 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { Container } from "@/components/ui/Container";
 import { PrimaryLink } from "@/components/ui/Buttons";
 import { cn } from "@/lib/utils";
-import { supabasePublicUrl } from "@/lib/images";
 
 const NAV_LINKS = [
-  { href: "#hero", label: "Početak" },
+  { href: "#pocetak", label: "Početak" },
   { href: "#akvaponija", label: "Akvaponija" },
-  { href: "#usluge", label: "Uzgoj biljaka i riba" },
+  { href: "#uzgoj-biljaka-i-riba", label: "Uzgoj biljaka i riba" },
   { href: "#proizvodi", label: "Proizvodi" },
-  { href: "#projekti", label: "Portfolio" },
+  { href: "#portfolio", label: "Portfolio" },
   { href: "#blog", label: "Blog" },
+  { href: "#o-nama", label: "O nama" },
   { href: "#kontakt", label: "Kontakt" },
 ] as const;
 
@@ -28,6 +29,7 @@ type NavLinkProps = {
   className?: string;
   children: ReactNode;
   isActive?: boolean;
+  onSelect?: () => void;
 };
 
 function scrollToHash(hash: string) {
@@ -42,7 +44,7 @@ function scrollToHash(hash: string) {
   window.scrollTo({ top: offsetTop, behavior: "smooth" });
 }
 
-function NavLink({ href, className, children, isActive }: NavLinkProps) {
+function NavLink({ href, className, children, isActive, onSelect }: NavLinkProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -53,6 +55,7 @@ function NavLink({ href, className, children, isActive }: NavLinkProps) {
       if (href.startsWith("#")) {
         event.preventDefault();
         scrollToHash(href);
+        onSelect?.();
         return;
       }
 
@@ -61,6 +64,7 @@ function NavLink({ href, className, children, isActive }: NavLinkProps) {
         event.preventDefault();
         if (path === pathname || path === "") {
           scrollToHash(`#${hash}`);
+          onSelect?.();
         } else {
           void router.push(`${path}#${hash}`);
         }
@@ -71,8 +75,9 @@ function NavLink({ href, className, children, isActive }: NavLinkProps) {
       if (path !== pathname) {
         void router.push(path);
       }
+      onSelect?.();
     },
-    [href, pathname, router],
+    [href, onSelect, pathname, router],
   );
 
   return (
@@ -93,7 +98,7 @@ function NavLink({ href, className, children, isActive }: NavLinkProps) {
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("#hero");
+  const [activeSection, setActiveSection] = useState<string>("#pocetak");
   const prefersReduced = useReducedMotion();
   const headerRef = useRef<HTMLElement>(null);
 
@@ -130,13 +135,13 @@ export function Navbar() {
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) {
+        if (visible.length > 0) {
           setActiveSection(`#${visible[0].target.id}`);
         }
       },
       {
-        rootMargin: "-45% 0px -45% 0px",
-        threshold: [0.2, 0.35, 0.6],
+        threshold: [0.2, 0.35, 0.5],
+        rootMargin: "-20% 0px -45%",
       },
     );
 
@@ -179,22 +184,27 @@ export function Navbar() {
       <header ref={headerRef} className={headerClasses}>
         <Container className="flex items-center justify-between py-3 md:py-4">
           <Link
-            href="#hero"
-            className="flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60"
+            href="#pocetak"
+            prefetch={false}
+            className="logo-group group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-gradient-to-b from-white/10 to-white/5 shadow-[0_0_10px_rgba(0,0,0,0.3)] backdrop-blur-md">
-              <Image
-                src={supabasePublicUrl("Logo/vodena-basta-site-icon.png")}
-                alt="Logo Vodena Bašta"
-                width={40}
-                height={40}
-                className="h-9 w-9 object-contain"
-                priority
+            <div className="logo-container logo-glow w-14 h-14">
+              <img
+                src="/logo/vodena-basta-site-icon.png"
+                alt="Vodena Bašta logo"
+                className="absolute h-[165%] w-[165%] scale-[1.25] object-cover object-center saturate-[1.25] brightness-[1.1] contrast-[1.05] drop-shadow-[0_0_12px_rgba(0,255,204,0.25)] transition-transform duration-500 group-hover:scale-[1.3]"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                style={{ imageRendering: "crisp-edges" }}
               />
-            </span>
-            <span className="text-sm font-semibold uppercase tracking-[0.32em] text-white/90">
-              Vodena Bašta
-            </span>
+            </div>
+            <div className="logo-text">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-white sm:text-base">
+                VODENA BAŠTA
+              </h2>
+              <p className="text-xs tracking-widest text-emerald-300/80 sm:text-sm">Akvaponski sistem</p>
+            </div>
           </Link>
           <nav className="hidden items-center gap-10 lg:flex" aria-label="Glavni meni">
             <ul className="flex items-center gap-6 text-sm font-medium text-white/80">
@@ -204,12 +214,13 @@ export function Navbar() {
                   <li key={link.href}>
                     <NavLink
                       href={link.href}
-                      className="group relative inline-flex flex-col items-center gap-2 px-2 py-1 transition-colors duration-200"
+                      className="link-plain group relative inline-flex flex-col items-center gap-2 px-2 py-1 transition-colors duration-300"
                       isActive={isActive}
+                      onSelect={() => setActiveSection(link.href)}
                     >
                       <span
                         className={cn(
-                          "text-sm transition-all duration-200 hover:text-white/100",
+                          "text-sm font-medium transition-colors duration-300",
                           isActive ? "text-white" : "text-white/70 group-hover:text-white",
                         )}
                       >
@@ -217,8 +228,10 @@ export function Navbar() {
                       </span>
                       <span
                         className={cn(
-                          "h-0.5 w-8 rounded-full bg-gradient-to-r from-aqua-500 via-leaf-500 to-aqua-500 transition-all duration-300 ease-out",
-                          isActive ? "w-8 opacity-100" : "w-0 opacity-0 group-hover:w-5 group-hover:opacity-70",
+                          "mt-1 h-0.5 w-8 origin-center scale-x-0 rounded-full bg-gradient-to-r from-aqua-500 via-leaf-500 to-aqua-500 transition duration-300 ease-out",
+                          isActive
+                            ? "opacity-100 scale-x-100"
+                            : "opacity-0 group-hover:opacity-70 group-hover:scale-x-75",
                         )}
                       />
                     </NavLink>

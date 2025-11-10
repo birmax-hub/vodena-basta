@@ -55,7 +55,11 @@ export function BlogCard({ title, excerpt, href, disabled = false, image, classN
   }
 
   return (
-    <Link href={href} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-aqua-500/50">
+    <Link
+      href={href}
+      prefetch={false}
+      className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-aqua-500/50"
+    >
       {content}
     </Link>
   );
