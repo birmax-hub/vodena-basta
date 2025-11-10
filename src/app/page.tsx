@@ -341,7 +341,7 @@ function HeroContent() {
       </div>
 
       <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:flex-wrap">
-        <PrimaryLink href="#kontakt" intent="consultation" className="text-sm font-semibold">
+        <PrimaryLink href="#kontakt" intent="consultation" className="text-sm font-semibold hover:shadow-[0_0_25px_rgba(0,255,180,0.25)]">
           Zakaži konsultaciju
         </PrimaryLink>
         <GhostLink href="#projekti" className="px-8 py-3 text-sm font-semibold">
@@ -360,7 +360,7 @@ function Hero() {
   return (
     <section
       id="hero"
-      className="relative isolate overflow-hidden bg-gradient-to-br from-[#021512] via-[#052822] to-[#061026] py-[clamp(3.5rem,7vw,6rem)]"
+      className="relative isolate min-h-[85vh] overflow-hidden bg-gradient-to-br from-[#021512] via-[#052822] to-[#061026] py-[clamp(3.5rem,7vw,6rem)]"
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-40 top-[-25%] h-[580px] w-[580px] rounded-full bg-[radial-gradient(circle_at_center,rgba(71,255,209,0.28),transparent_74%)] blur-3xl" />
@@ -384,7 +384,7 @@ function Hero() {
           ))}
       </div>
 
-      <Container className="relative z-10 grid items-center gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+      <Container className="relative z-10 grid max-w-[1200px] items-center gap-10 px-4 mx-auto lg:grid-cols-2 lg:gap-12 xl:gap-16">
         <div className="pointer-events-none absolute inset-x-[-16%] top-[-14%] h-60 rounded-[200px] bg-[radial-gradient(680px_320px_at_42%_40%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-[60px] opacity-75" />
         <div className="pointer-events-none absolute inset-x-[-12%] bottom-[-12%] h-48 rounded-[160px] bg-[radial-gradient(540px_240px_at_70%_50%,rgba(255,214,51,0.1),rgba(255,214,51,0))] blur-[50px] opacity-65" />
         <HeroContent />
@@ -411,24 +411,24 @@ function TrustSection() {
           </p>
         </SectionReveal>
 
-        <SectionReveal delay={0.1}>
+        <SectionReveal delay={0.1} childSelector=".trust-card">
           <div className="grid gap-6 rounded-[2.5rem] border border-white/20 bg-white/7 p-10 backdrop-blur">
             <div className="grid gap-6 text-sm text-emerald-100/90 lg:grid-cols-4">
               {socialProof.map((item) => (
                 <div
                   key={item}
-                  className="rounded-2xl border border-white/25 bg-white/12 px-6 py-5 text-left shadow-[0_18px_55px_rgba(4,16,24,0.35)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_22px_60px_rgba(40,222,214,0.3)]"
+                  className="trust-card rounded-2xl border border-white/25 bg-white/12 px-6 py-5 text-left shadow-[0_18px_55px_rgba(4,16,24,0.35)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_22px_60px_rgba(40,222,214,0.3)] hover:bg-white/10 hover:shadow-[0_0_20px_rgba(0,255,150,0.15)]"
                 >
                   {item}
                 </div>
               ))}
             </div>
             <div className="flex flex-wrap items-center justify-center gap-6 text-xs uppercase tracking-[0.35em] text-emerald-200/60">
-              <span>Farm DX</span>
-              <span>Nova Linea</span>
-              <span>R&D Alliance</span>
-              <span>HoReCa Hub</span>
-              <span>Green Campus</span>
+              <span className="transition-colors duration-200 hover:text-white/90">Farm DX</span>
+              <span className="transition-colors duration-200 hover:text-white/90">Nova Linea</span>
+              <span className="transition-colors duration-200 hover:text-white/90">R&D Alliance</span>
+              <span className="transition-colors duration-200 hover:text-white/90">HoReCa Hub</span>
+              <span className="transition-colors duration-200 hover:text-white/90">Green Campus</span>
             </div>
           </div>
         </SectionReveal>
@@ -449,12 +449,12 @@ function BenefitsSection() {
           </h2>
         </SectionReveal>
 
-        <SectionReveal delay={0.1}>
+        <SectionReveal delay={0.1} childSelector=".benefit-card">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {benefits.map((benefit) => (
               <div
                 key={benefit.title}
-                className="group relative overflow-hidden rounded-3xl border border-white/25 bg-[linear-gradient(160deg,rgba(5,26,23,0.78)_0%,rgba(3,11,18,0.9)_100%)] p-6 shadow-[0_28px_120px_rgba(3,14,20,0.45)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)]"
+                className="benefit-card group relative overflow-hidden rounded-3xl border border-white/25 bg-[linear-gradient(160deg,rgba(5,26,23,0.78)_0%,rgba(3,11,18,0.9)_100%)] p-6 shadow-[0_28px_120px_rgba(3,14,20,0.45)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
               >
                 <div className="absolute -left-20 top-0 h-48 w-48 rounded-full bg-[radial-gradient(circle_at_center,rgba(86,255,213,0.22),transparent_70%)] blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-70" />
                 <div className="relative flex items-center gap-4">
@@ -487,12 +487,12 @@ function ServicesSection() {
           </h2>
         </SectionReveal>
 
-        <SectionReveal delay={0.1}>
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <SectionReveal delay={0.1} childSelector=".service-card">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {services.map((service) => (
               <div
                 key={service.title}
-                className="group flex h-full flex-col gap-4 rounded-[2.5rem] border border-white/25 bg-[linear-gradient(170deg,rgba(6,24,22,0.75)_0%,rgba(4,10,18,0.95)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.5)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_32px_130px_rgba(36,222,214,0.3)]"
+                className="service-card group flex h-full flex-col gap-4 rounded-[2.5rem] border border-white/25 bg-[linear-gradient(170deg,rgba(6,24,22,0.75)_0%,rgba(4,10,18,0.95)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.5)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_32px_130px_rgba(36,222,214,0.3)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
               >
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/35 bg-white/12 text-emerald-100 transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:border-aqua-400/55 group-hover:text-white group-hover:shadow-[0_0_25px_rgba(82,255,227,0.35)]">
                   <service.icon className="h-6 w-6 transition-transform duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-110 group-hover:text-brand-aqua" strokeWidth={1.7} />
@@ -529,12 +529,12 @@ function ProjectsSection() {
           </h2>
         </SectionReveal>
 
-        <SectionReveal delay={0.1}>
+        <SectionReveal delay={0.1} childSelector=".project-card">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {projects.map((project) => (
               <div
                 key={project.title}
-                className="group relative overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_30px_130px_rgba(5,16,26,0.5)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_36px_150px_rgba(48,240,210,0.25)]"
+                className="project-card group relative overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_30px_130px_rgba(5,16,26,0.5)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_36px_150px_rgba(48,240,210,0.25)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
               >
                 <div
                   className={cn(
@@ -568,11 +568,11 @@ function ProductSection() {
           </h2>
         </SectionReveal>
 
-        <SectionReveal delay={0.1}>
+        <SectionReveal delay={0.1} childSelector=".product-card">
           {productHighlights.map((product) => (
             <div
               key={product.label}
-              className="group grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(165deg,rgba(8,30,26,0.72)_0%,rgba(5,14,21,0.92)_100%)] p-10 shadow-[0_40px_160px_rgba(5,16,26,0.52)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_46px_180px_rgba(48,240,210,0.22)] xl:grid-cols-[1.15fr_0.85fr]"
+              className="product-card group grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(165deg,rgba(8,30,26,0.72)_0%,rgba(5,14,21,0.92)_100%)] p-10 shadow-[0_40px_160px_rgba(5,16,26,0.52)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_46px_180px_rgba(48,240,210,0.22)] hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110 xl:grid-cols-[1.15fr_0.85fr]"
             >
               <div className="space-y-6 text-emerald-50">
                 <span className="inline-flex items-center gap-3 rounded-full border border-white/25 bg-white/15 px-6 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-100">
@@ -595,7 +595,7 @@ function ProductSection() {
                   <button
                     type="button"
                     onClick={() => window.location.assign("#kontakt")}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/12 px-7 py-3 font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-emerald-300/60 hover:text-emerald-50"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/12 px-7 py-3 font-semibold text-white backdrop-blur transition hover:-translate-y-[2px] hover:border-emerald-300/60 hover:text-emerald-50 hover:shadow-[0_0_18px_rgba(0,198,255,0.3)] hover:ring-1 hover:ring-cyan-400/40"
                   >
                     Poruči
                   </button>
@@ -625,18 +625,16 @@ function BlogSection() {
         <div className="pointer-events-none absolute inset-x-[-18%] top-[-16%] h-48 rounded-[150px] bg-[radial-gradient(540px_240px_at_35%_50%,rgba(0,198,255,0.14),rgba(0,198,255,0))] blur-[48px] opacity-70" />
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Znanje i praksa</GradientBadge>
-          <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
-            Najnovije iz našeg znanja i laboratorije
-          </h2>
+          <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">Blog i studije iz prakse</h2>
         </SectionReveal>
 
-        <SectionReveal delay={0.1}>
+        <SectionReveal delay={0.1} childSelector=".blog-card">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {blogItems.map((post) => (
               <Link
                 key={post.slug}
                 href="#kontakt"
-                className="group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.48)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_32px_140px_rgba(42,228,218,0.28)]"
+                className="blog-card group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.48)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-60" />
                 <div className="relative space-y-4 text-emerald-50">
@@ -667,12 +665,12 @@ function FinalCTA() {
       <Container className="relative">
         <div className="pointer-events-none absolute inset-x-[-18%] top-[-18%] h-64 rounded-[180px] bg-[radial-gradient(620px_320px_at_45%_55%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-[60px] opacity-80" />
         <div className="pointer-events-none absolute inset-x-[-12%] bottom-[-18%] h-52 rounded-[150px] bg-[radial-gradient(520px_240px_at_65%_50%,rgba(255,214,51,0.12),rgba(255,214,51,0))] blur-[50px] opacity-65" />
-        <SectionReveal>
-          <div className="grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(170deg,rgba(8,30,26,0.72)_0%,rgba(4,11,19,0.94)_100%)] p-10 shadow-[0_45px_170px_rgba(4,14,22,0.55)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_52px_180px_rgba(48,240,210,0.2)] xl:grid-cols-[1.1fr_0.9fr]">
+        <SectionReveal childSelector=".cta-card">
+          <div className="cta-card grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(170deg,rgba(8,30,26,0.72)_0%,rgba(4,11,19,0.94)_100%)] p-10 shadow-[0_45px_170px_rgba(4,14,22,0.55)] backdrop-blur xl:grid-cols-[1.1fr_0.9fr] hover:shadow-[0_0_22px_rgba(0,255,150,0.15)] hover:ring-1 hover:ring-cyan-400/20">
             <div className="space-y-6 text-emerald-50">
               <GradientBadge>Spremni da krenemo</GradientBadge>
               <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
-                Spremni da zajedno izgradimo akvaponski sistem sa garantovanom stabilnošću?
+                Spremni da zajedno izgradimo akvaponski sistem?
               </h2>
               <p className="text-[clamp(0.98rem,1.45vw,1.15rem)] leading-relaxed text-emerald-100/80">
                 Na konsultaciji prolazimo kroz vaš model poslovanja, kapacitete i očekivani ROI, i predlažemo skalabilan

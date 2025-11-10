@@ -82,7 +82,7 @@ export function Footer() {
               <a
                 key={item.href}
                 href={item.href}
-                className="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.02] bg-white/[0.05] text-accent-200 transition hover:border-aqua-500/40 hover:text-white"
+                className="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.02] bg-white/[0.05] text-accent-200 transition hover:border-aqua-500/40 hover:text-white hover:scale-110 hover:shadow-[0_0_18px_rgba(0,198,255,0.25)]"
                 aria-label={item.label}
               >
                 <item.icon className="h-4 w-4 transition-transform duration-300 ease-out group-hover:scale-110" aria-hidden />
@@ -97,7 +97,7 @@ export function Footer() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60"
+                  className="hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60 transition-colors duration-200"
                 >
                   {link.label}
                 </Link>

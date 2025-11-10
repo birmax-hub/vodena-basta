@@ -41,13 +41,13 @@ const primaryClasses =
   "bg-[linear-gradient(118deg,#19d6c4_0%,#00c6ff_35%,#0072ff_65%,#00c6ff_82%,#ffd633_98%)] text-white shadow-[0_18px_55px_rgba(0,198,255,0.28)] border border-white/[0.08] hover:border-white/[0.12] motion-safe:hover:shadow-[0_28px_85px_rgba(0,198,255,0.38)]";
 
 const consultationClasses =
-  "bg-gradient-to-r from-[#00E1A4] via-[#00A6FF] to-[#4FC3F7] text-white font-semibold drop-shadow-[0_0_6px_rgba(0,0,0,0.3)] shadow-[0_0_20px_rgba(0,166,255,0.25)] border border-white/[0.08] hover:from-[#00C2FF] hover:via-[#00A6FF] hover:to-[#FFD54F] hover:brightness-110 hover:scale-105 hover:-translate-y-[2px] hover:shadow-[0_0_25px_rgba(0,198,255,0.4)] focus:outline-none focus:ring-2 focus:ring-cyan-300/60 active:scale-95 active:brightness-95";
+  "bg-gradient-to-r from-[#00E1A4] via-[#00A6FF] to-[#4FC3F7] text-white font-semibold tracking-wide drop-shadow-[0_0_6px_rgba(0,0,0,0.3)] shadow-[0_0_20px_rgba(0,166,255,0.25)] border border-white/[0.08] hover:from-[#00C2FF] hover:via-[#00A6FF] hover:to-[#FFD54F] hover:brightness-110 hover:scale-105 hover:-translate-y-[2px] hover:shadow-[0_0_25px_rgba(0,198,255,0.4)] hover:ring-1 hover:ring-cyan-400/40 focus:outline-none focus:ring-2 focus:ring-cyan-300/60 active:scale-95 active:brightness-95";
 
 const ghostClasses =
-  "border border-white/[0.04] bg-transparent text-accent-200/80 hover:border-accentBlue-400/60 hover:text-white hover:bg-white/[0.06] hover:shadow-[0_20px_50px_rgba(0,198,255,0.25)]";
+  "border border-white/[0.04] bg-transparent text-accent-200/80 hover:border-accentBlue-400/60 hover:text-white hover:bg-white/[0.06] hover:shadow-[0_20px_50px_rgba(0,198,255,0.25)] hover:-translate-y-[2px]";
 
 const linkBaseClasses =
-  "relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-cyan-300/60 md:px-8 md:py-3.5";
+  "relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-cyan-300/60 md:px-8 md:py-3.5 hover:shadow-[0_0_20px_rgba(0,255,150,0.15)]";
 
 export function PrimaryButton({ className, children, ...rest }: ButtonProps) {
   return (

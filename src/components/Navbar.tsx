@@ -204,12 +204,12 @@ export function Navbar() {
                   <li key={link.href}>
                     <NavLink
                       href={link.href}
-                      className="group relative inline-flex flex-col items-center gap-2 px-2 py-1"
+                      className="group relative inline-flex flex-col items-center gap-2 px-2 py-1 transition-colors duration-200"
                       isActive={isActive}
                     >
                       <span
                         className={cn(
-                          "text-sm transition-all duration-200",
+                          "text-sm transition-all duration-200 hover:text-white/100",
                           isActive ? "text-white" : "text-white/70 group-hover:text-white",
                         )}
                       >

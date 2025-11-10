@@ -27,6 +27,10 @@ body {
   scroll-margin-top: 100px;
 }
 
+* {
+  transition: all 0.3s ease-in-out;
+}
+
 body {
   min-height: 100%;
   color: #d8e2d0;
