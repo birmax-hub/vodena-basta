@@ -13,12 +13,18 @@
   --accent-yellow-400: #ffd633;
 }
 
-html,
-body {
+html {
   scroll-behavior: smooth;
+}
+
+body {
   background-color: transparent;
   overflow-x: hidden;
   scroll-padding-top: var(--nav-height);
+}
+
+[id] {
+  scroll-margin-top: 100px;
 }
 
 body {

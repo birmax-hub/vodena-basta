@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { useReducedMotion } from "framer-motion";
 import { List } from "lucide-react";
 
@@ -21,6 +22,73 @@ const NAV_LINKS = [
   { href: "#blog", label: "Blog" },
   { href: "#kontakt", label: "Kontakt" },
 ] as const;
+
+type NavLinkProps = {
+  href: string;
+  className?: string;
+  children: ReactNode;
+  isActive?: boolean;
+};
+
+function scrollToHash(hash: string) {
+  const target = document.querySelector(hash);
+  if (!target) return;
+
+  const navHeightValue = getComputedStyle(document.documentElement).getPropertyValue("--nav-height");
+  const navHeight = parseFloat(navHeightValue) || 0;
+  const rect = target.getBoundingClientRect();
+  const offsetTop = rect.top + window.scrollY - navHeight - 12;
+
+  window.scrollTo({ top: offsetTop, behavior: "smooth" });
+}
+
+function NavLink({ href, className, children, isActive }: NavLinkProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>) => {
+      if (!href) return;
+
+      if (href.startsWith("#")) {
+        event.preventDefault();
+        scrollToHash(href);
+        return;
+      }
+
+      const [path, hash] = href.split("#");
+      if (hash) {
+        event.preventDefault();
+        if (path === pathname || path === "") {
+          scrollToHash(`#${hash}`);
+        } else {
+          void router.push(`${path}#${hash}`);
+        }
+        return;
+      }
+
+      event.preventDefault();
+      if (path !== pathname) {
+        void router.push(path);
+      }
+    },
+    [href, pathname, router],
+  );
+
+  return (
+    <a
+      href={href}
+      onClick={handleClick}
+      className={cn(
+        "transition-colors duration-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-aqua-500/60",
+        className,
+      )}
+      aria-current={isActive ? "page" : undefined}
+    >
+      {children}
+    </a>
+  );
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -100,7 +168,7 @@ export function Navbar() {
 
   const headerClasses = useMemo(() => {
     return cn(
-      "fixed inset-x-0 top-0 z-50 w-full border-b border-white/[0.08] bg-black/30 backdrop-blur-xl",
+      "fixed inset-x-0 top-0 z-50 w-full border-b border-white/5 bg-[#001F1A]/80 backdrop-blur-md",
       prefersReduced ? "" : "transition duration-300 ease-out",
       scrolled ? "shadow-[0_12px_40px_rgba(0,0,0,0.45)]" : "shadow-none",
     );
@@ -109,38 +177,40 @@ export function Navbar() {
   return (
     <>
       <header ref={headerRef} className={headerClasses}>
-        <Container className="flex items-center justify-between py-4">
+        <Container className="flex items-center justify-between py-3 md:py-4">
           <Link
             href="#hero"
             className="flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60"
           >
-            <Image
-              src={supabasePublicUrl("Logo/vodena-basta-site-icon.png")}
-              alt="Logo Vodena Bašta"
-              width={44}
-              height={44}
-              className="h-11 w-11 rounded-full border border-white/[0.02] bg-white/[0.06] object-cover shadow-[0_0_30px_rgba(26,217,206,0.12)]"
-              priority
-            />
-            <span className="text-sm font-semibold uppercase tracking-[0.32em] text-accent-200">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-gradient-to-b from-white/10 to-white/5 shadow-[0_0_10px_rgba(0,0,0,0.3)] backdrop-blur-md">
+              <Image
+                src={supabasePublicUrl("Logo/vodena-basta-site-icon.png")}
+                alt="Logo Vodena Bašta"
+                width={40}
+                height={40}
+                className="h-9 w-9 object-contain"
+                priority
+              />
+            </span>
+            <span className="text-sm font-semibold uppercase tracking-[0.32em] text-white/90">
               Vodena Bašta
             </span>
           </Link>
           <nav className="hidden items-center gap-10 lg:flex" aria-label="Glavni meni">
-            <ul className="flex items-center gap-6 text-sm font-medium text-accent-200/80">
+            <ul className="flex items-center gap-6 text-sm font-medium text-white/80">
               {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.href;
                 return (
                   <li key={link.href}>
-                    <Link
+                    <NavLink
                       href={link.href}
-                      className="group relative inline-flex flex-col items-center gap-2 px-2 py-1 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-aqua-500/60"
-                      aria-current={isActive ? "page" : undefined}
+                      className="group relative inline-flex flex-col items-center gap-2 px-2 py-1"
+                      isActive={isActive}
                     >
                       <span
                         className={cn(
-                          "text-sm transition-colors duration-250",
-                          isActive ? "text-white" : "text-accent-200/70 group-hover:text-accent-200",
+                          "text-sm transition-all duration-200",
+                          isActive ? "text-white" : "text-white/70 group-hover:text-white",
                         )}
                       >
                         {link.label}
@@ -151,12 +221,12 @@ export function Navbar() {
                           isActive ? "w-8 opacity-100" : "w-0 opacity-0 group-hover:w-5 group-hover:opacity-70",
                         )}
                       />
-                    </Link>
+                    </NavLink>
                   </li>
                 );
               })}
             </ul>
-            <PrimaryLink href="#kontakt" className="px-6 py-2 text-sm">
+            <PrimaryLink href="#kontakt" intent="consultation" className="hidden lg:inline-flex">
               Zakaži konsultaciju
             </PrimaryLink>
           </nav>

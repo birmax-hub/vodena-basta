@@ -341,7 +341,7 @@ function HeroContent() {
       </div>
 
       <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:flex-wrap">
-        <PrimaryLink href="#kontakt" className="px-8 py-3 text-sm font-semibold">
+        <PrimaryLink href="#kontakt" intent="consultation" className="text-sm font-semibold">
           Zakaži konsultaciju
         </PrimaryLink>
         <GhostLink href="#projekti" className="px-8 py-3 text-sm font-semibold">
@@ -358,7 +358,10 @@ function Hero() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#021512] via-[#052822] to-[#061026] py-[clamp(3.5rem,7vw,6rem)]">
+    <section
+      id="hero"
+      className="relative isolate overflow-hidden bg-gradient-to-br from-[#021512] via-[#052822] to-[#061026] py-[clamp(3.5rem,7vw,6rem)]"
+    >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-40 top-[-25%] h-[580px] w-[580px] rounded-full bg-[radial-gradient(circle_at_center,rgba(71,255,209,0.28),transparent_74%)] blur-3xl" />
         <div className="absolute -right-28 top-1/3 h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle_at_center,rgba(116,193,255,0.2),transparent_70%)] blur-3xl" />
@@ -436,7 +439,7 @@ function TrustSection() {
 
 function BenefitsSection() {
   return (
-    <section className="vb-section">
+    <section className="vb-section" id="akvaponija">
       <Container className="relative space-y-12">
         <div className="pointer-events-none absolute inset-x-[-14%] top-[-12%] h-44 rounded-[140px] bg-[radial-gradient(520px_220px_at_50%_50%,rgba(0,198,255,0.12),rgba(0,198,255,0))] blur-[46px] opacity-75" />
         <SectionReveal className="space-y-4 text-center">
