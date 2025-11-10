@@ -25,6 +25,11 @@ const SceneBackground = dynamic(
   { ssr: false },
 );
 
+const InitialLoader = dynamic(
+  () => import("@/components/InitialLoader").then((mod) => ({ default: mod.InitialLoader })),
+  { ssr: false },
+);
+
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -44,6 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="sr">
       <body className={`${inter.variable} ${poppins.variable} relative`}>
+        <InitialLoader />
         <SmoothScrollClient />
         <SceneBackground />
         <div className="relative z-10 flex min-h-full flex-col">
