@@ -31,6 +31,35 @@ export function InitialLoader({ autoDismiss = true, minimumDuration = 1600 }: In
     return () => window.clearTimeout(timeout);
   }, [autoDismiss, minimumDuration]);
 
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const setLoadedState = (state: "true" | "false") => {
+      document.body.dataset.loaded = state;
+    };
+
+    const removeFallback = () => {
+      const fallback = document.getElementById("initial-loader-fallback");
+      if (fallback && fallback.parentElement) {
+        fallback.parentElement.removeChild(fallback);
+      }
+    };
+
+    if (visible) {
+      setLoadedState("false");
+    } else {
+      setLoadedState("true");
+      removeFallback();
+    }
+
+    return () => {
+      setLoadedState("true");
+      removeFallback();
+    };
+  }, [visible]);
+
   const pulseAnimation = prefersReducedMotion
     ? { opacity: 0.9 }
     : {

@@ -48,11 +48,22 @@ export const metadata: Metadata = siteMeta;
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="sr">
-      <body className={`${inter.variable} ${poppins.variable} relative`}>
+      <body className={`${inter.variable} ${poppins.variable} relative`} data-loaded="false">
+        <div
+          id="initial-loader-fallback"
+          className="fixed inset-0 z-[9998] flex items-center justify-center bg-gradient-to-br from-[#002d2a] via-[#003631] to-[#001f1b] backdrop-blur-2xl"
+          aria-hidden
+        >
+          <span className="relative flex h-12 w-12 items-center justify-center">
+            <span className="absolute inset-0 rounded-full bg-emerald-400/25 blur-3xl" aria-hidden />
+            <span className="absolute inset-2 rounded-full bg-emerald-500/20 blur-xl" aria-hidden />
+            <span className="relative h-8 w-8 rounded-full bg-gradient-to-br from-emerald-300/70 via-cyan-400/70 to-emerald-200/60 shadow-[0_0_32px_rgba(52,255,200,0.3)]" aria-hidden />
+          </span>
+        </div>
         <InitialLoader />
         <SmoothScrollClient />
         <SceneBackground />
-        <div className="relative z-10 flex min-h-full flex-col">
+        <div className="site-shell relative z-10 flex min-h-full flex-col">
           <Navbar />
           <main id="content" className="flex-1">
             <PageTransition>{children}</PageTransition>

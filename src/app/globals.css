@@ -27,6 +27,23 @@ body {
   scroll-padding-top: var(--nav-height);
 }
 
+body[data-loaded="false"] {
+  overflow: hidden;
+}
+
+body .site-shell {
+  transition: opacity 0.6s ease;
+}
+
+body[data-loaded="false"] .site-shell {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body[data-loaded="true"] .site-shell {
+  opacity: 1;
+}
+
 [id] {
   scroll-margin-top: 100px;
 }
