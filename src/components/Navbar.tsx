@@ -171,6 +171,28 @@ export function Navbar() {
     updateNavHeight();
   }, [mobileOpen, updateNavHeight]);
 
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    if (!mobileOpen) {
+      document.body.style.removeProperty("overflow");
+      document.documentElement.style.removeProperty("overflow");
+      return;
+    }
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, [mobileOpen]);
+
   const headerClasses = useMemo(() => {
     return cn(
       "fixed inset-x-0 top-0 z-50 w-full border-b border-white/5 bg-[#001F1A]/80 backdrop-blur-md",

@@ -39,7 +39,7 @@ export function MobileMenu({ links, isOpen, onToggle, activeSection }: MobileMen
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", ease: "easeInOut", duration: 0.28 }}
-            className="ml-auto flex h-full w-80 max-w-full flex-col gap-8 border-l border-white/[0.02] bg-white/[0.02] px-6 py-8 shadow-[0_0_60px_rgba(0,0,0,0.35)] backdrop-blur-2xl"
+            className="ml-auto flex h-full w-80 max-w-full flex-col gap-8 overflow-y-auto overscroll-contain border-l border-white/[0.02] bg-white/[0.02] px-6 py-8 shadow-[0_0_60px_rgba(0,0,0,0.35)] backdrop-blur-2xl"
             aria-label="Glavni mobilni meni"
           >
             <div className="flex items-center justify-between">
@@ -53,7 +53,7 @@ export function MobileMenu({ links, isOpen, onToggle, activeSection }: MobileMen
                 <Icon icon={X} size={20} aria-hidden />
               </button>
             </div>
-            <ul className="flex flex-1 flex-col gap-4">
+            <ul className="flex flex-1 flex-col gap-4 overflow-y-auto overscroll-contain pr-2">
               {links.map((link) => {
                 const isActive = activeSection === link.href;
                 return (
