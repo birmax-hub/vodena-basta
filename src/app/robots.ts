@@ -1,28 +1,13 @@
-import type { MetadataRoute } from "next";
-
-const BASE_URL = "https://vodenabasta.rs";
+import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/api/", "/_next/"],
-    },
-    sitemap: `${BASE_URL}/sitemap.xml`,
-  };
-}
-import type { MetadataRoute } from "next";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vodenabasta.rs";
 
-import { SITE_URL } from "@/lib/seo";
-
-export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
-
