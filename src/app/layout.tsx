@@ -7,14 +7,10 @@ import { Inter, Poppins } from "next/font/google";
 import { type ReactNode } from "react";
 
 import { Footer } from "@/components/Footer";
-import { CanonicalURL } from "@/components/CanonicalURL";
 import { organizationJsonLd } from "@/lib/seo";
 import { defaultMetadata } from "@/lib/seo-config";
 
-const Navbar = dynamic(
-  () => import("@/components/Navbar").then((mod) => ({ default: mod.Navbar })),
-  { ssr: false },
-);
+const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: false });
 
 const SmoothScrollClient = dynamic(() => import("@/components/ux/SmoothScrollClient"), {
   ssr: false,
@@ -22,15 +18,11 @@ const SmoothScrollClient = dynamic(() => import("@/components/ux/SmoothScrollCli
 
 const PageTransition = dynamic(() => import("@/components/ux/PageTransition"), { ssr: false });
 
-const SceneBackground = dynamic(
-  () => import("@/components/ux/SceneBackground").then((mod) => ({ default: mod.SceneBackground })),
-  { ssr: false },
-);
+const SceneBackground = dynamic(() => import("@/components/ux/SceneBackground"), { ssr: false });
 
-const InitialLoader = dynamic(
-  () => import("@/components/InitialLoader").then((mod) => ({ default: mod.InitialLoader })),
-  { ssr: false },
-);
+const InitialLoader = dynamic(() => import("@/components/InitialLoader"), { ssr: false });
+
+const CanonicalURL = dynamic(() => import("@/components/CanonicalURL"), { ssr: false });
 
 const inter = Inter({
   subsets: ["latin"],

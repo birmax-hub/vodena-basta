@@ -164,7 +164,7 @@ export function Navbar() {
   }, [mobileOpen, updateNavHeight]);
 
   useEffect(() => {
-    if (!isHome && (pathname.startsWith("/blog") || pathname.startsWith("/studies"))) {
+    if (!isHome && pathname && (pathname.startsWith("/blog") || pathname.startsWith("/studies"))) {
       setActiveSection("#blog");
     }
   }, [isHome, pathname]);
@@ -286,10 +286,10 @@ export function Navbar() {
         isOpen={mobileOpen}
         onToggle={setMobileOpen}
         activeSection={activeSection}
-        currentPathname={pathname}
+        currentPathname={pathname ?? undefined}
       />
     </>
   );
 }
 
-
+export default Navbar;

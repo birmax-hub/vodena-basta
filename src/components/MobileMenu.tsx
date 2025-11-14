@@ -26,7 +26,11 @@ type MobileMenuProps = {
 
 export function MobileMenu({ links, isOpen, onToggle, activeSection, currentPathname }: MobileMenuProps) {
   const router = useRouter();
-  const pathname = currentPathname ?? usePathname();
+
+  // FIX: hook se uvek poziva
+  const pathnameFromHook = usePathname();
+  const pathname = currentPathname ?? pathnameFromHook;
+
   const isHome = pathname === "/";
 
   const handleClick = (href: string) => async (event: MouseEvent<HTMLAnchorElement>) => {
@@ -97,6 +101,7 @@ export function MobileMenu({ links, isOpen, onToggle, activeSection, currentPath
                 const isActive = activeSection === link.href;
                 const resolvedHref =
                   !isHome && link.href.startsWith("#") ? `/${link.href}` : link.href;
+
                 return (
                   <li key={link.href}>
                     <Link
@@ -130,5 +135,3 @@ export function MobileMenu({ links, isOpen, onToggle, activeSection, currentPath
     </AnimatePresence>
   );
 }
-
-

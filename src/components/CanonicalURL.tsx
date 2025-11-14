@@ -16,3 +16,5 @@ export function CanonicalURL() {
   return <link rel="canonical" href={canonicalHref} />;
 }
 
+export default CanonicalURL;
+

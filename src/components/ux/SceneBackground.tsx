@@ -90,3 +90,5 @@ function SceneBackgroundComponent() {
 }
 
 export const SceneBackground = memo(SceneBackgroundComponent);
+
+export default SceneBackground;
