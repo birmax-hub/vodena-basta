@@ -1,49 +1,13 @@
 import type { Metadata } from "next";
 
-export const SITE_URL = "https://vodenabasta.rs";
-export const SITE_NAME = "Vodena Bašta";
+import { defaultMetadata, siteMetadata } from "@/lib/seo-config";
+
+export const SITE_URL = siteMetadata.siteUrl;
+export const SITE_NAME = siteMetadata.siteName;
 export const SITE_LOGO =
   "https://vmzkfwmyypbgjyjkvoim.supabase.co/storage/v1/object/public/Logo/vodena-basta-site-icon.png";
 
-export const siteMeta: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: "Vodena Bašta - Akvaponski sistem za održivu proizvodnju hrane",
-    template: "%s | Akvaponija - Proizvodnja hrane bez zemlje",
-  },
-  description:
-    "Vodena Bašta iz Stapara dizajnira akvaponske sisteme za uzgoj biljaka bez zemlje, čistu organsku hranu i održivu poljoprivredu u Srbiji i regionu Balkana.",
-  alternates: {
-    canonical: "/",
-    languages: {
-      "sr-Latn": "/",
-    },
-  },
-  openGraph: {
-    title: "Vodena Bašta - Akvaponski sistem za održivu proizvodnju hrane",
-    description:
-      "Pioniri akvaponije u Srbiji. Vodena Bašta razvija sisteme za uzgoj biljaka i riba bez hemije, sa minimalnom potrošnjom vode i stalnom proizvodnjom povrća.",
-    url: SITE_URL,
-    siteName: SITE_NAME,
-    type: "website",
-    locale: "sr_RS",
-    images: [
-      {
-        url: SITE_LOGO,
-        width: 512,
-        height: 512,
-        alt: "Logo Vodena Bašta",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Vodena Bašta - Akvaponski sistem za održivu proizvodnju hrane",
-    description:
-      "Otkrijte kako Vodena Bašta povezuje uzgoj ribe i biljaka u zatvoren ciklus koji štedi vodu i donosi zdravo povrće tokom cele godine.",
-    images: [SITE_LOGO],
-  },
-};
+export const siteMeta: Metadata = defaultMetadata;
 
 type MetadataInput = {
   title: string;
@@ -76,10 +40,10 @@ export function createPageMetadata({
       locale: "sr_RS",
       images: [
         {
-          url: SITE_LOGO,
-          width: 512,
-          height: 512,
-          alt: "Logo Vodena Bašta",
+          url: `${SITE_URL}/images/og-default.jpg`,
+          width: 1200,
+          height: 630,
+          alt: SITE_NAME,
         },
       ],
     },

@@ -1,12 +1,15 @@
 'use client';
 
+import type { MouseEvent } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 
 import { PrimaryLink } from "@/components/ui/Buttons";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
+import { scrollToHash } from "@/lib/scrollToHash";
 
 type NavItem = {
   href: string;
@@ -18,9 +21,45 @@ type MobileMenuProps = {
   isOpen: boolean;
   onToggle: (state: boolean) => void;
   activeSection?: string;
+  currentPathname?: string;
 };
 
-export function MobileMenu({ links, isOpen, onToggle, activeSection }: MobileMenuProps) {
+export function MobileMenu({ links, isOpen, onToggle, activeSection, currentPathname }: MobileMenuProps) {
+  const router = useRouter();
+  const pathname = currentPathname ?? usePathname();
+  const isHome = pathname === "/";
+
+  const handleClick = (href: string) => async (event: MouseEvent<HTMLAnchorElement>) => {
+    if (!href) return;
+    event.preventDefault();
+
+    if (href.startsWith("#")) {
+      if (isHome) {
+        scrollToHash(href);
+      } else {
+        await router.push(`/${href}`);
+      }
+      onToggle(false);
+      return;
+    }
+
+    const [path, hash] = href.split("#");
+    if (hash) {
+      if (path === pathname || path === "") {
+        scrollToHash(`#${hash}`);
+      } else {
+        await router.push(`${path}#${hash}`);
+      }
+      onToggle(false);
+      return;
+    }
+
+    if (path !== pathname) {
+      await router.push(path);
+    }
+    onToggle(false);
+  };
+
   return (
     <AnimatePresence>
       {isOpen ? (
@@ -56,19 +95,21 @@ export function MobileMenu({ links, isOpen, onToggle, activeSection }: MobileMen
             <ul className="flex flex-1 flex-col gap-4 overflow-y-auto overscroll-contain pr-2">
               {links.map((link) => {
                 const isActive = activeSection === link.href;
+                const resolvedHref =
+                  !isHome && link.href.startsWith("#") ? `/${link.href}` : link.href;
                 return (
                   <li key={link.href}>
                     <Link
                       key={link.href}
-                      href={link.href}
+                      href={resolvedHref}
                       prefetch={false}
-                      onClick={() => onToggle(false)}
+                      onClick={handleClick(link.href)}
                       aria-current={isActive ? "page" : undefined}
                       className={cn(
                         "block rounded-2xl px-6 py-4 text-lg font-semibold text-white/80 transition",
                         isActive
                           ? "border-aqua-500/40 bg-white/[0.05] text-white"
-                          : "border-white/[0.02] bg-white/[0.015] text-accent-200/80 hover:border-aqua-500/40 hover:text-accent-200"
+                          : "border-white/[0.02] bg-white/[0.015] text-accent-200/80 hover:border-aqua-500/40 hover:text-accent-200",
                       )}
                     >
                       {link.label}
@@ -77,7 +118,10 @@ export function MobileMenu({ links, isOpen, onToggle, activeSection }: MobileMen
                 );
               })}
             </ul>
-            <PrimaryLink href="#kontakt" className="w-full justify-center py-3 text-sm">
+            <PrimaryLink
+              href={isHome ? "#kontakt" : "/#kontakt"}
+              className="w-full justify-center py-3 text-sm"
+            >
               Zakaži konsultaciju
             </PrimaryLink>
           </motion.nav>

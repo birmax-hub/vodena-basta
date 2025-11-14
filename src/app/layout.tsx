@@ -7,7 +7,9 @@ import { Inter, Poppins } from "next/font/google";
 import { type ReactNode } from "react";
 
 import { Footer } from "@/components/Footer";
-import { organizationJsonLd, siteMeta } from "@/lib/seo";
+import { CanonicalURL } from "@/components/CanonicalURL";
+import { organizationJsonLd } from "@/lib/seo";
+import { defaultMetadata } from "@/lib/seo-config";
 
 const Navbar = dynamic(
   () => import("@/components/Navbar").then((mod) => ({ default: mod.Navbar })),
@@ -43,11 +45,26 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-export const metadata: Metadata = siteMeta;
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
+const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION;
+
+export const metadata: Metadata = {
+  ...defaultMetadata,
+  verification: {
+    ...(defaultMetadata.verification ?? {}),
+    google: googleVerification,
+  },
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="sr">
+      <head>
+        {googleVerification ? (
+          <meta name="google-site-verification" content={googleVerification} />
+        ) : null}
+        <CanonicalURL />
+      </head>
       <body className={`${inter.variable} ${poppins.variable} relative`} data-loaded="false">
         <div
           id="initial-loader-fallback"
@@ -70,6 +87,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </main>
           <Footer />
         </div>
+        {gaId ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}');
+              `}
+            </Script>
+          </>
+        ) : null}
         <Script
           id="jsonld-organization"
           type="application/ld+json"

@@ -12,10 +12,13 @@ import { blogPostingJsonLd, productJsonLd, websiteJsonLd } from "@/lib/seo";
 import { ArrowUpRight, CheckCircle2, Droplet, Leaf, Recycle, ShieldCheck } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { type ComponentProps } from "react";
 import { AboutUsGallery } from "@/components/AboutUsGallery";
 import { AkvaponijaDiagram } from "@/components/AkvaponijaDiagram";
 import { StruriaShowcase } from "@/components/StruriaShowcase";
+import { blogPosts } from "@/lib/posts";
+import { studies } from "@/data/studies";
 
 const trustStats = [
   "10+ realizovanih sistema",
@@ -85,50 +88,25 @@ const productHighlights = [
   },
 ];
 
-const blogItems = [
-  {
-    title: "Kako skalirati akvaponsku farmu bez rizika",
-    excerpt: "Koraci za investitore koji ulaze u premium segment svežih proizvoda.",
-    category: "Investicije",
-    slug: "skaliranje-farme",
-    structuredData: blogPostingJsonLd({
-      title: "Kako skalirati akvaponsku farmu bez rizika",
-      description:
-        "Koraci za investitore koji ulaze u premium segment svežih proizvoda.",
-      slug: "skaliranje-farme",
-      image: "/images/blog/skaliranje-farme.png",
-      datePublished: "2025-03-22",
-    }),
-  },
-  {
-    title: "Mikroklima i pH: dnevni protokol Vodene Bašte",
-    excerpt: "Koje parametre pratimo da bi nutritivna vrednost bila konzistentna.",
-    category: "Operacije",
-    slug: "mikroklima-ph",
-    structuredData: blogPostingJsonLd({
-      title: "Mikroklima i pH: dnevni protokol Vodene Bašte",
-      description:
-        "Koje parametre pratimo da bi nutritivna vrednost bila konzistentna.",
-      slug: "mikroklima-ph",
-      image: "/images/blog/mikroklima.png",
-      datePublished: "2025-02-14",
-    }),
-  },
-  {
-    title: "HoReCa partnerstva: kako isporučujemo na dan naručivanja",
-    excerpt: "Naš servisni model sa šefovima kuhinja i hotelskim lancima.",
-    category: "Plasman",
-    slug: "horeca-partnerstva",
-    structuredData: blogPostingJsonLd({
-      title: "HoReCa partnerstva: kako isporučujemo na dan naručivanja",
-      description:
-        "Naš servisni model sa šefovima kuhinja i hotelskim lancima.",
-      slug: "horeca-partnerstva",
-      image: "/images/blog/horeca.png",
-      datePublished: "2025-01-28",
-    }),
-  },
-];
+const featuredStudies = studies.slice(0, 3);
+
+const blogItems = featuredStudies.map((study) => ({
+  title: study.title,
+  excerpt: study.excerpt,
+  category: study.category,
+  slug: study.blogSlug,
+  href: `/blog/${study.blogSlug}`,
+  ctaLabel: "Pročitaj studiju",
+  showArrow: true,
+  image: null,
+  structuredData: blogPostingJsonLd({
+    title: study.title,
+    description: study.excerpt,
+    slug: study.blogSlug,
+    image: study.image,
+    datePublished: study.date,
+  }),
+}));
 
 const finalBullets = [
   "Procena potencijala lokacije i tržišnog fit-a",
@@ -618,6 +596,8 @@ function ProductSection() {
 }
 
 function BlogSection() {
+  const blogCards = blogItems;
+
   return (
     <section className="vb-section" id="blog">
       <Container className="relative space-y-12">
@@ -629,29 +609,52 @@ function BlogSection() {
 
         <SectionReveal delay={0.1} childSelector=".blog-card">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {blogItems.map((post) => (
+            {blogCards.map((post) => (
               <Link
                 key={post.slug}
-                href="#kontakt"
+                href={post.href ?? "#kontakt"}
                 prefetch={false}
                 className="blog-card group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.48)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-60" />
-                <div className="relative space-y-4 text-emerald-50">
-                  <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-emerald-100">
+                {post.image && (
+                  <div className="relative -mx-6 -mt-6 aspect-[16/9] overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+                      priority={false}
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-80" />
+                  </div>
+                )}
+                <div className={cn("relative flex flex-1 flex-col space-y-4 text-emerald-50", post.image ? "pt-4" : "")}>
+                  <span className="inline-flex items-center self-start rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-emerald-100">
                     {post.category}
                   </span>
                   <h3 className="text-[clamp(1.2rem,2vw,1.45rem)] font-semibold text-white">{post.title}</h3>
                   <p className="flex-1 text-[clamp(0.95rem,1.4vw,1.1rem)] leading-relaxed text-emerald-100/80">
                     {post.excerpt}
                   </p>
-                  <span className="inline-flex items-center gap-2 text-[clamp(0.95rem,1.35vw,1.05rem)] font-semibold text-emerald-200 transition group-hover:text-white">
-                    Pročitaj studiju
-                    <ArrowUpRight className="h-4 w-4" />
+                  <span className="mt-2 inline-flex items-center gap-2 text-[clamp(0.95rem,1.35vw,1.05rem)] font-semibold text-emerald-200 transition group-hover:text-white">
+                    {post.ctaLabel ?? "Pročitaj više →"}
+                    {post.showArrow ? <ArrowUpRight className="h-4 w-4" /> : null}
                   </span>
                 </div>
               </Link>
             ))}
+          </div>
+        </SectionReveal>
+        <SectionReveal delay={0.2}>
+          <div className="flex justify-center pt-4">
+            <PrimaryLink
+              href="/blog"
+              className="px-10 py-3 text-sm font-semibold"
+            >
+              Pogledaj sve članke
+            </PrimaryLink>
           </div>
         </SectionReveal>
       </Container>
@@ -704,7 +707,17 @@ function FinalCTA() {
   );
 }
 
-const structuredBlogData = blogItems.map((item) => item.structuredData);
+const blogPostStructuredData = blogPosts.map((post) =>
+  blogPostingJsonLd({
+    title: post.title,
+    description: post.excerpt,
+    slug: post.slug,
+    image: post.image,
+    datePublished: post.date,
+  }),
+);
+
+const structuredBlogData = [...blogItems.map((item) => item.structuredData), ...blogPostStructuredData];
 
 export default function HomePage() {
   return (

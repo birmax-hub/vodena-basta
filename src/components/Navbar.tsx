@@ -12,6 +12,7 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { Container } from "@/components/ui/Container";
 import { PrimaryLink } from "@/components/ui/Buttons";
 import { cn } from "@/lib/utils";
+import { scrollToHash } from "@/lib/scrollToHash";
 
 const NAV_LINKS = [
   { href: "#pocetak", label: "Početak" },
@@ -31,18 +32,6 @@ type NavLinkProps = {
   isActive?: boolean;
   onSelect?: () => void;
 };
-
-function scrollToHash(hash: string) {
-  const target = document.querySelector(hash);
-  if (!target) return;
-
-  const navHeightValue = getComputedStyle(document.documentElement).getPropertyValue("--nav-height");
-  const navHeight = parseFloat(navHeightValue) || 0;
-  const rect = target.getBoundingClientRect();
-  const offsetTop = rect.top + window.scrollY - navHeight - 12;
-
-  window.scrollTo({ top: offsetTop, behavior: "smooth" });
-}
 
 function NavLink({ href, className, children, isActive, onSelect }: NavLinkProps) {
   const router = useRouter();
@@ -66,6 +55,7 @@ function NavLink({ href, className, children, isActive, onSelect }: NavLinkProps
           scrollToHash(`#${hash}`);
           onSelect?.();
         } else {
+          onSelect?.();
           void router.push(`${path}#${hash}`);
         }
         return;
@@ -101,6 +91,8 @@ export function Navbar() {
   const [activeSection, setActiveSection] = useState<string>("#pocetak");
   const prefersReduced = useReducedMotion();
   const headerRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   const updateNavHeight = useCallback(() => {
     if (typeof window === "undefined") {
@@ -172,6 +164,12 @@ export function Navbar() {
   }, [mobileOpen, updateNavHeight]);
 
   useEffect(() => {
+    if (!isHome && (pathname.startsWith("/blog") || pathname.startsWith("/studies"))) {
+      setActiveSection("#blog");
+    }
+  }, [isHome, pathname]);
+
+  useEffect(() => {
     if (typeof document === "undefined") {
       return;
     }
@@ -206,7 +204,7 @@ export function Navbar() {
       <header ref={headerRef} className={headerClasses}>
         <Container className="flex items-center justify-between py-3 md:py-4">
           <Link
-            href="#pocetak"
+            href={isHome ? "#pocetak" : "/#pocetak"}
             prefetch={false}
             className="logo-group group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60"
           >
@@ -232,10 +230,12 @@ export function Navbar() {
             <ul className="flex items-center gap-6 text-sm font-medium text-white/80">
               {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.href;
+                const resolvedHref =
+                  !isHome && link.href.startsWith("#") ? `/${link.href}` : link.href;
                 return (
                   <li key={link.href}>
                     <NavLink
-                      href={link.href}
+                      href={resolvedHref}
                       className="link-plain group relative inline-flex flex-col items-center gap-2 px-2 py-1 transition-colors duration-300"
                       isActive={isActive}
                       onSelect={() => setActiveSection(link.href)}
@@ -261,7 +261,11 @@ export function Navbar() {
                 );
               })}
             </ul>
-            <PrimaryLink href="#kontakt" intent="consultation" className="hidden lg:inline-flex">
+            <PrimaryLink
+              href={isHome ? "#kontakt" : "/#kontakt"}
+              intent="consultation"
+              className="hidden lg:inline-flex"
+            >
               Zakaži konsultaciju
             </PrimaryLink>
           </nav>
@@ -277,7 +281,13 @@ export function Navbar() {
           </button>
         </Container>
       </header>
-      <MobileMenu links={NAV_LINKS} isOpen={mobileOpen} onToggle={setMobileOpen} activeSection={activeSection} />
+      <MobileMenu
+        links={NAV_LINKS}
+        isOpen={mobileOpen}
+        onToggle={setMobileOpen}
+        activeSection={activeSection}
+        currentPathname={pathname}
+      />
     </>
   );
 }
