@@ -93,7 +93,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         
         {/* Preconnect for Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         
         {/* Preconnect for Supabase (used for storage) */}
         <link rel="preconnect" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
