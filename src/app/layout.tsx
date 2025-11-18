@@ -82,9 +82,33 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="sr">
       <head>
+        {/* DNS Prefetch Control */}
+        <meta httpEquiv="x-dns-prefetch-control" content="on" />
+        
+        {/* Viewport Meta */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        {/* Theme Color */}
+        <meta name="theme-color" content="#0d3a35" />
+        
+        {/* Preconnect for Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Preconnect for Supabase (used for storage) */}
+        <link rel="preconnect" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
+        
+        {/* DNS Prefetch for External Resources */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
+        
+        {/* Google Verification */}
         {googleVerification ? (
           <meta name="google-site-verification" content={googleVerification} />
         ) : null}
+        
         <CanonicalURL />
       </head>
 
