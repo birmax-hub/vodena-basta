@@ -27,6 +27,7 @@ const formSchema = z.object({
     .string()
     .min(10, "Poruka treba da ima bar 10 karaktera.")
     .max(1500, "Poruka je predugačka."),
+  website: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -45,6 +46,7 @@ export function ContactForm({ onStatusChange, className }: ContactFormProps) {
     email: "",
     phone: "",
     message: "",
+    website: "",
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormValues, string>>>(
     {}
@@ -72,6 +74,12 @@ export function ContactForm({ onStatusChange, className }: ContactFormProps) {
     event.preventDefault();
     updateStatus("idle", null);
 
+    // Honeypot check
+    if (values.website && values.website.trim() !== "") {
+      updateStatus("error", "Spam detected.");
+      return;
+    }
+
     const parsed = formSchema.safeParse(values);
     if (!parsed.success) {
       const fieldErrors: Partial<Record<keyof FormValues, string>> = {};
@@ -89,16 +97,21 @@ export function ContactForm({ onStatusChange, className }: ContactFormProps) {
 
     updateStatus("saving", null);
     try {
+      // Include website field in payload for backend honeypot validation
+      const payload = { ...parsed.data, website: values.website };
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
-        throw new Error("Neuspešno slanje");
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.message || "Neuspešno slanje";
+        updateStatus("error", errorMessage);
+        return;
       }
 
       setValues({
@@ -106,6 +119,7 @@ export function ContactForm({ onStatusChange, className }: ContactFormProps) {
         email: "",
         phone: "",
         message: "",
+        website: "",
       });
       updateStatus("success", "Hvala! Javićemo vam se uskoro.");
     } catch (error) {
@@ -227,6 +241,17 @@ export function ContactForm({ onStatusChange, className }: ContactFormProps) {
           <p className="mt-2 text-xs text-red-200">{errors.message}</p>
         ) : null}
       </div>
+
+      {/* Honeypot field - hidden from users */}
+      <input
+        type="text"
+        name="website"
+        className="hidden"
+        tabIndex={-1}
+        autoComplete="off"
+        value={values.website}
+        onChange={(event) => handleChange("website", event.target.value)}
+      />
 
       {serverMessage ? (
         <div

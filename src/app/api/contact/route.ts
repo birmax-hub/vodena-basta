@@ -1,8 +1,25 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { Resend } from "resend";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Initialize rate limiter: 3 requests per IP per 10 minutes
+// Only initialize if Redis environment variables are available
+let ratelimit: Ratelimit | null = null;
+try {
+  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+    ratelimit = new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(3, "10 m"),
+      analytics: true,
+    });
+  }
+} catch (error) {
+  console.warn("[Rate Limit] Redis not configured, rate limiting disabled:", error);
+}
 
 const requestSchema = z.object({
   name: z
@@ -21,11 +38,43 @@ const requestSchema = z.object({
       required_error: "Poruka je obavezna.",
     })
     .min(10, "Poruka je prekratka."),
+  website: z.string().optional(),
 });
 
 export async function POST(request: Request) {
   try {
+    // Rate limiting: get IP address
+    if (ratelimit) {
+      const ip = request.headers.get("x-forwarded-for") || 
+                 request.headers.get("x-real-ip") || 
+                 "unknown";
+      
+      const { success: rateLimitSuccess } = await ratelimit.limit(ip);
+      
+      if (!rateLimitSuccess) {
+        return NextResponse.json(
+          {
+            ok: false,
+            message: "Too many requests. Please try again later.",
+          },
+          { status: 429 }
+        );
+      }
+    }
+
     const payload = await request.json();
+    
+    // Honeypot validation: check before schema validation
+    if (payload.website && payload.website.trim() !== "") {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: "Spam blocked.",
+        },
+        { status: 400 }
+      );
+    }
+
     const parsed = requestSchema.safeParse(payload);
 
     if (!parsed.success) {
@@ -40,6 +89,7 @@ export async function POST(request: Request) {
     }
 
     // SEND EMAIL VIA RESEND
+    // Note: website field is excluded from email (honeypot field)
     try {
       const { error } = await resend.emails.send({
         from: process.env.FROM_EMAIL || "no-reply@vodenabasta.rs",
