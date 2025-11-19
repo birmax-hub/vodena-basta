@@ -75,8 +75,8 @@ export function ContactPanel() {
             </div>
             <div className="flex items-center gap-3">
               <Icon icon={Mail} size={22} aria-hidden className="text-aqua-400" />
-              <a href="mailto:pozdrav@vodenabasta.rs" className="transition-colors hover:text-white">
-                pozdrav@vodenabasta.rs
+              <a href="mailto:info@vodenabasta.rs" className="transition-colors hover:text-white">
+                info@vodenabasta.rs
               </a>
             </div>
             <p className="text-xs text-accent-200/70">

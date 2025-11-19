@@ -39,18 +39,50 @@ export async function POST(request: Request) {
       );
     }
 
-    // Send email using Resend
+    // SEND EMAIL VIA RESEND
     try {
-      const { data, error } = await resend.emails.send({
-        from: process.env.FROM_EMAIL || "onboarding@resend.dev",
+      const { error } = await resend.emails.send({
+        from: process.env.FROM_EMAIL || "no-reply@vodenabasta.rs",
         to: process.env.EMAIL_TO || "",
         subject: `Nova poruka sa sajta — ${parsed.data.name}`,
+
         html: `
-          <h2>Nova poruka sa sajta</h2>
-          <p><strong>Ime:</strong> ${parsed.data.name}</p>
-          <p><strong>Email:</strong> ${parsed.data.email}</p>
-          <p><strong>Telefon:</strong> ${parsed.data.phone || "-"}</p>
-          <p><strong>Poruka:</strong><br>${parsed.data.message.replace(/\n/g, "<br>")}</p>
+          <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; background: #f8fdfb; border: 1px solid #d8f3e9; border-radius: 14px;">
+            
+            <h1 style="color: #066a52; text-align:center; font-size: 22px; margin-bottom: 24px;">
+              Nova poruka sa <strong>vodenabasta.rs</strong>
+            </h1>
+
+            <p style="font-size: 16px; color: #14453d; margin-bottom: 8px;">
+              <strong>Ime:</strong> ${parsed.data.name}
+            </p>
+
+            <p style="font-size: 16px; color: #14453d; margin-bottom: 8px;">
+              <strong>Email:</strong>
+              <a href="mailto:${parsed.data.email}" style="color:#0a7c66; text-decoration:none;">
+                ${parsed.data.email}
+              </a>
+            </p>
+
+            <p style="font-size: 16px; color: #14453d; margin-bottom: 16px;">
+              <strong>Telefon:</strong> ${parsed.data.phone || "-"}
+            </p>
+
+            <p style="font-size: 16px; color: #14453d; margin-bottom: 16px;">
+              <strong>Poruka:</strong><br>
+              <span style="white-space: pre-wrap; line-height: 1.6;">
+                ${parsed.data.message}
+              </span>
+            </p>
+
+            <hr style="border:none; border-top: 1px solid #d8f3e9; margin: 28px 0;">
+
+            <p style="font-size: 13px; color: #5a7c74; text-align:center;">
+              Ova poruka je poslata automatski preko kontakt forme na
+              <strong>vodenabasta.rs</strong>.
+            </p>
+
+          </div>
         `,
       });
 
@@ -59,7 +91,7 @@ export async function POST(request: Request) {
         return NextResponse.json(
           {
             ok: false,
-            message: "Trenutno ne možemo da obradimo zahtev. Pokušajte kasnije.",
+            message: "Greška pri slanju emaila. Pokušajte kasnije.",
           },
           { status: 502 }
         );
@@ -69,7 +101,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           ok: false,
-          message: "Došlo je do greške prilikom slanja poruke. Pokušajte ponovo kasnije.",
+          message: "Došlo je do greške prilikom slanja poruke.",
         },
         { status: 500 }
       );
@@ -81,10 +113,9 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        message: "Došlo je do neočekivane greške. Pokušajte ponovo kasnije.",
+        message: "Neočekivana greška. Pokušajte kasnije.",
       },
       { status: 500 }
     );
   }
 }
-

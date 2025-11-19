@@ -68,10 +68,10 @@ export function Footer() {
             <li>
               Email:{" "}
               <a
-                href="mailto:pozdrav@vodenabasta.rs"
+                href="mailto:info@vodenabasta.rs"
                 className="hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60"
               >
-                pozdrav@vodenabasta.rs
+                info@vodenabasta.rs
               </a>
             </li>
             <li>Radno vreme: pon-pet 9-17h · subota 9-13h</li>
