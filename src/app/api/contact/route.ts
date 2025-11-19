@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { Resend } from "resend";
 
-import { getSupabaseClient } from "@/lib/supabase";
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const requestSchema = z.object({
   name: z
@@ -38,23 +39,39 @@ export async function POST(request: Request) {
       );
     }
 
-    const supabase = getSupabaseClient();
+    // Send email using Resend
+    try {
+      const { data, error } = await resend.emails.send({
+        from: process.env.FROM_EMAIL || "onboarding@resend.dev",
+        to: process.env.EMAIL_TO || "",
+        subject: `Nova poruka sa sajta — ${parsed.data.name}`,
+        html: `
+          <h2>Nova poruka sa sajta</h2>
+          <p><strong>Ime:</strong> ${parsed.data.name}</p>
+          <p><strong>Email:</strong> ${parsed.data.email}</p>
+          <p><strong>Telefon:</strong> ${parsed.data.phone || "-"}</p>
+          <p><strong>Poruka:</strong><br>${parsed.data.message.replace(/\n/g, "<br>")}</p>
+        `,
+      });
 
-    const { error } = await supabase.from("contact_messages").insert({
-      name: parsed.data.name,
-      email: parsed.data.email,
-      phone: parsed.data.phone ?? null,
-      message: parsed.data.message,
-    });
-
-    if (error) {
-      console.error("[Supabase] contact_messages insert error", error);
+      if (error) {
+        console.error("[Resend] Email sending failed", error);
+        return NextResponse.json(
+          {
+            ok: false,
+            message: "Trenutno ne možemo da obradimo zahtev. Pokušajte kasnije.",
+          },
+          { status: 502 }
+        );
+      }
+    } catch (emailError) {
+      console.error("[Resend] Unexpected error", emailError);
       return NextResponse.json(
         {
           ok: false,
-          message: "Trenutno ne možemo da obradimo zahtev. Pokušajte kasnije.",
+          message: "Došlo je do greške prilikom slanja poruke. Pokušajte ponovo kasnije.",
         },
-        { status: 502 }
+        { status: 500 }
       );
     }
 
