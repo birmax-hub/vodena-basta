@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { Facebook, Instagram, Linkedin, MapPin } from "lucide-react";
 
