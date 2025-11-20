@@ -78,7 +78,7 @@ export function StruriaShowcase() {
       </div>
 
       <motion.div
-        className="panel-glow relative overflow-hidden rounded-[2.9rem] p-5 shadow-[0_0_60px_rgba(100,247,216,0.08)] backdrop-blur-xl"
+        className="panel-glow relative overflow-hidden rounded-[3rem] p-5 shadow-[0_0_60px_rgba(100,247,216,0.08)] backdrop-blur-xl bg-gradient-to-br from-white/[0.03] via-white/[0.02] to-white/[0.01]"
         animate={prefersReducedMotion ? undefined : { y: [0, -4, 0] }}
         transition={prefersReducedMotion ? undefined : { duration: 6, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" }}
         whileHover={prefersReducedMotion ? undefined : { rotateX: -2.5, rotateY: 2.5 }}
@@ -86,18 +86,18 @@ export function StruriaShowcase() {
       >
         <div className="pointer-events-none absolute inset-0">
           <motion.div
-            className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(40,220,190,0.18),transparent_68%)]"
-            animate={prefersReducedMotion ? undefined : { opacity: [0.3, 0.5, 0.3] }}
+            className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(40,220,190,0.22),transparent_68%)]"
+            animate={prefersReducedMotion ? undefined : { opacity: [0.35, 0.55, 0.35] }}
             transition={prefersReducedMotion ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(52,135,255,0.18),transparent_70%)]"
-            animate={prefersReducedMotion ? undefined : { opacity: [0.25, 0.45, 0.25] }}
+            className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(52,135,255,0.22),transparent_70%)]"
+            animate={prefersReducedMotion ? undefined : { opacity: [0.3, 0.5, 0.3] }}
             transition={prefersReducedMotion ? undefined : { duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
           />
         </div>
 
-        <div className="relative flex flex-col gap-5">
+        <div className="relative flex flex-col gap-6">
           <div className="flex items-center justify-between text-[0.65rem] uppercase tracking-[0.38em] text-brand-aqua/70">
             <span>STURYA.IO · AI PLATFORM</span>
             <motion.span
@@ -109,36 +109,36 @@ export function StruriaShowcase() {
             </motion.span>
           </div>
 
-          <div className="grid gap-3">
+          <div className="grid gap-4">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                className="group flex items-start gap-3 rounded-[26px] border border-white/12 bg-white/8 p-4 text-left text-white/90 shadow-[0_16px_60px_rgba(16,70,60,0.42)] transition-all duration-400 backdrop-blur-xl hover:border-brand-aqua/40 hover:shadow-[0_24px_80px_rgba(32,200,180,0.4)]"
+                className="group flex items-start gap-3 rounded-[1.125rem] border border-white/12 bg-white/10 p-4 text-left text-white/90 shadow-[0_16px_60px_rgba(16,70,60,0.42)] transition-all duration-400 backdrop-blur-xl hover:border-brand-aqua/40 hover:shadow-[0_24px_80px_rgba(32,200,180,0.4)]"
                 initial={prefersReducedMotion ? undefined : { opacity: 0, y: 18 }}
                 whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.45, ease: "easeOut", delay: index * 0.1 }}
                 whileHover={prefersReducedMotion ? undefined : { scale: 1.02 }}
               >
-                <span className="flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-brand-aqua/15 text-brand-aqua">
+                <span className="flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-brand-aqua/15 text-brand-aqua shadow-[0_2px_4px_rgba(64,220,200,0.08)]">
                   <feature.icon className="h-5 w-5" />
                 </span>
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <p className="text-sm font-semibold text-white">{feature.title}</p>
-                  <p className="text-[0.78rem] leading-relaxed text-accent-200/80">{feature.text}</p>
+                  <p className="text-[0.8rem] leading-loose text-accent-200/80">{feature.text}</p>
                   {feature.title === "AI Kontrola" && (
-                    <span className="text-[0.68rem] text-brand-aqua/80">Sturya.io analizira vremenske podatke i prilagođava parametre sistema u realnom vremenu.</span>
+                    <span className="text-[0.7rem] leading-relaxed text-brand-aqua/80">Sturya.io analizira vremenske podatke i prilagođava parametre sistema u realnom vremenu.</span>
                   )}
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <div className="mt-3 grid gap-3 sm:grid-cols-3">
+          <div className="mt-3 grid gap-4 sm:grid-cols-3">
             {statusCards.map((card, index) => (
               <motion.div
                 key={card.label}
-                className="flex flex-col gap-2 rounded-2xl border border-white/12 bg-white/8 p-3 text-left text-white/85 shadow-[0_16px_55px_rgba(12,60,56,0.38)] transition-all duration-300 backdrop-blur-lg hover:border-brand-aqua/35"
+                className="flex h-full flex-col gap-2 rounded-[1.125rem] border border-white/12 bg-white/10 p-3 text-left text-white/85 shadow-[0_16px_55px_rgba(12,60,56,0.38)] transition-all duration-300 backdrop-blur-lg hover:border-brand-aqua/35"
                 initial={prefersReducedMotion ? undefined : { opacity: 0, y: 14 }}
                 whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -149,28 +149,28 @@ export function StruriaShowcase() {
                   {card.label}
                 </span>
                 <p className="text-[1.05rem] font-semibold text-white">{card.value}</p>
-                <p className="text-[0.68rem] text-accent-200/75">{card.note}</p>
+                <p className="text-[0.7rem] leading-relaxed text-accent-200/75">{card.note}</p>
               </motion.div>
             ))}
           </div>
 
           <motion.div
-            className="mt-3 flex flex-col items-center justify-center"
+            className="mt-7 flex flex-col items-center justify-center"
             initial={prefersReducedMotion ? undefined : { opacity: 0, y: 10 }}
             whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
           >
-            <span className="text-xs font-semibold uppercase tracking-[0.26em] text-emerald-400/70">AI powered by Sturya.io</span>
-            <span className="mt-3 mb-3 h-px w-24 border-t border-white/10" />
-            <p className="mb-3 text-center text-xs leading-relaxed text-emerald-100/70">
+            <span className="text-xs font-semibold uppercase tracking-[0.26em] text-emerald-400/75">AI powered by Sturya.io</span>
+            <span className="mt-4 mb-3 h-px w-24 border-t border-white/10" />
+            <p className="mb-4 text-center text-xs leading-relaxed text-emerald-100/70">
               Pogledaj kako funkcioniše naš AI sistem
             </p>
             <a
               href="https://sturya.io"
               target="_blank"
               rel="noreferrer"
-              className="group relative inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-emerald-400 to-cyan-500 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(64,220,200,0.2)] ring-1 ring-emerald-300/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(64,220,200,0.35)] hover:ring-emerald-300/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60"
+              className="group relative inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-emerald-400 to-cyan-500 px-5 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(64,220,200,0.2)] ring-1 ring-emerald-300/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(64,220,200,0.35)] hover:ring-emerald-300/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60"
             >
               Poseti Sturya.io
             </a>
