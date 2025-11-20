@@ -9,6 +9,8 @@ import { blogPosts } from "@/lib/posts";
 import { studies } from "@/data/studies";
 import { defaultMetadata, siteMetadata } from "@/lib/seo-config";
 
+export const dynamic = "force-static";
+
 type BlogPostPageProps = {
   params: {
     slug: string;

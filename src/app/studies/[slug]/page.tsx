@@ -8,6 +8,8 @@ import { Container } from "@/components/ui/Container";
 import { studies } from "@/data/studies";
 import { defaultMetadata, siteMetadata } from "@/lib/seo-config";
 
+export const dynamic = "force-static";
+
 type StudyPageProps = {
   params: {
     slug: string;

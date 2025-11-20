@@ -6,6 +6,9 @@ import { blogPosts } from "@/lib/posts";
 import { studies } from "@/data/studies";
 import { defaultMetadata, siteMetadata } from "@/lib/seo-config";
 
+export const dynamic = "force-static";
+export const revalidate = 3600;
+
 const allItems = [...blogPosts, ...studies].sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 );

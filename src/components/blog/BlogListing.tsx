@@ -70,7 +70,7 @@ export function BlogListing({ items }: BlogListingProps) {
             <Link
               key={`${item.type}-${item.slug}`}
               href={href}
-              prefetch={false}
+              prefetch={true}
               className="group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.48)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu hover:-translate-y-2 hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-60" />
