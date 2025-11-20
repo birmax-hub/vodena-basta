@@ -14,98 +14,139 @@ export const studies: Study[] = [
   {
     slug: "skaliranje-farme-bez-rizika",
     blogSlug: "kako-skalirati-akvaponsku-farmu-bez-rizika",
-    title: "Kako skalirati akvaponsku farmu bez rizika",
+    title: "Planiranje rasta akvaponske farme: ključni koraci i procena troškova",
     category: "Investicije",
     date: "2025-04-02",
     image: "/images/studies/skaliranje-farme.webp",
-    excerpt: "Koraci za investitore koji ulaze u premium segment svežih proizvoda.",
+    excerpt:
+      "Praktični koraci za proizvođače i investitore koji žele da bezbedno prošire kapacitet akvaponske proizvodnje.",
     content: `
       <section>
         <h3>Uvod</h3>
-        <p>Urban Garden iz Novog Sada želeo je da proširi kapacitete za opsluživanje hotelskih i restoranskih lanaca bez kompromisa u kvalitetu. Vodena Bašta je vodila proces evaluacije rizika i planiranja ulaganja.</p>
+        <p>
+          Jedna akvaponska farma iz severne Srbije želela je da poveća kapacitet usled rasta lokalne potražnje.
+          Naš tim je sprovao analizu rizika, investicioni model i fazni plan širenja koji ne prekida postojeću proizvodnju.
+        </p>
       </section>
+
       <section>
         <h3>Proces</h3>
-        <p>Tim je izvršio mapiranje postojećih procesa, definisao ključne KPI vrednosti i postavio automatizaciju za hranjenje i oksigenaciju. Korišćeni su modularni bazeni prilagođeni krovu objekta, uz hibridni sistem vertikalnog gajenja.</p>
+        <p>
+          Analizirani su tokovi rada, stanje opreme i ključni KPI parametri. Implementirana je osnovna automatizacija
+          za hranjenje, oksigenaciju i praćenje kvaliteta vode. Modularni bazeni i vertikalni sistemi omogućili su
+          širenje bez zastoja i uz predvidive troškove.
+        </p>
       </section>
+
       <section>
         <h3>Rezultati</h3>
         <ul>
-          <li>+48% kapaciteta u prve dve nedelje od puštanja u rad.</li>
-          <li>90% manje gubitaka zahvaljujući digitalnom praćenju parametara.</li>
-          <li>Standardizovan kvalitet proizvoda sa garancijom isporuke u roku od 24 časa.</li>
+          <li>Povećanje kapaciteta kroz modularnu nadogradnju sistema.</li>
+          <li>Preciznije upravljanje i smanjeni operativni gubici.</li>
+          <li>Stabilniji kvalitet proizvoda zbog doslednog praćenja parametara.</li>
         </ul>
       </section>
+
       <section>
         <h3>Zaključak</h3>
-        <p>Strategija je omogućila sigurno širenje bez zastoja u proizvodnji i uz transparentan ROI plan za investitore. Urban Garden sada poseduje plan rasta za naredne tri faze.</p>
+        <p>
+          Strukturirano planiranje rasta omogućilo je sigurnu ekspanziju bez prekida rada i uz jasnu projekciju
+          povrata investicije. Metodologija se može primeniti na farmama različitih veličina.
+        </p>
       </section>
     `,
     type: "study",
   },
+
   {
     slug: "mikroklima-i-ph",
     blogSlug: "mikroklima-i-ph-dnevni-protokol-vodene-baste",
-    title: "Mikroklima i pH: dnevni protokol Vodene Bašte",
+    title: "Mikroklima i pH: dnevni operativni protokol u akvaponskom sistemu",
     category: "Operacije",
     date: "2025-03-12",
     image: "/images/studies/mikroklima-ph.webp",
-    excerpt: "Koje parametre pratimo da bi nutritivna vrednost bila konzistentna.",
+    excerpt:
+      "Koje parametre treba pratiti svakog dana da bi se obezbedio stabilan kvalitet i nutritivna vrednost biljaka.",
     content: `
       <section>
         <h3>Uvod</h3>
-        <p>HoReCa Hub u Beogradu zahtevao je preciznu kontrolu mikroklime i nutritivnog profila zbog isporuke svežih proizvoda elitnim kuhinjama. Naš tim je uveo dnevni protokol nadzora.</p>
+        <p>
+          Ključ stabilne akvaponske proizvodnje je dosledna kontrola mikroklime. Naš tim je razvio dnevni protokol
+          koji obuhvata praćenje najvažnijih parametara i pravovremenu korekciju sistema.
+        </p>
       </section>
+
       <section>
         <h3>Proces</h3>
-        <p>Postavljeni su IoT senzori za temperaturu, pH i rastvorene kiseonike. Podaci se integrišu u Sturya.io platformu kako bi AI predviđao promene i pravovremeno aktivirao korektivne akcije.</p>
+        <p>
+          Instalirani su senzori za temperaturu, pH, rastvoreni kiseonik i provodljivost. Svi podaci se prate preko
+          softverske platforme koja omogućava rano prepoznavanje odstupanja i brzu reakciju operatera.
+        </p>
       </section>
+
       <section>
         <h3>Rezultati</h3>
         <ul>
-          <li>Stabilan pH opseg 6.4 – 6.7 tokom 92% radnog vremena.</li>
-          <li>Standardizovan okus i tekstura mikrozelenih kultura.</li>
-          <li>Automatizovano slanje upozorenja operaterima u realnom vremenu.</li>
+          <li>Stabilan pH opseg tokom većine radnog vremena.</li>
+          <li>Ujednačen kvalitet mikrobilja i lisnatih kultura.</li>
+          <li>Manje manuelnih intervencija zahvaljujući automatizovanom nadzoru.</li>
         </ul>
       </section>
+
       <section>
         <h3>Zaključak</h3>
-        <p>Precizna kontrola mikroklime omogućila je da HoReCa Hub ispuni standarde premium gastronomije i smanji manuelni rad za 35%.</p>
+        <p>
+          Standardizovan protokol rada podiže pouzdanost i stabilnost proizvodnje tokom cele godine. 
+          Precizna mikroklima doprinosi boljem nutritivnom profilu i većoj efikasnosti sistema.
+        </p>
       </section>
     `,
     type: "study",
   },
+
   {
     slug: "horeca-partnerstva",
     blogSlug: "horeca-partnerstva-isporuka-na-dan-narucivanja",
-    title: "HoReCa partnerstva: isporuka na dan naručivanja",
+    title: "Saradnja sa restoranima: organizacija lokalnih isporuka svežih proizvoda",
     category: "Plasman",
     date: "2025-02-21",
     image: "/images/studies/horeca.webp",
-    excerpt: "Naš servisni model sa šefovima kuhinja i hotelskim lancima.",
+    excerpt:
+      "Kako akvaponske farme mogu da organizuju efikasan i stabilan plasman proizvoda ka restoranima i lokalnim objektima.",
     content: `
       <section>
         <h3>Uvod</h3>
-        <p>R&D Campus na Zlatiboru želeo je da unapredi koordinaciju sa hotelskim lancima koji zahtevaju premium proizvode sa tačnom specifikacijom. Vodena Bašta je razvila logistički model just-in-time isporuke.</p>
+        <p>
+          Lokalni restorani sve češće traže sveže i pouzdane isporuke. Akvaponija omogućava stabilnu proizvodnju
+          tokom cele godine, pa je saradnja sa HoReCa sektorom prirodan korak u razvoju farme.
+        </p>
       </section>
+
       <section>
         <h3>Proces</h3>
-        <p>Implementiran je kalendar berbe sinhronizovan sa aplikacijom Sturya.io, uz segmentaciju gajenja po klijentima. Kreirane su mikro serije proizvoda sa garantovanom sljedljivošću.</p>
+        <p>
+          Napravljen je plan berbe usklađen sa potrebama restorana, uz segmentaciju kultura po klijentima. 
+          Proizvodnja je organizovana u manjim, kontrolisanim serijama koje omogućavaju veću svežinu i sljedljivost.
+        </p>
       </section>
+
       <section>
         <h3>Rezultati</h3>
         <ul>
-          <li>100% usklađenost isporuke sa narudžbinama tokom prva tri meseca.</li>
-          <li>Smanjenje zaliha na 1,5 dana, uz sveže proizvode svakog jutra.</li>
-          <li>Povećanje zadovoljstva klijenata i potpis tri nova ugovora.</li>
+          <li>Precizniji raspored isporuke i manje zaliha.</li>
+          <li>Bolja komunikacija između farme i kuhinja.</li>
+          <li>Stabilan kvalitet, što olakšava planiranje menija.</li>
         </ul>
       </section>
+
       <section>
         <h3>Zaključak</h3>
-        <p>Modularna proizvodnja i logistika omogućile su partnerskim kuhinjama sigurnu nabavku, dok je Vodena Bašta dobila uvid u realnu potražnju radi skaliranja.</p>
+        <p>
+          Organizovani model saradnje sa restoranima omogućava farmai predvidiv plasman i veću iskorišćenost kapaciteta,
+          dok kupcima obezbeđuje lokalne, sveže i dosledne proizvode tokom čitave godine.
+        </p>
       </section>
     `,
     type: "study",
   },
 ];
-

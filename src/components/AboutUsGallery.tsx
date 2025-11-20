@@ -149,11 +149,17 @@ export function AboutUsGallery() {
             <h3 className="text-[clamp(1.8rem,2.8vw,2.4rem)] font-semibold text-white">
               Naša priča – Početak svega
             </h3>
-            <p className="text-[clamp(1rem,1.5vw,1.15rem)] leading-relaxed text-accent-200/80">
-              Ideja o Vodenoj bašti rodila se iz porodične želje da proizvedemo zdravu hranu na održiv način. Prve
-              akvaponijske konstrukcije nastale su u našem dvorištu – iz entuzijazma, istraživanja i ljubavi prema prirodi.
-              Danas isti taj duh prenosi svaka naša instalacija, bilo da je u plasteniku, habu ili na krovu zgrade.
-            </p>
+            <div className="space-y-4">
+              <p className="text-[clamp(1rem,1.5vw,1.15rem)] leading-relaxed text-accent-200/80">
+                Ideja o Vodenoj bašti rodila se iz porodične želje da proizvedemo zdravu hranu na održiv način. Prve akvaponske konstrukcije nastale su u našem dvorištu – iz entuzijazma, istraživanja i ljubavi prema prirodi. Danas isti taj duh prenosi svaka naša instalacija, bilo da je u plasteniku, habu ili na krovu zgrade.
+              </p>
+              <p className="text-[clamp(1rem,1.5vw,1.15rem)] leading-relaxed text-accent-200/80">
+                Vremenom smo iz malog eksperimenata prerasli u ozbiljan sistem koji pomaže drugim proizvođačima, investitorima i porodičnim farmama da pokrenu sopstvenu akvaponsku proizvodnju. Naš razvoj se zasniva na terenskom radu, testiranju različitih kultura, optimizaciji vode i energije, kao i iskustvu koje smo gradili više od deset godina.
+              </p>
+              <p className="text-[clamp(1rem,1.5vw,1.15rem)] leading-relaxed text-accent-200/80">
+                Misija Vodene bašte je da spojimo inovaciju i tradiciju - da pokažemo da se vrhunska hrana može proizvoditi lokalno, čisto, bez hemije i bez iscrpljivanja prirodnih resursa. Svaka instalacija koju isporučimo predstavlja nastavak naše priče.
+              </p>
+            </div>
           </div>
           <motion.div
             variants={rowVariant}

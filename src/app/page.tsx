@@ -58,21 +58,21 @@ const benefits = [
 
 const projects = [
   {
-    title: "Urban Garden · Novi Sad",
-    vertical: "Krovna farma za fine dining i lokalne trgovine",
-    result: "900 kg premium povrća mesečno, logistika u istom danu.",
+    title: "H2O Farm · Stapar",
+    vertical: "Komercijalni akvaponski sistem za uzgoj bosiljka i nane",
+    result: "Stabilna celogodišnja proizvodnja aromatičnog bilja uz minimalnu potrošnju resursa i kontrolisan kvalitet.",
     palette: "from-teal-400/40 via-emerald-400/20 to-transparent",
   },
   {
-    title: "HoReCa Hub · Beograd",
-    vertical: "Centralizovana mikrozelen farma za hotelske lance",
-    result: "Plan berbe po aplikaciji, eliminisan uvoz licitnih kultura.",
+    title: "Srpski domaćin · Ribnik",
+    vertical: "Porodično poljoprivredno gazdinstvo sa integrisanim akvaponskim uzgojem raznog povrća",
+    result: "Održiva proizvodnja raznovrsnog povrća tokom cele godine u zatvorenom akvaponskom sistemu.",
     palette: "from-cyan-400/35 via-blue-500/20 to-transparent",
   },
   {
-    title: "R&D Campus · Zlatibor",
-    vertical: "Edukativni i istraživački centar za univerzitete",
-    result: "Laboratorijska kontrola parametara i otvoreni kursevi.",
+    title: "Vodena Bašta · Stapar",
+    vertical: "Demo i razvojni akvaponski sistem za paradajz i začinsko bilje",
+    result: "Razvojni model za testiranje svetlosnih režima, mineralizacije i protoka u uzgoju paradajza i začinskih kultura.",
     palette: "from-emerald-300/35 via-lime-400/20 to-transparent",
   },
 ];
@@ -325,11 +325,10 @@ function TrustSection() {
         <SectionReveal className="space-y-6 text-center">
           <GradientBadge>Veruju nam lideri</GradientBadge>
           <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
-            Veruju nam farme, investitori i HoReCa kupci širom Srbije i regiona
+          Naši sistemi služe farmama, investitorima i profesionalnim kupcima širom Srbije
           </h2>
           <p className="mx-auto max-w-2xl text-[clamp(1rem,1.5vw,1.2rem)] leading-relaxed text-emerald-100/85">
-            Vodimo kompletne akvaponske programe za partnere koji zahtevaju stabilnu proizvodnju, transparentan kvalitet
-            i brzu logistiku — od strateškog planiranja do svakodnevne operacije.
+          Akvaponska rešenja koja koriste naši klijenti omogućavaju plasman proizvoda i profesionalnim kupcima - uključujući restorane i specijalizovane objekte. Mi pružamo tehničku podršku, održavanje i optimizaciju sistema, dok naši partneri samostalno razvijaju sopstvenu proizvodnju i prodajne kanale.
           </p>
         </SectionReveal>
 
@@ -346,11 +345,11 @@ function TrustSection() {
               ))}
             </div>
             <div className="flex flex-wrap items-center justify-center gap-6 text-xs uppercase tracking-[0.35em] text-emerald-200/60">
-              <span className="transition-colors duration-200 hover:text-white/90">Farm DX</span>
-              <span className="transition-colors duration-200 hover:text-white/90">Nova Linea</span>
-              <span className="transition-colors duration-200 hover:text-white/90">R&D Alliance</span>
-              <span className="transition-colors duration-200 hover:text-white/90">HoReCa Hub</span>
-              <span className="transition-colors duration-200 hover:text-white/90">Green Campus</span>
+              <span className="transition-colors duration-200 hover:text-white/90">PRO BAR</span>
+              <span className="transition-colors duration-200 hover:text-white/90">Linea Belgrade</span>
+              <span className="transition-colors duration-200 hover:text-white/90">Lokalni restorani</span>
+              <span className="transition-colors duration-200 hover:text-white/90">Edukativni centri</span>
+              <span className="transition-colors duration-200 hover:text-white/90">Farme partneri</span>
             </div>
           </div>
         </SectionReveal>
@@ -541,7 +540,7 @@ function ProductSection() {
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Premium proizvod</GradientBadge>
           <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
-            Akvadajz — signature paradajz iz našeg akvaponskog sistema
+            Akvadajz - pasirani paradajz iz našeg akvaponskog sistema
           </h2>
         </SectionReveal>
 
@@ -675,10 +674,17 @@ function FinalCTA() {
               <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
                 Spremni da zajedno izgradimo akvaponski sistem?
               </h2>
-              <p className="text-[clamp(0.98rem,1.45vw,1.15rem)] leading-relaxed text-emerald-100/80">
-                Na konsultaciji prolazimo kroz vaš model poslovanja, kapacitete i očekivani ROI, i predlažemo skalabilan
-                plan ugradnje i plasiranja proizvoda.
-              </p>
+              <div className="space-y-4">
+                <p className="text-[clamp(0.98rem,1.45vw,1.15rem)] leading-relaxed text-emerald-100/80">
+                  Na konsultaciji prolazimo kroz vaš model poslovanja, kapacitete i očekivani ROI, i predlažemo skalabilan plan ugradnje i plasiranja proizvoda. Bilo da tek ulazite u svet akvaponije ili želite da unapredite postojeći sistem, pomoći ćemo vam da razumete sve ključne faze - od izgradnje i tehnologije, do logistike i tržišta.
+                </p>
+                <p className="text-[clamp(0.98rem,1.45vw,1.15rem)] leading-relaxed text-emerald-100/80">
+                  Naš tim je radio sa različitim profilima klijenata: porodičnim farmama, profesionalnim proizvođačima, investitorima, HoReCa objektima i R&D centrima. Na osnovu iskustva iz realnih instalacija, dajemo jasne smernice kako da izbegnete nepotrebne troškove, optimizujete rad i postignete stabilnu i predvidivu proizvodnju.
+                </p>
+                <p className="text-[clamp(0.98rem,1.45vw,1.15rem)] leading-relaxed text-emerald-100/80">
+                  Uz konsultaciju dobijate i procenu rizika, predlog najboljeg modela gajenja za vaše potrebe, kao i preporuke za plasman proizvoda. Cilj je da zajedno kreiramo održiv, profitabilan i dugoročno skalabilan sistem.
+                </p>
+              </div>
               <ul className="space-y-4 text-[clamp(0.98rem,1.45vw,1.15rem)] leading-relaxed text-emerald-100/80">
                 {finalBullets.map((item) => (
                   <li key={item} className="group flex items-start gap-3 transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)]">

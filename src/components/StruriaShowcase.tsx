@@ -162,12 +162,15 @@ export function StruriaShowcase() {
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
           >
             <span className="text-xs font-semibold uppercase tracking-[0.26em] text-emerald-400/70">AI powered by Sturya.io</span>
-            <span className="mt-3 mb-2 h-px w-24 border-t border-white/10" />
+            <span className="mt-3 mb-3 h-px w-24 border-t border-white/10" />
+            <p className="mb-3 text-center text-xs leading-relaxed text-emerald-100/70">
+              Pogledaj kako funkcioniše naš AI sistem
+            </p>
             <a
               href="https://sturya.io"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-emerald-400 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-400/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60"
+              className="group relative inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-emerald-400 to-cyan-500 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(64,220,200,0.2)] ring-1 ring-emerald-300/30 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(64,220,200,0.35)] hover:ring-emerald-300/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60"
             >
               Poseti Sturya.io
             </a>
