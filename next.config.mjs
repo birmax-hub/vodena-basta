@@ -11,9 +11,59 @@ const nextConfig = {
         hostname: "vmzkfwmyypbgjyjkvoim.supabase.co",
         pathname: "/storage/v1/object/**",
       },
+      {
+        protocol: "https",
+        hostname: "vodenabasta.rs",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.vodenabasta.rs",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
     ],
-    // domains is deprecated in favor of remotePatterns, but kept for compatibility
-    domains: ["vmzkfwmyypbgjyjkvoim.supabase.co"],
+  },
+  // Production optimizations for Next.js 14
+  swcMinify: true,
+  compress: true,
+  poweredByHeader: false,
+  
+  // Production caching headers
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
   },
 };
 

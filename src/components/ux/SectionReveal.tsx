@@ -26,15 +26,26 @@ export function SectionReveal({
   const isInView = useInView(scope, { once });
   const prefersReducedMotion = useReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    
+    // Defer mobile check to avoid forced reflow on mount
+    const initMobileCheck = () => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+      return () => window.removeEventListener("resize", checkMobile);
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      (window as Window & { requestIdleCallback: typeof requestIdleCallback }).requestIdleCallback(initMobileCheck, { timeout: 200 });
+    } else {
+      setTimeout(initMobileCheck, 150);
+    }
   }, []);
 
   // Initial appearance
@@ -47,10 +58,19 @@ export function SectionReveal({
       node.style.transform = "none";
 
       if (childSelector) {
-        node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
-          element.style.opacity = "1";
-          element.style.transform = "none";
-        });
+        // Defer querySelectorAll to avoid blocking initial paint
+        const initChildren = () => {
+          node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
+            element.style.opacity = "1";
+            element.style.transform = "none";
+          });
+        };
+        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+          (window as Window & { requestIdleCallback: typeof requestIdleCallback }).requestIdleCallback(initChildren, { timeout: 100 });
+        } else {
+          setTimeout(initChildren, 50);
+        }
+        return;
       }
       return;
     }
@@ -60,17 +80,28 @@ export function SectionReveal({
     node.style.transform = "translate3d(0, 6px, 0)";
 
     if (childSelector) {
-      node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
-        element.style.opacity = "0.7";
-        element.style.transform = "translate3d(0, 6px, 0)";
-      });
+      // Defer querySelectorAll to avoid blocking initial paint
+      const initChildren = () => {
+        node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
+          element.style.opacity = "0.7";
+          element.style.transform = "translate3d(0, 6px, 0)";
+        });
+        setIsInitialized(true);
+      };
+      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+        (window as Window & { requestIdleCallback: typeof requestIdleCallback }).requestIdleCallback(initChildren, { timeout: 100 });
+      } else {
+        setTimeout(initChildren, 50);
+      }
+    } else {
+      setIsInitialized(true);
     }
   }, [childSelector, prefersReducedMotion, scope]);
 
   // Animation once visible
   useEffect(() => {
     const node = scope.current;
-    if (!node || !isInView || prefersReducedMotion) return;
+    if (!node || !isInView || prefersReducedMotion || !isInitialized) return;
 
     const runAnimation = async () => {
       const mobileDelay = isMobile ? 0.02 : 0;
@@ -109,14 +140,15 @@ export function SectionReveal({
     };
 
     void runAnimation();
-  }, [animate, childSelector, delay, isInView, isMobile, prefersReducedMotion, scope, stagger]);
+  }, [animate, childSelector, delay, isInView, isMobile, isInitialized, prefersReducedMotion, scope, stagger]);
 
   return (
     <div
       ref={scope}
       className={cn(className)}
       style={{
-        willChange: "opacity, transform",
+        // Conditionally set willChange only after initialization to reduce layer overhead
+        willChange: isInitialized && isInView ? "opacity, transform" : "auto",
         transform: "translateZ(0)",
         WebkitTransform: "translateZ(0)",
         backfaceVisibility: "hidden",

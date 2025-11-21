@@ -119,18 +119,17 @@ const finalBullets = [
   "Pregled tehnologije, automatizacije i potrebnog tima",
 ];
 
+// Reduced particle count for better performance - only visible above fold
 const HERO_PARTICLES = [
   { top: "10%", left: "18%", size: 160, delay: "0s" },
-  { top: "68%", left: "12%", size: 120, delay: "1.6s" },
   { top: "28%", right: "16%", size: 190, delay: "2.8s" },
-  { bottom: "12%", right: "22%", size: 140, delay: "4.2s" },
   { top: "52%", left: "46%", size: 110, delay: "5.6s" },
 ];
 
 const HERO_ORBS = [
   { top: "12%", left: "18%", size: 240, delay: 0 },
   { bottom: "20%", right: "10%", size: 280, delay: 1.4 },
-  { top: "55%", left: "45%", size: 200, delay: 2.8 },
+  // Removed orb at top: "55%", left: "45%" - was causing dark halo behind CTA buttons
 ];
 
 const heroHeadlineLines = ["Stabilna proizvodnja.", "Čista hrana.", "Pametan sistem."];
@@ -158,7 +157,7 @@ const MotionSectionComponent = (props: ComponentProps<typeof motion.section>) =>
 
 function GradientBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-teal-100 backdrop-blur">
+    <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-teal-100">
       {children}
     </span>
   );
@@ -166,7 +165,7 @@ function GradientBadge({ children }: { children: React.ReactNode }) {
 
 function TrustRibbon() {
   return (
-    <div className="mt-10 flex flex-wrap items-center gap-4 rounded-2xl border border-white/20 bg-white/[0.04] px-6 py-4 text-[13px] text-teal-100 backdrop-blur">
+    <div className="mt-10 flex flex-wrap items-center gap-4 rounded-2xl border border-white/20 bg-white/[0.04] px-6 py-4 text-[13px] text-teal-100">
       {trustStats.map((stat) => (
         <div key={stat} className="flex items-center gap-2">
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-teal-400 to-emerald-500 text-slate-950">
@@ -251,7 +250,7 @@ function HeroContent() {
         </PrimaryLink>
         <GhostLink
           href="#akvaponija"
-          className="btn-aurora cta-secondary-animate overflow-hidden rounded-xl border border-white/8 bg-transparent px-8 py-3 text-sm font-semibold text-white/90 shadow-[0_0_20px_rgba(32,185,165,0.15)] hover:border-emerald-300/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/50"
+          className="btn-aurora cta-secondary-animate overflow-hidden rounded-xl border border-white/8 bg-transparent px-8 py-3 text-sm font-semibold text-white/90 hover:border-emerald-300/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/50"
         >
           Saznaj više
         </GhostLink>
@@ -267,9 +266,20 @@ function Hero() {
   const [shouldAnimate, setShouldAnimate] = useState(false);
 
   useEffect(() => {
-    // Defer animations slightly to improve LCP - minimal delay for visual safety
-    const timer = setTimeout(() => setShouldAnimate(true), 100);
-    return () => clearTimeout(timer);
+    // Defer animations to improve LCP - use requestIdleCallback when available
+    const initAnimations = () => setShouldAnimate(true);
+    
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const idleId = (window as Window & { requestIdleCallback: typeof requestIdleCallback }).requestIdleCallback(initAnimations, { timeout: 150 });
+      return () => {
+        if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+          (window as Window & { cancelIdleCallback: typeof cancelIdleCallback }).cancelIdleCallback(idleId);
+        }
+      };
+    } else {
+      const timer = setTimeout(initAnimations, 150);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
@@ -280,28 +290,29 @@ function Hero() {
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
+      <div className="unified-bg"></div>
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-[38%] h-[440px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-[radial-gradient(circle,rgba(22,140,120,0.45)_0%,rgba(22,140,120,0)_70%)] blur-[120px] opacity-70" />
         <div className="hero-bg-flow" />
-        <div className="absolute -left-40 top-[-25%] h-[580px] w-[580px] rounded-full bg-[radial-gradient(circle_at_center,rgba(71,255,209,0.28),transparent_74%)] blur-2xl" />
-        <div className="absolute -right-28 top-1/3 h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle_at_center,rgba(116,193,255,0.2),transparent_70%)] blur-2xl" />
-        <div className="absolute inset-0 bg-[conic-gradient(from_120deg_at_65%_45%,rgba(82,255,203,0.14),rgba(32,124,255,0.08),transparent_65%)] blur-2xl opacity-90" />
         {!prefersReducedMotion &&
-          HERO_PARTICLES.map((particle, index) => (
-            <span
-              key={`hero-particle-${index}`}
-              className="hero-particle absolute rounded-full bg-[radial-gradient(circle,rgba(87,255,214,0.28),rgba(87,255,214,0))]"
-              style={{
-                top: particle.top,
-                left: particle.left,
-                right: particle.right,
-                bottom: particle.bottom,
-                width: particle.size,
-                height: particle.size,
-                animationDelay: particle.delay,
-              }}
-            />
-          ))}
+          HERO_PARTICLES.map((particle, index) => {
+            const p = particle as { top?: string; left?: string; right?: string; bottom?: string; size: number; delay: string };
+            const style: Record<string, string | number> = {
+              width: p.size,
+              height: p.size,
+              animationDelay: p.delay,
+            };
+            if (p.top) style.top = p.top;
+            if (p.left) style.left = p.left;
+            if (p.right) style.right = p.right;
+            if (p.bottom) style.bottom = p.bottom;
+            return (
+              <span
+                key={`hero-particle-${index}`}
+                className="hero-particle absolute rounded-full bg-[radial-gradient(circle,rgba(87,255,214,0.28),rgba(87,255,214,0))]"
+                style={style as React.CSSProperties}
+              />
+            );
+          })}
         {!prefersReducedMotion &&
           HERO_ORBS.map((orb, index) => (
             <span
@@ -321,8 +332,6 @@ function Hero() {
       </div>
 
       <Container className="relative z-10 grid max-w-[1200px] items-center gap-10 px-4 mx-auto lg:grid-cols-2 lg:gap-12 xl:gap-16">
-        <div className="pointer-events-none absolute inset-x-[-16%] top-[-14%] h-60 rounded-[200px] bg-[radial-gradient(680px_320px_at_42%_40%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-[60px] opacity-75" />
-        <div className="pointer-events-none absolute inset-x-[-12%] bottom-[-12%] h-48 rounded-[160px] bg-[radial-gradient(540px_240px_at_70%_50%,rgba(255,214,51,0.1),rgba(255,214,51,0))] blur-[50px] opacity-65" />
         <HeroContent />
         {/* StruriaShowcase is below fold on mobile, so no priority needed */}
         <StruriaShowcase />
@@ -333,10 +342,9 @@ function Hero() {
 
 function TrustSection() {
   return (
-    <section className="vb-section min-h-[400px]">
+    <section className="vb-section relative overflow-hidden min-h-[400px]">
+      <div className="unified-bg"></div>
       <Container className="relative space-y-12">
-        <div className="pointer-events-none absolute inset-x-[-12%] -top-24 h-48 rounded-[120px] bg-[radial-gradient(520px_220px_at_30%_50%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-3xl opacity-80" />
-        <div className="pointer-events-none absolute inset-x-[-18%] bottom-[-18%] h-52 rounded-[140px] bg-[radial-gradient(560px_260px_at_70%_50%,rgba(255,214,51,0.12),rgba(255,214,51,0))] blur-[52px] opacity-75" />
         <SectionReveal className="space-y-6 text-center">
           <GradientBadge>Veruju nam lideri</GradientBadge>
           <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
@@ -379,9 +387,9 @@ function AboutSection() {
 
 function BenefitsSection() {
   return (
-    <section className="vb-section min-h-[600px]" id="akvaponija">
+    <section className="vb-section relative overflow-hidden min-h-[600px]" id="akvaponija">
+      <div className="unified-bg"></div>
       <Container className="relative space-y-12">
-        <div className="pointer-events-none absolute inset-x-[-14%] top-[-12%] h-44 rounded-[140px] bg-[radial-gradient(520px_220px_at_50%_50%,rgba(0,198,255,0.12),rgba(0,198,255,0))] blur-[46px] opacity-75" />
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Zašto akvaponija funkcioniše</GradientBadge>
           <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
@@ -418,9 +426,9 @@ function BenefitsSection() {
 
 function ServicesSection() {
   return (
-    <section className="vb-section min-h-[500px]" id="uzgoj-biljaka-i-riba">
+    <section className="vb-section relative overflow-hidden min-h-[500px]" id="uzgoj-biljaka-i-riba">
+      <div className="unified-bg"></div>
       <Container className="relative">
-        <div className="pointer-events-none absolute inset-x-[-16%] top-[-10%] h-56 rounded-[160px] bg-[radial-gradient(600px_260px_at_65%_40%,rgba(0,198,255,0.14),rgba(0,198,255,0))] blur-[48px] opacity-70" />
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Uzgoj biljaka i riba</GradientBadge>
           <h2 className="font-semibold text-white text-[clamp(2.3rem,3.5vw,3rem)]">
@@ -431,7 +439,8 @@ function ServicesSection() {
           <div className="mt-12 grid gap-8 md:grid-cols-2">
             <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2.75rem] border border-white/15 bg-gradient-to-br from-[#0f3f2f] via-[#0c5037] to-[#093829] p-8 text-white shadow-[0_32px_140px_rgba(12,60,42,0.55)] transition duration-500 ease-out hover:-translate-y-1 hover:opacity-100">
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-brand-leaf/15 blur-3xl" />
+                {/* GPU-friendly - no blur */}
+                <div className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-brand-leaf/12 opacity-50" />
               </div>
               <div className="relative space-y-4">
                 <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-brand-leaf/80">
@@ -462,7 +471,8 @@ function ServicesSection() {
             </div>
             <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2.75rem] border border-white/15 bg-gradient-to-br from-[#06304a] via-[#053e5a] to-[#03293f] p-8 text-white shadow-[0_32px_140px_rgba(6,40,60,0.55)] transition duration-500 ease-out hover:-translate-y-1 hover:opacity-100">
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute -bottom-28 left-6 h-72 w-72 rounded-full bg-brand-aqua/18 blur-3xl" />
+                {/* GPU-friendly - no blur */}
+                <div className="absolute -bottom-28 left-6 h-72 w-72 rounded-full bg-brand-aqua/14 opacity-45" />
               </div>
               <div className="relative space-y-4">
                 <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-brand-aqua/80">
@@ -510,9 +520,9 @@ function ServicesSection() {
 
 function ProjectsSection() {
   return (
-    <section className="vb-section min-h-[500px]" id="portfolio">
+    <section className="vb-section relative overflow-hidden min-h-[500px]" id="portfolio">
+      <div className="unified-bg"></div>
       <Container className="relative space-y-12">
-        <div className="pointer-events-none absolute inset-x-[-18%] top-[-14%] h-52 rounded-[160px] bg-[radial-gradient(560px_260px_at_58%_45%,rgba(0,198,255,0.16),rgba(0,198,255,0))] blur-[50px] opacity-70" />
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Realizovani sistemi</GradientBadge>
           <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
@@ -549,9 +559,9 @@ function ProjectsSection() {
 
 function ProductSection() {
   return (
-    <section className="vb-section min-h-[500px]" id="proizvodi">
+    <section className="vb-section relative overflow-hidden min-h-[500px]" id="proizvodi">
+      <div className="unified-bg"></div>
       <Container className="relative space-y-10">
-        <div className="pointer-events-none absolute inset-x-[-15%] top-[-12%] h-60 rounded-[180px] bg-[radial-gradient(640px_300px_at_50%_40%,rgba(0,198,255,0.16),rgba(0,198,255,0))] blur-[54px] opacity-75" />
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Premium proizvod</GradientBadge>
           <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
@@ -613,9 +623,9 @@ function BlogSection() {
   const blogCards = blogItems;
 
   return (
-    <section className="vb-section min-h-[600px]" id="blog">
+    <section className="vb-section relative overflow-hidden min-h-[600px]" id="blog">
+      <div className="unified-bg"></div>
       <Container className="relative space-y-12">
-        <div className="pointer-events-none absolute inset-x-[-18%] top-[-16%] h-48 rounded-[150px] bg-[radial-gradient(540px_240px_at_35%_50%,rgba(0,198,255,0.14),rgba(0,198,255,0))] blur-[48px] opacity-70" />
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Znanje i praksa</GradientBadge>
           <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">Blog i studije iz prakse</h2>
@@ -680,10 +690,9 @@ function BlogSection() {
 
 function FinalCTA() {
   return (
-    <section className="vb-section min-h-[600px]" id="kontakt">
+    <section className="vb-section relative overflow-hidden min-h-[600px]" id="kontakt">
+      <div className="unified-bg"></div>
       <Container className="relative">
-        <div className="pointer-events-none absolute inset-x-[-18%] top-[-18%] h-64 rounded-[180px] bg-[radial-gradient(620px_320px_at_45%_55%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-[60px] opacity-80" />
-        <div className="pointer-events-none absolute inset-x-[-12%] bottom-[-18%] h-52 rounded-[150px] bg-[radial-gradient(520px_240px_at_65%_50%,rgba(255,214,51,0.12),rgba(255,214,51,0))] blur-[50px] opacity-65" />
         <SectionReveal childSelector=".cta-card">
           <div className="cta-card grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(170deg,rgba(8,30,26,0.72)_0%,rgba(4,11,19,0.94)_100%)] p-10 shadow-[0_45px_170px_rgba(4,14,22,0.55)] xl:grid-cols-[1.1fr_0.9fr] hover:opacity-100 hover:ring-1 hover:ring-cyan-400/20">
             <div className="space-y-6 text-emerald-50">
@@ -720,7 +729,9 @@ function FinalCTA() {
               </div>
             </div>
 
-            <div className="rounded-[2.6rem] border border-white/30 bg-white/12 p-6 shadow-[0_26px_140px_rgba(136,255,229,0.25)] backdrop-blur-md">
+            {/* GPU-friendly shadow - using gradient overlay instead of box-shadow */}
+            <div className="rounded-[2.6rem] border border-white/30 bg-white/12 p-6 relative overflow-hidden">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(136,255,229,0.08),transparent_70%)] opacity-60" />
               <ContactForm />
             </div>
           </div>

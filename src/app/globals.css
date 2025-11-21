@@ -11,6 +11,9 @@
   --accent-blue-500: #00afff;
   --accent-blue-700: #005eb8;
   --accent-yellow-400: #ffd633;
+  --bg-g1: radial-gradient(900px 600px at 20% 20%, rgba(0,255,200,0.18), transparent 70%);
+  --bg-g2: radial-gradient(1100px 700px at 80% 30%, rgba(0,150,255,0.15), transparent 75%);
+  --bg-g3: radial-gradient(1400px 900px at 50% 85%, rgba(0,200,180,0.12), transparent 80%);
 }
 
 html {
@@ -74,6 +77,19 @@ body {
   padding-block: clamp(3.5rem, 8vw, 7rem);
   background: transparent !important;
   box-shadow: none !important;
+}
+
+/* UNIFIED BACKGROUND SYSTEM */
+.unified-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    var(--bg-g1),
+    var(--bg-g2),
+    var(--bg-g3),
+    linear-gradient(180deg, #032220 0%, #042725 40%, #052a27 100%);
 }
 
 .vb-container {
@@ -267,6 +283,9 @@ select {
 .hero-particle {
   pointer-events: none;
   animation: heroParticleFloat 16s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0); /* GPU acceleration */
+  backface-visibility: hidden;
 }
 
 @keyframes softPulse {
@@ -510,6 +529,9 @@ img[src*="vodena-basta-site-icon"] {
   /* Blur removed - using opacity/transform only for GPU compositing */
   opacity: 0.28;
   animation: orbFloatX 18s ease-in-out infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0); /* GPU acceleration */
+  backface-visibility: hidden;
 }
 
 .panel-glow::before {
@@ -572,6 +594,21 @@ img[src*="vodena-basta-site-icon"] {
 .hero-root {
   background: linear-gradient(180deg, rgba(1, 18, 16, 1) 0%, rgba(0, 12, 11, 1) 100%);
   margin-top: -2.5rem !important;
+}
+
+/* HERO SPECIAL BACKGROUND – slightly brighter but still darker than other sections */
+.hero-root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 600px at 22% 25%, rgba(0,255,200,0.20), transparent 70%),
+    radial-gradient(1000px 700px at 80% 30%, rgba(0,150,255,0.17), transparent 75%),
+    radial-gradient(1200px 820px at 50% 80%, rgba(0,200,180,0.14), transparent 80%),
+    linear-gradient(180deg, #0f443e 0%, #08332f 100%);
+  opacity: 0.82; /* <- PODESI AKO ŽELIŠ VIŠE/MANJE SVETLO */
 }
 
 .site-gradient,

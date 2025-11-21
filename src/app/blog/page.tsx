@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   alternates: {
-    canonical: canonicalPath,
+    canonical: pageUrl,
   },
   openGraph: {
     ...(defaultMetadata.openGraph ?? {}),

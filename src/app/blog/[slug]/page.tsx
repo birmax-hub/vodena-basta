@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
         url: "https://www.vodenabasta.rs/blog",
       },
       alternates: {
-        canonical: "/blog",
+        canonical: "https://www.vodenabasta.rs/blog",
       },
     };
   }
@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     title: `${entry.title} | Vodena Bašta`,
     description,
     alternates: {
-      canonical: `/blog/${slug}`,
+      canonical: `${siteMetadata.siteUrl}/blog/${slug}`,
     },
     openGraph: {
       ...(defaultMetadata.openGraph ?? {}),

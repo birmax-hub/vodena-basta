@@ -15,13 +15,15 @@ const SmoothScrollClient = dynamic(() => import("@/components/ux/SmoothScrollCli
 const PageTransition = dynamic(() => import("@/components/ux/PageTransition"), { ssr: false });
 const SceneBackground = dynamic(() => import("@/components/ux/SceneBackground"), { ssr: false });
 const InitialLoader = dynamic(() => import("@/components/InitialLoader"), { ssr: false });
-const CanonicalURL = dynamic(() => import("@/components/CanonicalURL"), { ssr: false });
+// CanonicalURL removed - using Next.js Metadata API (alternates.canonical) instead to avoid duplicate canonical tags
 
-// Fonts
+// Fonts - optimized with minimal subsets and display swap for LCP
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
+  preload: true,
+  fallback: ["system-ui", "arial"],
 });
 
 const poppins = Poppins({
@@ -29,6 +31,8 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-poppins",
+  preload: false, // Only preload primary font
+  fallback: ["system-ui", "arial"],
 });
 
 // Environment variables
@@ -114,8 +118,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {googleVerification ? (
           <meta name="google-site-verification" content={googleVerification} />
         ) : null}
-        
-        <CanonicalURL />
       </head>
 
       <body className={`${inter.variable} ${poppins.variable} relative`} data-loaded="false">

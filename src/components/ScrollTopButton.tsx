@@ -10,13 +10,29 @@ export function ScrollTopButton() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setVisible(window.scrollY > 320);
-    };
+    // Defer scroll check to avoid forced reflow on mount
+    const initScrollListener = () => {
+      const handleScroll = () => {
+        setVisible(window.scrollY > 320);
+      };
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+      // Check scroll position after initialization
+      handleScroll();
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => window.removeEventListener("scroll", handleScroll);
+    };
+    
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const idleId = (window as Window & { requestIdleCallback: typeof requestIdleCallback }).requestIdleCallback(initScrollListener, { timeout: 200 });
+      return () => {
+        if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+          (window as Window & { cancelIdleCallback: typeof cancelIdleCallback }).cancelIdleCallback(idleId);
+        }
+      };
+    } else {
+      const timeoutId = setTimeout(initScrollListener, 150);
+      return () => clearTimeout(timeoutId);
+    }
   }, []);
 
   if (!visible) {

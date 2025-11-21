@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: StudyPageProps): Promise<Meta
         url: `${siteMetadata.siteUrl}/studies`,
       },
       alternates: {
-        canonical: "/blog",
+        canonical: "https://www.vodenabasta.rs/studies",
       },
     };
   }
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: StudyPageProps): Promise<Meta
     title: `${study.title} | Vodena Bašta`,
     description,
     alternates: {
-      canonical: `/studies/${study.slug}`,
+      canonical: `${siteMetadata.siteUrl}/studies/${study.slug}`,
     },
     openGraph: {
       ...(defaultMetadata.openGraph ?? {}),
