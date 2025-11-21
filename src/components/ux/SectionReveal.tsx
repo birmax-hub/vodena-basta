@@ -37,6 +37,7 @@ export function SectionReveal({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Initial appearance
   useEffect(() => {
     const node = scope.current;
     if (!node) return;
@@ -45,6 +46,7 @@ export function SectionReveal({
       node.style.opacity = "1";
       node.style.transform = "none";
       node.style.filter = "none";
+
       if (childSelector) {
         node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
           element.style.opacity = "1";
@@ -55,19 +57,21 @@ export function SectionReveal({
       return;
     }
 
+    // Stable, non-flicker initial state
     node.style.opacity = "0.7";
-    node.style.transform = "translate3d(0, 6px, 0) scale(0.98)";
-    node.style.filter = "blur(18px)";
+    node.style.transform = "translate3d(0, 6px, 0)";
+    node.style.filter = "blur(6px)";
 
     if (childSelector) {
       node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
         element.style.opacity = "0.7";
         element.style.transform = "translate3d(0, 6px, 0)";
-        element.style.filter = "blur(18px)";
+        element.style.filter = "blur(6px)";
       });
     }
   }, [childSelector, prefersReducedMotion, scope]);
 
+  // Animation once visible
   useEffect(() => {
     const node = scope.current;
     if (!node || !isInView || prefersReducedMotion) return;
@@ -76,16 +80,18 @@ export function SectionReveal({
       const mobileDelay = isMobile ? 0.02 : 0;
       const totalDelay = delay + mobileDelay;
 
+      // Parent animation
       await animate(
         node,
         {
           opacity: [0.7, 1],
-          transform: ["translate3d(0, 6px, 0) scale(0.98)", fadeInUpTransforms.parentTo],
-          filter: ["blur(18px)", "blur(0px)"],
+          transform: ["translate3d(0, 6px, 0)", fadeInUpTransforms.parentTo],
+          filter: ["blur(6px)", "blur(0px)"],
         },
         { duration: fadeInUpTimings.parentDuration, delay: totalDelay, ease: easeOutSoft },
       );
 
+      // Child animation
       if (childSelector) {
         const targets = node.querySelectorAll<HTMLElement>(childSelector);
         if (targets.length > 0) {
@@ -95,7 +101,7 @@ export function SectionReveal({
               {
                 opacity: [0.7, 1],
                 transform: ["translate3d(0, 6px, 0)", fadeInUpTransforms.childTo],
-                filter: ["blur(18px)", "blur(0px)"],
+                filter: ["blur(6px)", "blur(0px)"],
               },
               {
                 duration: fadeInUpTimings.childDuration,
