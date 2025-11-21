@@ -150,22 +150,50 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Footer />
         </div>
 
-        {/* Google Analytics */}
+        {/* Google Analytics - Non-blocking with user interaction */}
         {gaId ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}');
-              `}
-            </Script>
-          </>
+          <Script id="gtm-loader" strategy="lazyOnload">
+            {`
+              (function() {
+                let gtmLoaded = false;
+                let gtmInitTimeout;
+                
+                function loadGTM() {
+                  if (gtmLoaded) return;
+                  gtmLoaded = true;
+                  
+                  // Clear timeout if user interacted before timeout
+                  if (gtmInitTimeout) {
+                    clearTimeout(gtmInitTimeout);
+                    gtmInitTimeout = null;
+                  }
+                  
+                  // Load GTM script
+                  const script = document.createElement('script');
+                  script.async = true;
+                  script.src = 'https://www.googletagmanager.com/gtag/js?id=${gaId}';
+                  document.head.appendChild(script);
+                  
+                  // Initialize GTM
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaId}');
+                  
+                  // Remove event listeners
+                  document.removeEventListener('click', loadGTM);
+                  document.removeEventListener('scroll', loadGTM, true);
+                }
+                
+                // Load on user interaction (click or scroll)
+                document.addEventListener('click', loadGTM, { once: true, passive: true });
+                document.addEventListener('scroll', loadGTM, { once: true, passive: true, capture: true });
+                
+                // Fallback: load after 3 seconds if no interaction
+                gtmInitTimeout = setTimeout(loadGTM, 3000);
+              })();
+            `}
+          </Script>
         ) : null}
 
         {/* Schema.org JSON-LD */}

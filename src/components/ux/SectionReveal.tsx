@@ -45,28 +45,24 @@ export function SectionReveal({
     if (prefersReducedMotion) {
       node.style.opacity = "1";
       node.style.transform = "none";
-      node.style.filter = "none";
 
       if (childSelector) {
         node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
           element.style.opacity = "1";
           element.style.transform = "none";
-          element.style.filter = "none";
         });
       }
       return;
     }
 
-    // Stable, non-flicker initial state
+    // Stable, non-flicker initial state - GPU composited (opacity + transform only)
     node.style.opacity = "0.7";
     node.style.transform = "translate3d(0, 6px, 0)";
-    node.style.filter = "blur(6px)";
 
     if (childSelector) {
       node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
         element.style.opacity = "0.7";
         element.style.transform = "translate3d(0, 6px, 0)";
-        element.style.filter = "blur(6px)";
       });
     }
   }, [childSelector, prefersReducedMotion, scope]);
@@ -80,13 +76,12 @@ export function SectionReveal({
       const mobileDelay = isMobile ? 0.02 : 0;
       const totalDelay = delay + mobileDelay;
 
-      // Parent animation
+      // Parent animation - GPU composited (opacity + transform only)
       await animate(
         node,
         {
           opacity: [0.7, 1],
           transform: ["translate3d(0, 6px, 0)", fadeInUpTransforms.parentTo],
-          filter: ["blur(6px)", "blur(0px)"],
         },
         { duration: fadeInUpTimings.parentDuration, delay: totalDelay, ease: easeOutSoft },
       );
@@ -101,7 +96,6 @@ export function SectionReveal({
               {
                 opacity: [0.7, 1],
                 transform: ["translate3d(0, 6px, 0)", fadeInUpTransforms.childTo],
-                filter: ["blur(6px)", "blur(0px)"],
               },
               {
                 duration: fadeInUpTimings.childDuration,

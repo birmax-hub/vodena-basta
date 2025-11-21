@@ -240,20 +240,15 @@ function HeroContent() {
       </motion.div>
 
       <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:flex-wrap">
-        <motion.div
-          initial={prefersReducedMotion || !shouldAnimate ? undefined : { boxShadow: "0 0 0 rgba(0, 255, 180, 0)", scale: 1 }}
-          animate={prefersReducedMotion || !shouldAnimate ? undefined : { boxShadow: ["0 0 0 rgba(0,255,180,0)", "0 0 22px rgba(0,255,180,0.32)", "0 0 0 rgba(0,255,180,0)"] , scale: [1, 1.04, 1] }}
-          transition={prefersReducedMotion || !shouldAnimate ? undefined : { duration: 1.4, ease: "easeOut" }}
-          whileHover={prefersReducedMotion || !shouldAnimate ? undefined : { scale: 1.05, boxShadow: "0 0 20px rgba(0,255,180,0.4)" }}
+        {/* LCP Button - Rendered immediately without animation delays */}
+        <PrimaryLink
+          href="#kontakt"
+          intent="consultation"
+          className="overflow-hidden rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-500 px-6 py-3 text-sm font-semibold tracking-wide text-white ring-1 ring-emerald-300/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60 transition-transform duration-200 hover:scale-105"
+          style={{ willChange: "transform" }}
         >
-          <PrimaryLink
-            href="#kontakt"
-            intent="consultation"
-            className="cta-primary-animate btn-shimmer overflow-hidden rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-500 px-6 py-3 text-sm font-semibold tracking-wide text-white ring-1 ring-emerald-300/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60"
-          >
-            Zakaži konsultaciju
-          </PrimaryLink>
-        </motion.div>
+          Zakaži konsultaciju
+        </PrimaryLink>
         <GhostLink
           href="#akvaponija"
           className="btn-aurora cta-secondary-animate overflow-hidden rounded-xl border border-white/8 bg-transparent px-8 py-3 text-sm font-semibold text-white/90 shadow-[0_0_20px_rgba(32,185,165,0.15)] hover:border-emerald-300/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/50"
@@ -353,12 +348,12 @@ function TrustSection() {
         </SectionReveal>
 
         <SectionReveal delay={0.1} childSelector=".trust-card">
-          <div className="grid gap-6 rounded-[2.5rem] border border-white/20 bg-white/7 p-10 backdrop-blur-md">
+          <div className="grid gap-6 rounded-[2.5rem] border border-white/20 bg-white/7 p-10">
             <div className="grid gap-6 text-sm text-emerald-100/90 lg:grid-cols-4">
               {socialProof.map((item) => (
                 <div
                   key={item}
-                  className="trust-card rounded-2xl border border-white/25 bg-white/12 px-6 py-5 text-left shadow-[0_18px_55px_rgba(4,16,24,0.35)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_22px_60px_rgba(40,222,214,0.3)] hover:bg-white/10 hover:shadow-[0_0_20px_rgba(0,255,150,0.15)]"
+                  className="trust-card rounded-2xl border border-white/25 bg-white/12 px-6 py-5 text-left shadow-[0_18px_55px_rgba(4,16,24,0.35)] transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-1 hover:bg-white/10 hover:opacity-100"
                 >
                   {item}
                 </div>
@@ -399,11 +394,11 @@ function BenefitsSection() {
             {benefits.map((benefit) => (
               <div
                 key={benefit.title}
-                className="benefit-card group relative overflow-hidden rounded-3xl border border-white/25 bg-[linear-gradient(160deg,rgba(5,26,23,0.78)_0%,rgba(3,11,18,0.9)_100%)] p-6 shadow-[0_28px_120px_rgba(3,14,20,0.45)] backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
+                className="benefit-card group relative overflow-hidden rounded-3xl border border-white/25 bg-[linear-gradient(160deg,rgba(5,26,23,0.78)_0%,rgba(3,11,18,0.9)_100%)] p-6 shadow-[0_28px_120px_rgba(3,14,20,0.45)] transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 hover:scale-[1.02] hover:opacity-100"
               >
-                <div className="absolute -left-20 top-0 h-48 w-48 rounded-full bg-[radial-gradient(circle_at_center,rgba(86,255,213,0.22),transparent_70%)] blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-70" />
+                <div className="absolute -left-20 top-0 h-48 w-48 rounded-full bg-[radial-gradient(circle_at_center,rgba(86,255,213,0.22),transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-70" />
                 <div className="relative flex items-center gap-4">
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/30 bg-white/15 text-emerald-100 transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:border-aqua-400/55 group-hover:text-white group-hover:shadow-[0_0_25px_rgba(82,255,227,0.4)]">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/30 bg-white/15 text-emerald-100 transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:border-aqua-400/55 group-hover:text-white group-hover:opacity-100">
                     <benefit.icon className="h-6 w-6 transition-transform duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-110 group-hover:text-brand-aqua" strokeWidth={1.7} />
                   </span>
                   <h3 className="font-semibold text-white text-[clamp(1.1rem,1.8vw,1.35rem)]">{benefit.title}</h3>
@@ -434,7 +429,7 @@ function ServicesSection() {
         </SectionReveal>
         <SectionReveal delay={0.12}>
           <div className="mt-12 grid gap-8 md:grid-cols-2">
-            <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2.75rem] border border-white/15 bg-gradient-to-br from-[#0f3f2f] via-[#0c5037] to-[#093829] p-8 text-white shadow-[0_32px_140px_rgba(12,60,42,0.55)] transition duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_42px_160px_rgba(48,220,180,0.35)]">
+            <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2.75rem] border border-white/15 bg-gradient-to-br from-[#0f3f2f] via-[#0c5037] to-[#093829] p-8 text-white shadow-[0_32px_140px_rgba(12,60,42,0.55)] transition duration-500 ease-out hover:-translate-y-1 hover:opacity-100">
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-brand-leaf/15 blur-3xl" />
               </div>
@@ -465,7 +460,7 @@ function ServicesSection() {
                 </PrimaryLink>
               </div>
             </div>
-            <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2.75rem] border border-white/15 bg-gradient-to-br from-[#06304a] via-[#053e5a] to-[#03293f] p-8 text-white shadow-[0_32px_140px_rgba(6,40,60,0.55)] transition duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_42px_160px_rgba(64,180,240,0.3)]">
+            <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2.75rem] border border-white/15 bg-gradient-to-br from-[#06304a] via-[#053e5a] to-[#03293f] p-8 text-white shadow-[0_32px_140px_rgba(6,40,60,0.55)] transition duration-500 ease-out hover:-translate-y-1 hover:opacity-100">
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute -bottom-28 left-6 h-72 w-72 rounded-full bg-brand-aqua/18 blur-3xl" />
               </div>
@@ -530,7 +525,7 @@ function ProjectsSection() {
             {projects.map((project) => (
               <div
                 key={project.title}
-                className="project-card group relative overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_30px_130px_rgba(5,16,26,0.5)] backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_36px_150px_rgba(48,240,210,0.25)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
+                className="project-card group relative overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_30px_130px_rgba(5,16,26,0.5)] transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 hover:scale-[1.02] hover:opacity-100"
               >
                 <div
                   className={cn(
@@ -568,7 +563,7 @@ function ProductSection() {
           {productHighlights.map((product) => (
             <div
               key={product.label}
-              className="product-card group grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(165deg,rgba(8,30,26,0.72)_0%,rgba(5,14,21,0.92)_100%)] p-10 shadow-[0_40px_160px_rgba(5,16,26,0.52)] backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_46px_180px_rgba(48,240,210,0.22)] hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110 xl:grid-cols-[1.15fr_0.85fr]"
+              className="product-card group grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(165deg,rgba(8,30,26,0.72)_0%,rgba(5,14,21,0.92)_100%)] p-10 shadow-[0_40px_160px_rgba(5,16,26,0.52)] transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 hover:scale-[1.01] hover:opacity-100 xl:grid-cols-[1.15fr_0.85fr]"
             >
               <div className="space-y-6 text-emerald-50">
                 <span className="inline-flex items-center gap-3 rounded-full border border-white/25 bg-white/15 px-6 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-100">
@@ -591,7 +586,7 @@ function ProductSection() {
                   <button
                     type="button"
                     onClick={() => window.location.assign("#kontakt")}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/12 px-7 py-3 font-semibold text-white backdrop-blur transition hover:-translate-y-[2px] hover:border-emerald-300/60 hover:text-emerald-50 hover:shadow-[0_0_18px_rgba(0,198,255,0.3)] hover:ring-1 hover:ring-cyan-400/40"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/12 px-7 py-3 font-semibold text-white transition hover:-translate-y-[2px] hover:border-emerald-300/60 hover:text-emerald-50 hover:opacity-100 hover:ring-1 hover:ring-cyan-400/40"
                   >
                     Poruči
                   </button>
@@ -633,7 +628,7 @@ function BlogSection() {
                 key={post.slug}
                 href={post.href ?? "#kontakt"}
                 prefetch={false}
-                className="blog-card group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.48)] backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
+                className="blog-card group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.48)] transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 hover:scale-[1.01] hover:opacity-100"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-60" />
                 {post.image && (
@@ -690,7 +685,7 @@ function FinalCTA() {
         <div className="pointer-events-none absolute inset-x-[-18%] top-[-18%] h-64 rounded-[180px] bg-[radial-gradient(620px_320px_at_45%_55%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-[60px] opacity-80" />
         <div className="pointer-events-none absolute inset-x-[-12%] bottom-[-18%] h-52 rounded-[150px] bg-[radial-gradient(520px_240px_at_65%_50%,rgba(255,214,51,0.12),rgba(255,214,51,0))] blur-[50px] opacity-65" />
         <SectionReveal childSelector=".cta-card">
-          <div className="cta-card grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(170deg,rgba(8,30,26,0.72)_0%,rgba(4,11,19,0.94)_100%)] p-10 shadow-[0_45px_170px_rgba(4,14,22,0.55)] backdrop-blur-md xl:grid-cols-[1.1fr_0.9fr] hover:shadow-[0_0_22px_rgba(0,255,150,0.15)] hover:ring-1 hover:ring-cyan-400/20">
+          <div className="cta-card grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(170deg,rgba(8,30,26,0.72)_0%,rgba(4,11,19,0.94)_100%)] p-10 shadow-[0_45px_170px_rgba(4,14,22,0.55)] xl:grid-cols-[1.1fr_0.9fr] hover:opacity-100 hover:ring-1 hover:ring-cyan-400/20">
             <div className="space-y-6 text-emerald-50">
               <GradientBadge>Spremni da krenemo</GradientBadge>
               <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
