@@ -36,9 +36,13 @@ const gaId = process.env.NEXT_PUBLIC_GA_ID;
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION;
 
 export const metadata: Metadata = {
-  title: "Vodena Bašta – Akvaponija i Održiva Poljoprivreda",
+  metadataBase: new URL("https://vodenabasta.rs"),
+  title: {
+    default: "Vodena Bašta – Pametan akvaponski sistem",
+    template: "%s | Vodena Bašta",
+  },
   description:
-    "Vodena bašta je projekat posvećen akvaponiji i održivoj poljoprivredi. Nudimo akvaponske sisteme, edukaciju, savete i individualna rešenja za proizvodnju zdrave hrane u urbanim i kućnim uslovima.",
+    "Premium akvaponski sistemi, proizvodnja bez pesticida, minimalna potrošnja resursa i pametni AI nadzor.",
   keywords: [
     "vodena basta",
     "akvaponija",
@@ -49,25 +53,32 @@ export const metadata: Metadata = {
     "aeroponika",
     "organska proizvodnja hrane",
   ],
-  metadataBase: new URL("https://vodenabasta.rs"),
   alternates: {
     canonical: "https://vodenabasta.rs",
   },
   openGraph: {
-    title: "Vodena Bašta – Akvaponija i Održiva Poljoprivreda",
-    description:
-      "Stručni akvaponski sistemi, edukacija i održiva rešenja za uzgoj hrane. Vodena bašta donosi inovativan pristup modernoj poljoprivredi.",
-    url: "https://vodenabasta.rs",
-    siteName: "Vodena Bašta",
     type: "website",
+    locale: "sr_RS",
+    url: "https://vodenabasta.rs",
+    siteName: "Vodena Bašta – Akvaponski sistem",
+    title: "Vodena Bašta – Pametan akvaponski sistem",
+    description:
+      "Premium akvaponski sistemi, proizvodnja bez pesticida, minimalna potrošnja resursa i pametni AI nadzor.",
     images: [
       {
-        url: "https://vodenabasta.rs/og-image.jpg",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Vodena Bašta – Akvaponija",
+        alt: "Vodena Bašta – Akvaponski sistem",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vodena Bašta – Pametan akvaponski sistem",
+    description:
+      "Premium akvaponski sistemi, proizvodnja bez pesticida, minimalna potrošnja resursa i pametni AI nadzor.",
+    images: ["/og-image.jpg"],
   },
   verification: {
     google: googleVerification || "",
