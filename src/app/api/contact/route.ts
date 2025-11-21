@@ -17,9 +17,10 @@ try {
       analytics: true,
     });
   }
-} catch (error) {
-  console.warn("[Rate Limit] Redis not configured, rate limiting disabled:", error);
-}
+  } catch {
+    // Rate limiting is optional - silently fail if Redis is not configured
+    // In production, this should be logged to monitoring service, not console
+  }
 
 const requestSchema = z.object({
   name: z
@@ -137,7 +138,8 @@ export async function POST(request: Request) {
       });
 
       if (error) {
-        console.error("[Resend] Email sending failed", error);
+        // Log to monitoring service in production (e.g., Sentry, LogRocket)
+        // For now, return error response without console logging
         return NextResponse.json(
           {
             ok: false,
@@ -146,8 +148,9 @@ export async function POST(request: Request) {
           { status: 502 }
         );
       }
-    } catch (emailError) {
-      console.error("[Resend] Unexpected error", emailError);
+    } catch {
+      // Log to monitoring service in production
+      // Return error response without console logging
       return NextResponse.json(
         {
           ok: false,
@@ -158,8 +161,9 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ ok: true });
-  } catch (error) {
-    console.error("[Kontakt] neočekivana greška", error);
+  } catch {
+    // Log to monitoring service in production
+    // Return error response without console logging
     return NextResponse.json(
       {
         ok: false,

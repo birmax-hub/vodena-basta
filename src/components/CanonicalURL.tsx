@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vodenabasta.rs";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.vodenabasta.rs";
 
 export function CanonicalURL() {
   const pathname = usePathname();

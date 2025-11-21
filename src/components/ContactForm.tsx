@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import { useState } from "react";
 
 import { z } from "zod";
@@ -122,8 +120,8 @@ export function ContactForm({ onStatusChange, className }: ContactFormProps) {
         website: "",
       });
       updateStatus("success", "Hvala! Javićemo vam se uskoro.");
-    } catch (error) {
-      console.error(error);
+    } catch {
+      // Error is handled by updateStatus - no console logging needed in production
       updateStatus(
         "error",
         "Došlo je do greške prilikom slanja poruke. Pokušajte ponovo ili nas pozovite telefonom."

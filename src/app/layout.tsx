@@ -36,7 +36,7 @@ const gaId = process.env.NEXT_PUBLIC_GA_ID;
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vodenabasta.rs"),
+  metadataBase: new URL("https://www.vodenabasta.rs"),
   title: {
     default: "Vodena Bašta – Pametan akvaponski sistem",
     template: "%s | Vodena Bašta",
@@ -54,13 +54,13 @@ export const metadata: Metadata = {
     "organska proizvodnja hrane",
   ],
   alternates: {
-    canonical: "https://vodenabasta.rs",
+    canonical: "https://www.vodenabasta.rs/",
   },
   openGraph: {
     type: "website",
     locale: "sr_RS",
-    url: "https://vodenabasta.rs",
-    siteName: "Vodena Bašta – Akvaponski sistem",
+    url: "https://www.vodenabasta.rs/",
+    siteName: "Vodena Bašta",
     title: "Vodena Bašta – Pametan akvaponski sistem",
     description:
       "Premium akvaponski sistemi, proizvodnja bez pesticida, minimalna potrošnja resursa i pametni AI nadzor.",
@@ -102,16 +102,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* Theme Color */}
         <meta name="theme-color" content="#0d3a35" />
         
-        {/* Preconnect for Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        
         {/* Preconnect for Supabase (used for storage) */}
         <link rel="preconnect" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
         
         {/* DNS Prefetch for External Resources */}
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        {/* Note: Font preconnects removed - next/font handles this automatically */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
         

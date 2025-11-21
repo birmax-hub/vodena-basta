@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Instagram, Linkedin, MapPin } from "lucide-react";
 
 import { Container } from "@/components/ui/Container";
@@ -20,12 +21,13 @@ export function Footer() {
         <div className="space-y-6">
           <div className="logo-group group">
             <div className="logo-container logo-glow w-14 h-14">
-              <img
+              <Image
                 src="/logo/vodena-basta-site-icon.png"
                 alt="Vodena Bašta logo"
+                width={56}
+                height={56}
                 className="absolute h-[165%] w-[165%] scale-[1.25] object-cover object-center saturate-[1.25] brightness-[1.1] contrast-[1.05] drop-shadow-[0_0_12px_rgba(0,255,204,0.25)] transition-transform duration-500 group-hover:scale-[1.3]"
                 loading="lazy"
-                decoding="async"
                 style={{ imageRendering: "crisp-edges" }}
               />
             </div>

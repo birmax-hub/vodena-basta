@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: StudyPageProps): Promise<Meta
         title: "Studija | Vodena Bašta",
         description:
           "Detaljne studije slučaja o implementaciji akvaponskih sistema, logistici i operativnom vođenju Vodene Bašte.",
-        url: `${siteMetadata.siteUrl}/blog`,
+        url: `${siteMetadata.siteUrl}/studies`,
       },
       alternates: {
         canonical: "/blog",

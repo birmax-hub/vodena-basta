@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vodenabasta.rs";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.vodenabasta.rs";
 const siteName = "Vodena Bašta";
 const defaultTitle = siteName;
 const defaultDescription =

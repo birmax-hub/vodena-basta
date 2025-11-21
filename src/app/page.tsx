@@ -1,10 +1,10 @@
 'use client';
 
 import Script from "next/script";
+import dynamic from "next/dynamic";
 
 import { ScrollTopButton } from "@/components/ScrollTopButton";
 import { Container } from "@/components/ui/Container";
-import { ContactForm } from "@/components/ContactForm";
 import { GhostLink, PrimaryLink } from "@/components/ui/Buttons";
 import { SectionReveal } from "@/components/ux/SectionReveal";
 import { cn } from "@/lib/utils";
@@ -14,11 +14,16 @@ import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { type ComponentProps } from "react";
-import { AboutUsGallery } from "@/components/AboutUsGallery";
-import { AkvaponijaDiagram } from "@/components/AkvaponijaDiagram";
 import { StruriaShowcase } from "@/components/StruriaShowcase";
 import { blogPosts } from "@/lib/posts";
 import { studies } from "@/data/studies";
+
+// Code split heavy components below the fold for better initial load performance
+// ContactForm is kept SSR for form functionality, but lazy-loaded to reduce initial bundle
+const ContactForm = dynamic(() => import("@/components/ContactForm").then(mod => ({ default: mod.ContactForm })), { ssr: true });
+// AboutUsGallery and AkvaponijaDiagram are client-only animations, so no SSR needed
+const AboutUsGallery = dynamic(() => import("@/components/AboutUsGallery").then(mod => ({ default: mod.AboutUsGallery })), { ssr: false });
+const AkvaponijaDiagram = dynamic(() => import("@/components/AkvaponijaDiagram").then(mod => ({ default: mod.AkvaponijaDiagram })), { ssr: false });
 
 const trustStats = [
   "10+ realizovanih sistema",
@@ -310,6 +315,7 @@ function Hero() {
         <div className="pointer-events-none absolute inset-x-[-16%] top-[-14%] h-60 rounded-[200px] bg-[radial-gradient(680px_320px_at_42%_40%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-[60px] opacity-75" />
         <div className="pointer-events-none absolute inset-x-[-12%] bottom-[-12%] h-48 rounded-[160px] bg-[radial-gradient(540px_240px_at_70%_50%,rgba(255,214,51,0.1),rgba(255,214,51,0))] blur-[50px] opacity-65" />
         <HeroContent />
+        {/* StruriaShowcase is below fold on mobile, so no priority needed */}
         <StruriaShowcase />
       </Container>
     </MotionSectionComponent>
@@ -318,7 +324,7 @@ function Hero() {
 
 function TrustSection() {
   return (
-    <section className="vb-section">
+    <section className="vb-section min-h-[400px]">
       <Container className="relative space-y-12">
         <div className="pointer-events-none absolute inset-x-[-12%] -top-24 h-48 rounded-[120px] bg-[radial-gradient(520px_220px_at_30%_50%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-3xl opacity-80" />
         <div className="pointer-events-none absolute inset-x-[-18%] bottom-[-18%] h-52 rounded-[140px] bg-[radial-gradient(560px_260px_at_70%_50%,rgba(255,214,51,0.12),rgba(255,214,51,0))] blur-[52px] opacity-75" />
@@ -364,7 +370,7 @@ function AboutSection() {
 
 function BenefitsSection() {
   return (
-    <section className="vb-section" id="akvaponija">
+    <section className="vb-section min-h-[600px]" id="akvaponija">
       <Container className="relative space-y-12">
         <div className="pointer-events-none absolute inset-x-[-14%] top-[-12%] h-44 rounded-[140px] bg-[radial-gradient(520px_220px_at_50%_50%,rgba(0,198,255,0.12),rgba(0,198,255,0))] blur-[46px] opacity-75" />
         <SectionReveal className="space-y-4 text-center">
@@ -403,7 +409,7 @@ function BenefitsSection() {
 
 function ServicesSection() {
   return (
-    <section className="vb-section" id="uzgoj-biljaka-i-riba">
+    <section className="vb-section min-h-[500px]" id="uzgoj-biljaka-i-riba">
       <Container className="relative">
         <div className="pointer-events-none absolute inset-x-[-16%] top-[-10%] h-56 rounded-[160px] bg-[radial-gradient(600px_260px_at_65%_40%,rgba(0,198,255,0.14),rgba(0,198,255,0))] blur-[48px] opacity-70" />
         <SectionReveal className="space-y-4 text-center">
@@ -495,7 +501,7 @@ function ServicesSection() {
 
 function ProjectsSection() {
   return (
-    <section className="vb-section" id="portfolio">
+    <section className="vb-section min-h-[500px]" id="portfolio">
       <Container className="relative space-y-12">
         <div className="pointer-events-none absolute inset-x-[-18%] top-[-14%] h-52 rounded-[160px] bg-[radial-gradient(560px_260px_at_58%_45%,rgba(0,198,255,0.16),rgba(0,198,255,0))] blur-[50px] opacity-70" />
         <SectionReveal className="space-y-4 text-center">
@@ -534,7 +540,7 @@ function ProjectsSection() {
 
 function ProductSection() {
   return (
-    <section className="vb-section" id="proizvodi">
+    <section className="vb-section min-h-[500px]" id="proizvodi">
       <Container className="relative space-y-10">
         <div className="pointer-events-none absolute inset-x-[-15%] top-[-12%] h-60 rounded-[180px] bg-[radial-gradient(640px_300px_at_50%_40%,rgba(0,198,255,0.16),rgba(0,198,255,0))] blur-[54px] opacity-75" />
         <SectionReveal className="space-y-4 text-center">
@@ -598,7 +604,7 @@ function BlogSection() {
   const blogCards = blogItems;
 
   return (
-    <section className="vb-section" id="blog">
+    <section className="vb-section min-h-[600px]" id="blog">
       <Container className="relative space-y-12">
         <div className="pointer-events-none absolute inset-x-[-18%] top-[-16%] h-48 rounded-[150px] bg-[radial-gradient(540px_240px_at_35%_50%,rgba(0,198,255,0.14),rgba(0,198,255,0))] blur-[48px] opacity-70" />
         <SectionReveal className="space-y-4 text-center">
@@ -617,14 +623,16 @@ function BlogSection() {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-60" />
                 {post.image && (
-                  <div className="relative -mx-6 -mt-6 aspect-[16/9] overflow-hidden">
+                  <div className="relative -mx-6 -mt-6 aspect-[16/9] overflow-hidden min-h-[200px]">
                     <Image
                       src={post.image}
                       alt={post.title}
                       fill
                       sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, 100vw"
                       className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
-                      priority={false}
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NgYGCQBwAAHgAC9xibzwAAAABJRU5ErkJggg=="
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-80" />
                   </div>
@@ -663,7 +671,7 @@ function BlogSection() {
 
 function FinalCTA() {
   return (
-    <section className="vb-section" id="kontakt">
+    <section className="vb-section min-h-[600px]" id="kontakt">
       <Container className="relative">
         <div className="pointer-events-none absolute inset-x-[-18%] top-[-18%] h-64 rounded-[180px] bg-[radial-gradient(620px_320px_at_45%_55%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-[60px] opacity-80" />
         <div className="pointer-events-none absolute inset-x-[-12%] bottom-[-18%] h-52 rounded-[150px] bg-[radial-gradient(520px_240px_at_65%_50%,rgba(255,214,51,0.12),rgba(255,214,51,0))] blur-[50px] opacity-65" />

@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       openGraph: {
         title: baseTitle,
         description: "Najnoviji članci i studije iz akvaponije i regenerativne poljoprivrede.",
-        url: "https://vodenabasta.rs/blog",
+        url: "https://www.vodenabasta.rs/blog",
       },
       alternates: {
         canonical: "/blog",

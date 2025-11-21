@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { useReducedMotion } from "framer-motion";
 import { List } from "lucide-react";
@@ -207,13 +208,13 @@ export function Navbar() {
             className="logo-group group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aqua-500/60"
           >
             <div className="logo-container logo-glow w-14 h-14">
-              <img
+              <Image
                 src="/logo/vodena-basta-site-icon.png"
                 alt="Vodena Bašta logo"
+                width={56}
+                height={56}
                 className="absolute h-[165%] w-[165%] scale-[1.25] object-cover object-center saturate-[1.25] brightness-[1.1] contrast-[1.05] drop-shadow-[0_0_12px_rgba(0,255,204,0.25)] transition-transform duration-500 group-hover:scale-[1.3]"
-                loading="eager"
-                decoding="async"
-                fetchPriority="high"
+                priority
                 style={{ imageRendering: "crisp-edges" }}
               />
             </div>
