@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { useAnimate, useInView, useReducedMotion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
@@ -25,6 +25,17 @@ export function SectionReveal({
   const [scope, animate] = useAnimate<HTMLDivElement>();
   const isInView = useInView(scope, { once });
   const prefersReducedMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const node = scope.current;
@@ -44,14 +55,14 @@ export function SectionReveal({
       return;
     }
 
-    node.style.opacity = "0";
-    node.style.transform = fadeInUpTransforms.parentFrom;
+    node.style.opacity = "0.7";
+    node.style.transform = "translate3d(0, 6px, 0) scale(0.98)";
     node.style.filter = "blur(18px)";
 
     if (childSelector) {
       node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
-        element.style.opacity = "0";
-        element.style.transform = fadeInUpTransforms.childFrom;
+        element.style.opacity = "0.7";
+        element.style.transform = "translate3d(0, 6px, 0)";
         element.style.filter = "blur(18px)";
       });
     }
@@ -62,14 +73,17 @@ export function SectionReveal({
     if (!node || !isInView || prefersReducedMotion) return;
 
     const runAnimation = async () => {
+      const mobileDelay = isMobile ? 0.02 : 0;
+      const totalDelay = delay + mobileDelay;
+
       await animate(
         node,
         {
-          opacity: [0, 1],
-          transform: [fadeInUpTransforms.parentFrom, fadeInUpTransforms.parentTo],
+          opacity: [0.7, 1],
+          transform: ["translate3d(0, 6px, 0) scale(0.98)", fadeInUpTransforms.parentTo],
           filter: ["blur(18px)", "blur(0px)"],
         },
-        { duration: fadeInUpTimings.parentDuration, delay, ease: easeOutSoft },
+        { duration: fadeInUpTimings.parentDuration, delay: totalDelay, ease: easeOutSoft },
       );
 
       if (childSelector) {
@@ -79,14 +93,14 @@ export function SectionReveal({
             void animate(
               element,
               {
-                opacity: [0, 1],
-                transform: [fadeInUpTransforms.childFrom, fadeInUpTransforms.childTo],
+                opacity: [0.7, 1],
+                transform: ["translate3d(0, 6px, 0)", fadeInUpTransforms.childTo],
                 filter: ["blur(18px)", "blur(0px)"],
               },
               {
                 duration: fadeInUpTimings.childDuration,
                 ease: easeOutSoft,
-                delay: index * (stagger ?? fadeInUpTimings.stagger),
+                delay: totalDelay + index * (stagger ?? fadeInUpTimings.stagger),
               },
             );
           });
@@ -95,10 +109,20 @@ export function SectionReveal({
     };
 
     void runAnimation();
-  }, [animate, childSelector, delay, isInView, prefersReducedMotion, scope, stagger]);
+  }, [animate, childSelector, delay, isInView, isMobile, prefersReducedMotion, scope, stagger]);
 
   return (
-    <div ref={scope} className={cn(className)}>
+    <div
+      ref={scope}
+      className={cn(className)}
+      style={{
+        willChange: "opacity, transform",
+        transform: "translateZ(0)",
+        WebkitTransform: "translateZ(0)",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+      }}
+    >
       {children}
     </div>
   );
