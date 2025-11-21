@@ -118,7 +118,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 src={study.image}
                 alt={study.title}
                 fill
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
                 className="object-cover"
                 priority
               />

@@ -1,11 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    // Note: unoptimized: true disables Next.js Image Optimization API
-    // This is typically used for static exports or CDN-only deployments
-    // If deploying to Vercel, consider setting to false for better performance
-    // Cloudflare can work with Next.js image optimization if configured properly
-    unoptimized: true,
+    // Enabled for better performance - Next.js will optimize images automatically on Vercel
+    // Automatic WebP/AVIF conversion and responsive sizing improves LCP significantly
+    unoptimized: false,
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {

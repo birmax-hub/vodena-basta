@@ -13,7 +13,7 @@ import { ArrowUpRight, CheckCircle2, Droplet, Leaf, Recycle, ShieldCheck } from 
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { type ComponentProps } from "react";
+import { type ComponentProps, useEffect, useState } from "react";
 import { StruriaShowcase } from "@/components/StruriaShowcase";
 import { blogPosts } from "@/lib/posts";
 import { studies } from "@/data/studies";
@@ -181,12 +181,19 @@ function TrustRibbon() {
 
 function HeroContent() {
   const prefersReducedMotion = useReducedMotion();
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  useEffect(() => {
+    // Defer animations slightly to improve LCP - minimal delay for visual safety
+    const timer = setTimeout(() => setShouldAnimate(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <MotionDivComponent
       className="space-y-8 pt-16 sm:pt-20 md:pt-24 text-white"
-      initial={prefersReducedMotion ? undefined : { opacity: 0, y: 30 }}
-      animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+      initial={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 0, y: 30 }}
+      animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <GradientBadge>Vodena Bašta · Premium Akvaponija</GradientBadge>
@@ -195,8 +202,8 @@ function HeroContent() {
         <motion.h1
           className="relative text-balance text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.08] md:leading-[1.06] tracking-[-0.015em] after:pointer-events-none after:absolute after:left-0 after:bottom-[-0.7rem] after:h-[2px] after:w-28 after:rounded-full after:bg-gradient-to-r after:from-accentBlue-400/90 after:via-accentYellow-400/70 after:to-transparent"
           variants={heroStaggerContainer}
-          initial={prefersReducedMotion ? undefined : "hidden"}
-          animate={prefersReducedMotion ? undefined : "visible"}
+          initial={prefersReducedMotion || !shouldAnimate ? undefined : "hidden"}
+          animate={prefersReducedMotion || !shouldAnimate ? undefined : "visible"}
         >
           {heroHeadlineLines.map((line, index) => (
             <motion.span
@@ -217,8 +224,8 @@ function HeroContent() {
 
       <motion.div
         className="grid grid-cols-1 gap-3 text-[clamp(0.92rem,1.25vw,1.05rem)] text-emerald-100/85 sm:grid-cols-2 lg:grid-cols-3"
-        initial={prefersReducedMotion ? undefined : { opacity: 0, y: 12 }}
-        animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+        initial={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 0, y: 12 }}
+        animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut", delay: 0.4 }}
       >
         {["90% manje vode", "AI nadzor sistema", "Bez hemije"].map((badge) => (
@@ -234,10 +241,10 @@ function HeroContent() {
 
       <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:flex-wrap">
         <motion.div
-          initial={prefersReducedMotion ? undefined : { boxShadow: "0 0 0 rgba(0, 255, 180, 0)", scale: 1 }}
-          animate={prefersReducedMotion ? undefined : { boxShadow: ["0 0 0 rgba(0,255,180,0)", "0 0 22px rgba(0,255,180,0.32)", "0 0 0 rgba(0,255,180,0)"] , scale: [1, 1.04, 1] }}
-          transition={prefersReducedMotion ? undefined : { duration: 1.4, ease: "easeOut" }}
-          whileHover={prefersReducedMotion ? undefined : { scale: 1.05, boxShadow: "0 0 20px rgba(0,255,180,0.4)" }}
+          initial={prefersReducedMotion || !shouldAnimate ? undefined : { boxShadow: "0 0 0 rgba(0, 255, 180, 0)", scale: 1 }}
+          animate={prefersReducedMotion || !shouldAnimate ? undefined : { boxShadow: ["0 0 0 rgba(0,255,180,0)", "0 0 22px rgba(0,255,180,0.32)", "0 0 0 rgba(0,255,180,0)"] , scale: [1, 1.04, 1] }}
+          transition={prefersReducedMotion || !shouldAnimate ? undefined : { duration: 1.4, ease: "easeOut" }}
+          whileHover={prefersReducedMotion || !shouldAnimate ? undefined : { scale: 1.05, boxShadow: "0 0 20px rgba(0,255,180,0.4)" }}
         >
           <PrimaryLink
             href="#kontakt"
@@ -262,20 +269,27 @@ function HeroContent() {
 
 function Hero() {
   const prefersReducedMotion = useReducedMotion();
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  useEffect(() => {
+    // Defer animations slightly to improve LCP - minimal delay for visual safety
+    const timer = setTimeout(() => setShouldAnimate(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <MotionSectionComponent
       id="pocetak"
       className="hero-root relative isolate min-h-[85vh] overflow-hidden py-[clamp(3.5rem,7vw,6rem)]"
-      initial={prefersReducedMotion ? undefined : { opacity: 0, y: 28 }}
-      animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+      initial={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 0, y: 28 }}
+      animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-[38%] h-[440px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-[radial-gradient(circle,rgba(22,140,120,0.45)_0%,rgba(22,140,120,0)_70%)] blur-[160px] opacity-70" />
+        <div className="absolute left-1/2 top-[38%] h-[440px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-[radial-gradient(circle,rgba(22,140,120,0.45)_0%,rgba(22,140,120,0)_70%)] blur-[120px] opacity-70" />
         <div className="hero-bg-flow" />
-        <div className="absolute -left-40 top-[-25%] h-[580px] w-[580px] rounded-full bg-[radial-gradient(circle_at_center,rgba(71,255,209,0.28),transparent_74%)] blur-3xl" />
-        <div className="absolute -right-28 top-1/3 h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle_at_center,rgba(116,193,255,0.2),transparent_70%)] blur-3xl" />
+        <div className="absolute -left-40 top-[-25%] h-[580px] w-[580px] rounded-full bg-[radial-gradient(circle_at_center,rgba(71,255,209,0.28),transparent_74%)] blur-2xl" />
+        <div className="absolute -right-28 top-1/3 h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle_at_center,rgba(116,193,255,0.2),transparent_70%)] blur-2xl" />
         <div className="absolute inset-0 bg-[conic-gradient(from_120deg_at_65%_45%,rgba(82,255,203,0.14),rgba(32,124,255,0.08),transparent_65%)] blur-2xl opacity-90" />
         {!prefersReducedMotion &&
           HERO_PARTICLES.map((particle, index) => (
@@ -339,7 +353,7 @@ function TrustSection() {
         </SectionReveal>
 
         <SectionReveal delay={0.1} childSelector=".trust-card">
-          <div className="grid gap-6 rounded-[2.5rem] border border-white/20 bg-white/7 p-10 backdrop-blur">
+          <div className="grid gap-6 rounded-[2.5rem] border border-white/20 bg-white/7 p-10 backdrop-blur-md">
             <div className="grid gap-6 text-sm text-emerald-100/90 lg:grid-cols-4">
               {socialProof.map((item) => (
                 <div
@@ -385,7 +399,7 @@ function BenefitsSection() {
             {benefits.map((benefit) => (
               <div
                 key={benefit.title}
-                className="benefit-card group relative overflow-hidden rounded-3xl border border-white/25 bg-[linear-gradient(160deg,rgba(5,26,23,0.78)_0%,rgba(3,11,18,0.9)_100%)] p-6 shadow-[0_28px_120px_rgba(3,14,20,0.45)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
+                className="benefit-card group relative overflow-hidden rounded-3xl border border-white/25 bg-[linear-gradient(160deg,rgba(5,26,23,0.78)_0%,rgba(3,11,18,0.9)_100%)] p-6 shadow-[0_28px_120px_rgba(3,14,20,0.45)] backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
               >
                 <div className="absolute -left-20 top-0 h-48 w-48 rounded-full bg-[radial-gradient(circle_at_center,rgba(86,255,213,0.22),transparent_70%)] blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-70" />
                 <div className="relative flex items-center gap-4">
@@ -516,7 +530,7 @@ function ProjectsSection() {
             {projects.map((project) => (
               <div
                 key={project.title}
-                className="project-card group relative overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_30px_130px_rgba(5,16,26,0.5)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_36px_150px_rgba(48,240,210,0.25)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
+                className="project-card group relative overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_30px_130px_rgba(5,16,26,0.5)] backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_36px_150px_rgba(48,240,210,0.25)] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
               >
                 <div
                   className={cn(
@@ -554,7 +568,7 @@ function ProductSection() {
           {productHighlights.map((product) => (
             <div
               key={product.label}
-              className="product-card group grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(165deg,rgba(8,30,26,0.72)_0%,rgba(5,14,21,0.92)_100%)] p-10 shadow-[0_40px_160px_rgba(5,16,26,0.52)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_46px_180px_rgba(48,240,210,0.22)] hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110 xl:grid-cols-[1.15fr_0.85fr]"
+              className="product-card group grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(165deg,rgba(8,30,26,0.72)_0%,rgba(5,14,21,0.92)_100%)] p-10 shadow-[0_40px_160px_rgba(5,16,26,0.52)] backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_46px_180px_rgba(48,240,210,0.22)] hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110 xl:grid-cols-[1.15fr_0.85fr]"
             >
               <div className="space-y-6 text-emerald-50">
                 <span className="inline-flex items-center gap-3 rounded-full border border-white/25 bg-white/15 px-6 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-100">
@@ -619,7 +633,7 @@ function BlogSection() {
                 key={post.slug}
                 href={post.href ?? "#kontakt"}
                 prefetch={false}
-                className="blog-card group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.48)] backdrop-blur transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
+                className="blog-card group relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/25 bg-[linear-gradient(165deg,rgba(6,24,22,0.78)_0%,rgba(4,9,18,0.94)_100%)] p-6 shadow-[0_28px_120px_rgba(4,16,24,0.48)] backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-gpu motion-safe:hover:-translate-y-2 motion-safe:hover:shadow-[0_30px_130px_rgba(44,222,214,0.28)] hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(0,255,150,0.15)] hover:brightness-110"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-cyan-400/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-60" />
                 {post.image && (
@@ -676,7 +690,7 @@ function FinalCTA() {
         <div className="pointer-events-none absolute inset-x-[-18%] top-[-18%] h-64 rounded-[180px] bg-[radial-gradient(620px_320px_at_45%_55%,rgba(0,198,255,0.18),rgba(0,198,255,0))] blur-[60px] opacity-80" />
         <div className="pointer-events-none absolute inset-x-[-12%] bottom-[-18%] h-52 rounded-[150px] bg-[radial-gradient(520px_240px_at_65%_50%,rgba(255,214,51,0.12),rgba(255,214,51,0))] blur-[50px] opacity-65" />
         <SectionReveal childSelector=".cta-card">
-          <div className="cta-card grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(170deg,rgba(8,30,26,0.72)_0%,rgba(4,11,19,0.94)_100%)] p-10 shadow-[0_45px_170px_rgba(4,14,22,0.55)] backdrop-blur xl:grid-cols-[1.1fr_0.9fr] hover:shadow-[0_0_22px_rgba(0,255,150,0.15)] hover:ring-1 hover:ring-cyan-400/20">
+          <div className="cta-card grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(170deg,rgba(8,30,26,0.72)_0%,rgba(4,11,19,0.94)_100%)] p-10 shadow-[0_45px_170px_rgba(4,14,22,0.55)] backdrop-blur-md xl:grid-cols-[1.1fr_0.9fr] hover:shadow-[0_0_22px_rgba(0,255,150,0.15)] hover:ring-1 hover:ring-cyan-400/20">
             <div className="space-y-6 text-emerald-50">
               <GradientBadge>Spremni da krenemo</GradientBadge>
               <h2 className="font-semibold text-white text-[clamp(2.1rem,3.2vw,2.8rem)]">
@@ -711,7 +725,7 @@ function FinalCTA() {
               </div>
             </div>
 
-            <div className="rounded-[2.6rem] border border-white/30 bg-white/12 p-6 shadow-[0_26px_140px_rgba(136,255,229,0.25)] backdrop-blur">
+            <div className="rounded-[2.6rem] border border-white/30 bg-white/12 p-6 shadow-[0_26px_140px_rgba(136,255,229,0.25)] backdrop-blur-md">
               <ContactForm />
             </div>
           </div>
@@ -739,15 +753,17 @@ export default function HomePage() {
       <Script
         id="jsonld-website"
         type="application/ld+json"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
       />
       <Script
         id="jsonld-product"
         type="application/ld+json"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd()) }}
       />
       {structuredBlogData.map((structured, index) => (
-        <Script key={`blog-ld-${index}`} id={`jsonld-blog-${index}`} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }} />
+        <Script key={`blog-ld-${index}`} id={`jsonld-blog-${index}`} type="application/ld+json" strategy="lazyOnload" dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }} />
       ))}
 
       <Hero />

@@ -78,7 +78,7 @@ export function StruriaShowcase() {
       </div>
 
       <motion.div
-        className="panel-glow relative overflow-hidden rounded-[3rem] p-5 shadow-[0_0_60px_rgba(100,247,216,0.08)] backdrop-blur-xl bg-gradient-to-br from-white/[0.03] via-white/[0.02] to-white/[0.01]"
+        className="panel-glow relative overflow-hidden rounded-[3rem] p-5 shadow-[0_0_60px_rgba(100,247,216,0.08)] backdrop-blur-md bg-gradient-to-br from-white/[0.03] via-white/[0.02] to-white/[0.01]"
         animate={prefersReducedMotion ? undefined : { y: [0, -4, 0] }}
         transition={prefersReducedMotion ? undefined : { duration: 6, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" }}
         whileHover={prefersReducedMotion ? undefined : { rotateX: -2.5, rotateY: 2.5 }}

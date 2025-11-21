@@ -172,6 +172,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Script
           id="jsonld-organization"
           type="application/ld+json"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd()),
           }}
