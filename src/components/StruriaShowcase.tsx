@@ -54,7 +54,7 @@ export function StruriaShowcase() {
   return (
     <motion.div
       className="relative mx-auto flex w-full max-w-[540px] flex-col gap-8"
-      initial={prefersReducedMotion ? undefined : { opacity: 0, y: 36 }}
+      initial={undefined}
       animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >

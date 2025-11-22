@@ -168,7 +168,7 @@ nav a:focus-visible,
 }
 
 nav a {
-  will-change: color, opacity;
+  will-change: opacity;
 }
 
 a:hover,
