@@ -99,6 +99,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="sr">
       <head>
+        {/* Preconnect for Google Fonts - placed at top for early DNS resolution */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
         {/* DNS Prefetch Control */}
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         
@@ -108,10 +112,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* Theme Color */}
         <meta name="theme-color" content="#0d3a35" />
         
-        {/* Preconnect for critical domains (improves LCP and FCP) */}
+        {/* Preconnect for other critical domains (improves LCP and FCP) */}
         <link rel="preconnect" href="https://www.vodenabasta.rs" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         
@@ -198,21 +200,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
-                (function() {
+              (function() {
                   if (typeof window === 'undefined') return;
                   const gaId = '${gaId}';
                   let initialized = false;
                   const loadGA4 = function() {
                     if (initialized) return;
                     initialized = true;
-                    const script = document.createElement('script');
-                    script.async = true;
+                  const script = document.createElement('script');
+                  script.async = true;
                     script.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
-                    document.head.appendChild(script);
-                    window.dataLayer = window.dataLayer || [];
+                  document.head.appendChild(script);
+                  window.dataLayer = window.dataLayer || [];
                     function gtag(){window.dataLayer.push(arguments);}
                     window.gtag = gtag;
-                    gtag('js', new Date());
+                  gtag('js', new Date());
                     gtag('config', gaId, {
                       page_path: window.location.pathname,
                       send_page_view: true
@@ -228,7 +230,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   events.forEach(function(e) {
                     window.addEventListener(e, handler, { passive: true, once: true });
                   });
-                })();
+              })();
               `,
             }}
           />
