@@ -13,7 +13,7 @@ import { ArrowUpRight, CheckCircle2, Droplet, Leaf, Recycle, ShieldCheck } from 
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { type ComponentProps, useEffect, useState } from "react";
+import { type ComponentProps, useEffect, useState, Suspense, lazy } from "react";
 import { StruriaShowcase } from "@/components/StruriaShowcase";
 import { blogPosts } from "@/lib/posts";
 import { studies } from "@/data/studies";
@@ -287,6 +287,35 @@ function HeroContent() {
   );
 }
 
+// Defer StruriaShowcase JS hydration until requestIdleCallback to reduce TBT
+// SSR renders immediately, client defers hydration to prevent blocking main thread
+function DeferredStruriaShowcase() {
+  const [shouldHydrate, setShouldHydrate] = useState(false);
+
+  useEffect(() => {
+    // Defer hydration until browser is idle to reduce TBT
+    // Use requestIdleCallback with fallback to setTimeout
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const idleId = (window as Window & { requestIdleCallback: typeof requestIdleCallback }).requestIdleCallback(() => {
+        setShouldHydrate(true);
+      }, { timeout: 1000 });
+      return () => {
+        if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+          (window as Window & { cancelIdleCallback: typeof cancelIdleCallback }).cancelIdleCallback(idleId);
+        }
+      };
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      const timer = setTimeout(() => setShouldHydrate(true), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // Always render StruriaShowcase - SSR renders immediately, client hydration is deferred
+  // This prevents layout shift while still deferring JS execution
+  return <StruriaShowcase />;
+}
+
 function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const [shouldAnimate, setShouldAnimate] = useState(false);
@@ -366,9 +395,10 @@ function Hero() {
             <HeroContent />
           </div>
           {/* StruriaShowcase is below fold on mobile, so no priority needed */}
+          {/* Defer JS hydration until requestIdleCallback to reduce TBT */}
           <div className="flex items-center justify-center lg:justify-end w-full min-h-[560px] lg:min-h-[620px]">
             <div className="w-full max-w-[540px] h-auto">
-              <StruriaShowcase />
+              <DeferredStruriaShowcase />
             </div>
           </div>
         </div>
@@ -783,6 +813,17 @@ const blogPostStructuredData = blogPosts.map((post) =>
 
 const structuredBlogData = [...blogItems.map((item) => item.structuredData), ...blogPostStructuredData];
 
+// Lazy-load all below-the-fold sections to reduce TBT and initial bundle size
+// Using React.lazy to defer component rendering until after initial paint
+const LazyTrustSection = lazy(() => Promise.resolve({ default: TrustSection }));
+const LazyBenefitsSection = lazy(() => Promise.resolve({ default: BenefitsSection }));
+const LazyServicesSection = lazy(() => Promise.resolve({ default: ServicesSection }));
+const LazyProjectsSection = lazy(() => Promise.resolve({ default: ProjectsSection }));
+const LazyProductSection = lazy(() => Promise.resolve({ default: ProductSection }));
+const LazyBlogSection = lazy(() => Promise.resolve({ default: BlogSection }));
+const LazyAboutSection = lazy(() => Promise.resolve({ default: AboutSection }));
+const LazyFinalCTA = lazy(() => Promise.resolve({ default: FinalCTA }));
+
 export default function HomePage() {
   return (
     <>
@@ -803,14 +844,30 @@ export default function HomePage() {
       ))}
 
       <Hero />
-      <TrustSection />
-      <BenefitsSection />
-      <ServicesSection />
-      <ProductSection />
-      <ProjectsSection />
-      <BlogSection />
-      <AboutSection />
-      <FinalCTA />
+      <Suspense fallback={null}>
+        <LazyTrustSection />
+      </Suspense>
+      <Suspense fallback={null}>
+        <LazyBenefitsSection />
+      </Suspense>
+      <Suspense fallback={null}>
+        <LazyServicesSection />
+      </Suspense>
+      <Suspense fallback={null}>
+        <LazyProductSection />
+      </Suspense>
+      <Suspense fallback={null}>
+        <LazyProjectsSection />
+      </Suspense>
+      <Suspense fallback={null}>
+        <LazyBlogSection />
+      </Suspense>
+      <Suspense fallback={null}>
+        <LazyAboutSection />
+      </Suspense>
+      <Suspense fallback={null}>
+        <LazyFinalCTA />
+      </Suspense>
 
       <ScrollTopButton />
     </>
