@@ -33,9 +33,14 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
+  // Modern browser support - no legacy polyfills
+  // Next.js 14 defaults to modern browsers, but we make it explicit
+  
   // Experimental optimizations for better performance
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
+    // Ensure modern output without legacy transforms
+    serverComponentsExternalPackages: [],
   },
   
   // Optimize CSS

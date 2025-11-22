@@ -191,7 +191,7 @@ function HeroContent() {
   return (
     <MotionDivComponent
       className="space-y-8 pt-16 sm:pt-20 md:pt-24 text-white"
-      initial={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 0, y: 30 }}
+      initial={undefined}
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
@@ -200,16 +200,16 @@ function HeroContent() {
       <div className="space-y-6">
         <motion.h1
           className="relative text-balance text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.08] md:leading-[1.06] tracking-[-0.015em] after:pointer-events-none after:absolute after:left-0 after:bottom-[-0.7rem] after:h-[2px] after:w-28 after:rounded-full after:bg-gradient-to-r after:from-accentBlue-400/90 after:via-accentYellow-400/70 after:to-transparent"
-          variants={heroStaggerContainer}
-          initial={prefersReducedMotion || !shouldAnimate ? undefined : "hidden"}
-          animate={prefersReducedMotion || !shouldAnimate ? undefined : "visible"}
+          variants={prefersReducedMotion ? undefined : heroStaggerContainer}
+          initial={undefined}
+          animate={prefersReducedMotion ? undefined : shouldAnimate ? "visible" : undefined}
         >
           {heroHeadlineLines.map((line, index) => (
             <motion.span
               key={line}
               className="block text-shimmer"
-              variants={heroStaggerItem}
-              transition={{ delay: index * 0.2 }}
+              variants={prefersReducedMotion ? undefined : heroStaggerItem}
+              transition={prefersReducedMotion || !shouldAnimate ? undefined : { delay: index * 0.2 }}
             >
               {line}
             </motion.span>
@@ -223,7 +223,7 @@ function HeroContent() {
 
       <motion.div
         className="grid grid-cols-1 gap-3 text-[clamp(0.92rem,1.25vw,1.05rem)] text-emerald-100/85 sm:grid-cols-2 lg:grid-cols-3"
-        initial={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 0, y: 12 }}
+        initial={undefined}
         animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut", delay: 0.4 }}
       >
@@ -244,7 +244,6 @@ function HeroContent() {
           href="#kontakt"
           intent="consultation"
           className="overflow-hidden rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-500 px-6 py-3 text-sm font-semibold tracking-wide text-white ring-1 ring-emerald-300/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60 transition-transform duration-200 hover:scale-105"
-          style={{ willChange: "transform" }}
         >
           Zakaži konsultaciju
         </PrimaryLink>
@@ -286,7 +285,7 @@ function Hero() {
     <MotionSectionComponent
       id="pocetak"
       className="hero-root relative isolate min-h-[85vh] overflow-hidden py-[clamp(3.5rem,7vw,6rem)]"
-      initial={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 0, y: 28 }}
+      initial={undefined}
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >

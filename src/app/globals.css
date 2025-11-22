@@ -549,7 +549,6 @@ img[src*="vodena-basta-site-icon"] {
   position: relative;
   color: rgba(255, 255, 255, 0.95);
   animation: textShimmerMove 8s ease-in-out infinite;
-  will-change: opacity, transform;
   transform: translateZ(0);
   backface-visibility: hidden;
   /* GPU-composited shimmer via opacity + transform */

@@ -193,7 +193,10 @@ export function Navbar() {
     if (typeof window === "undefined") {
       return;
     }
-    updateNavHeight();
+    // Defer initial nav height calculation to avoid forced reflow on mount
+    requestAnimationFrame(() => {
+      updateNavHeight();
+    });
     const node = headerRef.current;
     if (!node || typeof ResizeObserver === "undefined") {
       return;

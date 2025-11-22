@@ -163,17 +163,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Footer />
         </div>
 
-        {/* Google Analytics 4 - Lightweight, non-blocking */}
+        {/* Google Analytics 4 - Lightweight, non-blocking, deferred to reduce TBT */}
         {gaId ? (
           <>
             <Script
               id="ga4-loader"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
               src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
             />
             <Script
               id="ga4-init"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
               dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
