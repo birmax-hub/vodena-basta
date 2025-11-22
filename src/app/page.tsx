@@ -290,7 +290,6 @@ function Hero() {
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <div className="unified-bg"></div>
       <div className="pointer-events-none absolute inset-0">
         <div className="hero-bg-flow" />
         {!prefersReducedMotion &&
@@ -343,7 +342,6 @@ function Hero() {
 function TrustSection() {
   return (
     <section className="vb-section relative overflow-hidden min-h-[400px]">
-      <div className="unified-bg"></div>
       <Container className="relative space-y-12">
         <SectionReveal className="space-y-6 text-center">
           <GradientBadge>Veruju nam lideri</GradientBadge>
@@ -388,7 +386,6 @@ function AboutSection() {
 function BenefitsSection() {
   return (
     <section className="vb-section relative overflow-hidden min-h-[600px]" id="akvaponija">
-      <div className="unified-bg"></div>
       <Container className="relative space-y-12">
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Zašto akvaponija funkcioniše</GradientBadge>
@@ -427,7 +424,6 @@ function BenefitsSection() {
 function ServicesSection() {
   return (
     <section className="vb-section relative overflow-hidden min-h-[500px]" id="uzgoj-biljaka-i-riba">
-      <div className="unified-bg"></div>
       <Container className="relative">
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Uzgoj biljaka i riba</GradientBadge>
@@ -521,7 +517,6 @@ function ServicesSection() {
 function ProjectsSection() {
   return (
     <section className="vb-section relative overflow-hidden min-h-[500px]" id="portfolio">
-      <div className="unified-bg"></div>
       <Container className="relative space-y-12">
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Realizovani sistemi</GradientBadge>
@@ -560,7 +555,6 @@ function ProjectsSection() {
 function ProductSection() {
   return (
     <section className="vb-section relative overflow-hidden min-h-[500px]" id="proizvodi">
-      <div className="unified-bg"></div>
       <Container className="relative space-y-10">
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Premium proizvod</GradientBadge>
@@ -624,7 +618,6 @@ function BlogSection() {
 
   return (
     <section className="vb-section relative overflow-hidden min-h-[600px]" id="blog">
-      <div className="unified-bg"></div>
       <Container className="relative space-y-12">
         <SectionReveal className="space-y-4 text-center">
           <GradientBadge>Znanje i praksa</GradientBadge>
@@ -691,7 +684,6 @@ function BlogSection() {
 function FinalCTA() {
   return (
     <section className="vb-section relative overflow-hidden min-h-[600px]" id="kontakt">
-      <div className="unified-bg"></div>
       <Container className="relative">
         <SectionReveal childSelector=".cta-card">
           <div className="cta-card grid grid-cols-1 gap-10 overflow-hidden rounded-[3rem] border border-white/30 bg-[linear-gradient(170deg,rgba(8,30,26,0.72)_0%,rgba(4,11,19,0.94)_100%)] p-10 shadow-[0_45px_170px_rgba(4,14,22,0.55)] xl:grid-cols-[1.1fr_0.9fr] hover:opacity-100 hover:ring-1 hover:ring-cyan-400/20">

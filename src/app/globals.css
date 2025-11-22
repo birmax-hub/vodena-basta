@@ -11,9 +11,6 @@
   --accent-blue-500: #00afff;
   --accent-blue-700: #005eb8;
   --accent-yellow-400: #ffd633;
-  --bg-g1: radial-gradient(900px 600px at 20% 20%, rgba(0,255,200,0.18), transparent 70%);
-  --bg-g2: radial-gradient(1100px 700px at 80% 30%, rgba(0,150,255,0.15), transparent 75%);
-  --bg-g3: radial-gradient(1400px 900px at 50% 85%, rgba(0,200,180,0.12), transparent 80%);
 }
 
 html {
@@ -75,21 +72,6 @@ body {
 .vb-section {
   position: relative;
   padding-block: clamp(3.5rem, 8vw, 7rem);
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* UNIFIED BACKGROUND SYSTEM */
-.unified-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  background:
-    var(--bg-g1),
-    var(--bg-g2),
-    var(--bg-g3),
-    linear-gradient(180deg, #032220 0%, #042725 40%, #052a27 100%);
 }
 
 .vb-container {
@@ -650,16 +632,6 @@ img[src*="vodena-basta-site-icon"] {
   z-index: 1;
 }
 
-.trust-section,
-.benefits-section,
-.services-section,
-.projects-section,
-.product-section,
-.blog-section,
-.final-cta {
-  background: transparent !important;
-  box-shadow: none !important;
-}
 
 .panel-glow {
   position: relative;

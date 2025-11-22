@@ -83,7 +83,6 @@ export function AboutUsGallery() {
 
   return (
     <section id="o-nama" className="relative overflow-hidden py-24">
-      <div className="unified-bg"></div>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#021512] to-transparent" aria-hidden />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#021512] to-transparent" aria-hidden />
       <div className="relative mx-auto max-w-[1600px] px-6">
