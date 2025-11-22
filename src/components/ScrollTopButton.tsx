@@ -12,14 +12,27 @@ export function ScrollTopButton() {
   useEffect(() => {
     // Defer scroll check to avoid forced reflow on mount
     const initScrollListener = () => {
+      // Throttle scroll handler to reduce TBT (throttle is better than debounce for scroll)
+      let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
       const handleScroll = () => {
-        setVisible(window.scrollY > 320);
+        const currentScrollY = window.scrollY;
+        if (scrollTimeout === null) {
+          scrollTimeout = setTimeout(() => {
+            setVisible(currentScrollY > 320);
+            scrollTimeout = null;
+          }, 16); // ~60fps throttle
+        }
       };
 
       // Check scroll position after initialization
       handleScroll();
       window.addEventListener("scroll", handleScroll, { passive: true });
-      return () => window.removeEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+      };
     };
     
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {

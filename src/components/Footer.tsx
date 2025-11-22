@@ -26,7 +26,7 @@ export function Footer() {
                 alt="Vodena Bašta logo"
                 width={56}
                 height={56}
-                className="absolute h-[165%] w-[165%] scale-[1.25] object-cover object-center saturate-[1.25] brightness-[1.1] contrast-[1.05] drop-shadow-[0_0_12px_rgba(0,255,204,0.25)] transition-transform duration-500 group-hover:scale-[1.3]"
+                className="absolute inset-0 w-full h-full object-contain saturate-[1.25] brightness-[1.1] contrast-[1.05]"
                 loading="lazy"
                 style={{ imageRendering: "crisp-edges" }}
               />

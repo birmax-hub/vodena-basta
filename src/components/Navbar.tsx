@@ -97,12 +97,15 @@ export function Navbar() {
     if (typeof window === "undefined") {
       return;
     }
-    const nav = headerRef.current;
-    if (!nav) {
-      return;
-    }
-    const height = nav.offsetHeight;
-    document.documentElement.style.setProperty("--nav-height", `${height}px`);
+    // Wrap DOM read in requestAnimationFrame to avoid forced reflow
+    requestAnimationFrame(() => {
+      const nav = headerRef.current;
+      if (!nav) {
+        return;
+      }
+      const height = nav.offsetHeight;
+      document.documentElement.style.setProperty("--nav-height", `${height}px`);
+    });
   }, []);
 
   useEffect(() => {
@@ -112,10 +115,25 @@ export function Navbar() {
     
     // Defer scroll check to avoid forced reflow on mount
     const initScrollListener = () => {
-      const handleScroll = () => setScrolled(window.scrollY > 12);
+      // Throttle scroll handler to reduce TBT (throttle is better than debounce for scroll)
+      let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
+      const handleScroll = () => {
+        const currentScrollY = window.scrollY;
+        if (scrollTimeout === null) {
+          scrollTimeout = setTimeout(() => {
+            setScrolled(currentScrollY > 12);
+            scrollTimeout = null;
+          }, 16); // ~60fps throttle
+        }
+      };
       handleScroll();
       window.addEventListener("scroll", handleScroll, { passive: true });
-      return () => window.removeEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+      };
     };
     
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
@@ -180,12 +198,31 @@ export function Navbar() {
     if (!node || typeof ResizeObserver === "undefined") {
       return;
     }
-    const resizeObserver = new ResizeObserver(() => updateNavHeight());
+    
+    // Debounce resize handler to reduce TBT
+    let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+    const debouncedUpdateNavHeight = () => {
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      resizeTimeout = setTimeout(() => {
+        updateNavHeight();
+        resizeTimeout = null;
+      }, 150);
+    };
+    
+    const resizeObserver = new ResizeObserver(() => {
+      // Use requestAnimationFrame for ResizeObserver callback to batch DOM reads
+      requestAnimationFrame(debouncedUpdateNavHeight);
+    });
     resizeObserver.observe(node);
-    window.addEventListener("resize", updateNavHeight);
+    window.addEventListener("resize", debouncedUpdateNavHeight, { passive: true });
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener("resize", updateNavHeight);
+      window.removeEventListener("resize", debouncedUpdateNavHeight);
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
     };
   }, [updateNavHeight]);
 
@@ -244,7 +281,7 @@ export function Navbar() {
                 alt="Vodena Bašta logo"
                 width={56}
                 height={56}
-                className="absolute h-[165%] w-[165%] scale-[1.25] object-cover object-center saturate-[1.25] brightness-[1.1] contrast-[1.05] drop-shadow-[0_0_12px_rgba(0,255,204,0.25)] transition-transform duration-500 group-hover:scale-[1.3]"
+                className="absolute inset-0 w-full h-full object-contain saturate-[1.25] brightness-[1.1] contrast-[1.05]"
                 priority
                 style={{ imageRendering: "crisp-edges" }}
               />

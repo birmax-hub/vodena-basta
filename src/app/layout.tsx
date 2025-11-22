@@ -109,8 +109,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* Preconnect for Supabase (used for storage) */}
         <link rel="preconnect" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
         
+        {/* Preconnect for Google Fonts (next/font uses these domains) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
         {/* DNS Prefetch for External Resources */}
-        {/* Note: Font preconnects removed - next/font handles this automatically */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
         
@@ -152,9 +155,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Footer />
         </div>
 
-        {/* Google Analytics - Non-blocking with user interaction */}
+        {/* Google Analytics - Non-blocking with afterInteractive strategy */}
         {gaId ? (
-          <Script id="gtm-loader" strategy="lazyOnload">
+          <Script id="gtm-loader" strategy="afterInteractive">
             {`
               (function() {
                 let gtmLoaded = false;

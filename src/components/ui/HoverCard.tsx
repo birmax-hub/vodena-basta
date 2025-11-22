@@ -44,10 +44,13 @@ export function HoverCard<T extends ElementType = "div">({
     <Component
       className={cn(baseClassName, "hover:-translate-y-1 hover:scale-[1.01] hover:shadow-glow", className)}
       onMouseMove={(event: MouseEvent<HTMLElement>) => {
-        const bounds = event.currentTarget.getBoundingClientRect();
-        const x = ((event.clientX - bounds.left) / bounds.width) * 100;
-        const y = ((event.clientY - bounds.top) / bounds.height) * 100;
-        setHighlight({ x: `${x}%`, y: `${y}%`, opacity: 0.08 });
+        // Wrap DOM read in requestAnimationFrame to avoid forced reflow
+        requestAnimationFrame(() => {
+          const bounds = event.currentTarget.getBoundingClientRect();
+          const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+          const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+          setHighlight({ x: `${x}%`, y: `${y}%`, opacity: 0.08 });
+        });
         onMouseMove?.(event);
       }}
       onMouseLeave={(event: MouseEvent<HTMLElement>) => {

@@ -33,12 +33,31 @@ export function SectionReveal({
     
     // Defer mobile check to avoid forced reflow on mount
     const initMobileCheck = () => {
+      // Debounce resize handler to reduce TBT
+      let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
       const checkMobile = () => {
-        setIsMobile(window.innerWidth < 768);
+        if (resizeTimeout) {
+          clearTimeout(resizeTimeout);
+        }
+        resizeTimeout = setTimeout(() => {
+          // Wrap DOM read in requestAnimationFrame to avoid forced reflow
+          requestAnimationFrame(() => {
+            setIsMobile(window.innerWidth < 768);
+          });
+          resizeTimeout = null;
+        }, 150);
       };
-      checkMobile();
-      window.addEventListener("resize", checkMobile);
-      return () => window.removeEventListener("resize", checkMobile);
+      // Initial check
+      requestAnimationFrame(() => {
+        setIsMobile(window.innerWidth < 768);
+      });
+      window.addEventListener("resize", checkMobile, { passive: true });
+      return () => {
+        window.removeEventListener("resize", checkMobile);
+        if (resizeTimeout) {
+          clearTimeout(resizeTimeout);
+        }
+      };
     };
     
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
@@ -78,6 +97,7 @@ export function SectionReveal({
     // Stable, non-flicker initial state - GPU composited (opacity + transform only)
     node.style.opacity = "0.7";
     node.style.transform = "translate3d(0, 6px, 0)";
+    node.style.willChange = "opacity, transform";
 
     if (childSelector) {
       // Defer querySelectorAll to avoid blocking initial paint
@@ -85,6 +105,7 @@ export function SectionReveal({
         node.querySelectorAll<HTMLElement>(childSelector).forEach((element) => {
           element.style.opacity = "0.7";
           element.style.transform = "translate3d(0, 6px, 0)";
+          element.style.willChange = "opacity, transform";
         });
         setIsInitialized(true);
       };
