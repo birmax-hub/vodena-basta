@@ -283,6 +283,7 @@ export function Navbar() {
                 height={56}
                 className="absolute inset-0 w-full h-full object-contain saturate-[1.25] brightness-[1.1] contrast-[1.05]"
                 priority
+                fetchPriority="high"
                 style={{ imageRendering: "crisp-edges" }}
               />
             </div>

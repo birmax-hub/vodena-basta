@@ -33,6 +33,18 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
+  // Experimental optimizations for better performance
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
+  
+  // Optimize CSS
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
+  },
+  
   // Production caching headers
   async headers() {
     return [
@@ -47,6 +59,24 @@ const nextConfig = {
       },
       {
         source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/logo/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/favicon.ico',
         headers: [
           {
             key: 'Cache-Control',

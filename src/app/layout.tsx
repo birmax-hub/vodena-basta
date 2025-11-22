@@ -1,3 +1,4 @@
+// CSS is imported here - Next.js will optimize it automatically
 import "./globals.css";
 
 import type { Metadata } from "next";
@@ -113,9 +114,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
+        {/* Preconnect for Google Analytics */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        
         {/* DNS Prefetch for External Resources */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
+        
+        {/* Preload critical assets */}
+        <link rel="preload" href="/logo/vodena-basta-site-icon.png" as="image" type="image/png" />
         
         {/* Google Verification */}
         {googleVerification ? (
@@ -155,50 +163,30 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Footer />
         </div>
 
-        {/* Google Analytics - Non-blocking with afterInteractive strategy */}
+        {/* Google Analytics 4 - Lightweight, non-blocking */}
         {gaId ? (
-          <Script id="gtm-loader" strategy="afterInteractive">
-            {`
-              (function() {
-                let gtmLoaded = false;
-                let gtmInitTimeout;
-                
-                function loadGTM() {
-                  if (gtmLoaded) return;
-                  gtmLoaded = true;
-                  
-                  // Clear timeout if user interacted before timeout
-                  if (gtmInitTimeout) {
-                    clearTimeout(gtmInitTimeout);
-                    gtmInitTimeout = null;
-                  }
-                  
-                  // Load GTM script
-                  const script = document.createElement('script');
-                  script.async = true;
-                  script.src = 'https://www.googletagmanager.com/gtag/js?id=${gaId}';
-                  document.head.appendChild(script);
-                  
-                  // Initialize GTM
+          <>
+            <Script
+              id="ga4-loader"
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+            />
+            <Script
+              id="ga4-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){dataLayer.push(arguments);}
                   gtag('js', new Date());
-                  gtag('config', '${gaId}');
-                  
-                  // Remove event listeners
-                  document.removeEventListener('click', loadGTM);
-                  document.removeEventListener('scroll', loadGTM, true);
-                }
-                
-                // Load on user interaction (click or scroll)
-                document.addEventListener('click', loadGTM, { once: true, passive: true });
-                document.addEventListener('scroll', loadGTM, { once: true, passive: true, capture: true });
-                
-                // Fallback: load after 3 seconds if no interaction
-                gtmInitTimeout = setTimeout(loadGTM, 3000);
-              })();
-            `}
-          </Script>
+                  gtag('config', '${gaId}', {
+                    page_path: window.location.pathname,
+                    send_page_view: true
+                  });
+                `,
+              }}
+            />
+          </>
         ) : null}
 
         {/* Schema.org JSON-LD */}
