@@ -183,9 +183,20 @@ function HeroContent() {
   const [shouldAnimate, setShouldAnimate] = useState(false);
 
   useEffect(() => {
-    // Defer animations slightly to improve LCP - minimal delay for visual safety
-    const timer = setTimeout(() => setShouldAnimate(true), 100);
-    return () => clearTimeout(timer);
+    // Use requestIdleCallback for better LCP - animations start after initial paint
+    const initAnimations = () => setShouldAnimate(true);
+    
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const idleId = (window as Window & { requestIdleCallback: typeof requestIdleCallback }).requestIdleCallback(initAnimations, { timeout: 150 });
+      return () => {
+        if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+          (window as Window & { cancelIdleCallback: typeof cancelIdleCallback }).cancelIdleCallback(idleId);
+        }
+      };
+    } else {
+      const timer = setTimeout(initAnimations, 150);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
