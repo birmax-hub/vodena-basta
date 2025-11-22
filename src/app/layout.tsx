@@ -114,12 +114,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* Preconnect for Google Analytics */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-        
         {/* DNS Prefetch for External Resources */}
+        {/* DNS-prefetch for GA (lighter than preconnect since GA loads on user interaction) */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
         
         {/* Preload critical assets */}
@@ -163,30 +161,48 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Footer />
         </div>
 
-        {/* Google Analytics 4 - Lightweight, non-blocking, deferred to reduce TBT */}
-        {gaId ? (
-          <>
-            <Script
-              id="ga4-loader"
-              strategy="lazyOnload"
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-            />
-            <Script
-              id="ga4-init"
-              strategy="lazyOnload"
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${gaId}', {
-                    page_path: window.location.pathname,
-                    send_page_view: true
+        {/* Google Analytics 4 - Loads only after first user interaction to avoid TBT impact */}
+        {/* Set NEXT_PUBLIC_ENABLE_ANALYTICS=true to enable, NEXT_PUBLIC_GA_ID for tracking ID */}
+        {gaId && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true' ? (
+          <Script
+            id="analytics-init"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  if (typeof window === 'undefined') return;
+                  const gaId = '${gaId}';
+                  let initialized = false;
+                  const loadGA4 = function() {
+                    if (initialized) return;
+                    initialized = true;
+                    const script = document.createElement('script');
+                    script.async = true;
+                    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+                    document.head.appendChild(script);
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){window.dataLayer.push(arguments);}
+                    window.gtag = gtag;
+                    gtag('js', new Date());
+                    gtag('config', gaId, {
+                      page_path: window.location.pathname,
+                      send_page_view: true
+                    });
+                  };
+                  const events = ['scroll', 'mousedown', 'touchstart', 'keydown'];
+                  const handler = function() {
+                    loadGA4();
+                    events.forEach(function(e) {
+                      window.removeEventListener(e, handler, { passive: true });
+                    });
+                  };
+                  events.forEach(function(e) {
+                    window.addEventListener(e, handler, { passive: true, once: true });
                   });
-                `,
-              }}
-            />
-          </>
+                })();
+              `,
+            }}
+          />
         ) : null}
 
         {/* Schema.org JSON-LD */}

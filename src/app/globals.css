@@ -48,14 +48,21 @@ body[data-loaded="true"] .site-shell {
   scroll-margin-top: 100px;
 }
 
-* {
-  transition:
-    color 0.3s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    opacity 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
+/* Global transitions removed - using targeted transitions on interactive elements only */
+/* This prevents forced reflows and improves TBT significantly */
+
+/* Targeted transitions for interactive elements */
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"] {
+  transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Cards and hoverable elements */
+[class*="hover:"],
+.group:hover * {
+  transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
 }
 
 body {
@@ -264,10 +271,16 @@ select {
 
 .hero-particle {
   pointer-events: none;
-  animation: heroParticleFloat 16s ease-in-out infinite;
+  animation: none; /* Gate animation - only run after LCP window */
   will-change: transform, opacity;
   transform: translateZ(0); /* GPU acceleration */
   backface-visibility: hidden;
+}
+
+/* Enable hero particle animation only after LCP window */
+.animations-enabled .hero-particle,
+.hero-root.animations-enabled .hero-particle {
+  animation: heroParticleFloat 16s ease-in-out infinite;
 }
 
 @keyframes softPulse {
@@ -460,10 +473,21 @@ img[src*="vodena-basta-site-icon"] {
 }
 
 .cta-primary-animate {
-  animation: buttonPulsePrimary 3.5s ease-in-out infinite;
+  animation: none; /* Gate animation - only run after LCP window */
 }
 
 .cta-secondary-animate {
+  animation: none; /* Gate animation - only run after LCP window */
+}
+
+/* Enable CTA animations only after LCP window */
+.animations-enabled .cta-primary-animate,
+.hero-root.animations-enabled .cta-primary-animate {
+  animation: buttonPulsePrimary 3.5s ease-in-out infinite;
+}
+
+.animations-enabled .cta-secondary-animate,
+.hero-root.animations-enabled .cta-secondary-animate {
   animation: buttonPulseSecondary 4.1s ease-in-out infinite;
 }
 
@@ -509,6 +533,12 @@ img[src*="vodena-basta-site-icon"] {
     radial-gradient(circle at 50% 78%, rgba(18, 160, 120, 0.1), transparent 68%);
   /* Blur removed - using opacity/transform only for GPU compositing */
   opacity: 0.45;
+  animation: none; /* Gate animation - only run after LCP window */
+}
+
+/* Enable hero background animation only after LCP window */
+.animations-enabled .hero-bg-flow,
+.hero-root.animations-enabled .hero-bg-flow {
   animation: bgDrift 20s ease-in-out infinite alternate;
 }
 
@@ -518,10 +548,16 @@ img[src*="vodena-basta-site-icon"] {
   border-radius: 9999px;
   /* Blur removed - using opacity/transform only for GPU compositing */
   opacity: 0.28;
-  animation: orbFloatX 18s ease-in-out infinite;
+  animation: none; /* Gate animation - only run after LCP window */
   will-change: transform, opacity;
   transform: translateZ(0); /* GPU acceleration */
   backface-visibility: hidden;
+}
+
+/* Enable hero orb animation only after LCP window */
+.animations-enabled .hero-orb,
+.hero-root.animations-enabled .hero-orb {
+  animation: orbFloatX 18s ease-in-out infinite;
 }
 
 .panel-glow::before {

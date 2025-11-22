@@ -263,20 +263,30 @@ function HeroContent() {
 function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
   useEffect(() => {
-    // Defer animations to improve LCP - use requestIdleCallback when available
-    const initAnimations = () => setShouldAnimate(true);
+    // Gate animations to start only after LCP window (2.5s) to ensure H1 is the LCP element
+    const initAnimations = () => {
+      setShouldAnimate(true);
+      // Enable CSS animations after LCP window to ensure hero background doesn't delay LCP
+      setTimeout(() => {
+        setAnimationsEnabled(true);
+        if (typeof document !== 'undefined') {
+          document.documentElement.classList.add('animations-enabled');
+        }
+      }, 2500);
+    };
     
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      const idleId = (window as Window & { requestIdleCallback: typeof requestIdleCallback }).requestIdleCallback(initAnimations, { timeout: 150 });
+      const idleId = (window as Window & { requestIdleCallback: typeof requestIdleCallback }).requestIdleCallback(initAnimations, { timeout: 200 });
       return () => {
         if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
           (window as Window & { cancelIdleCallback: typeof cancelIdleCallback }).cancelIdleCallback(idleId);
         }
       };
     } else {
-      const timer = setTimeout(initAnimations, 150);
+      const timer = setTimeout(initAnimations, 200);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -284,13 +294,13 @@ function Hero() {
   return (
     <MotionSectionComponent
       id="pocetak"
-      className="hero-root relative isolate min-h-[85vh] overflow-hidden py-[clamp(3.5rem,7vw,6rem)]"
+      className={cn("hero-root relative isolate min-h-[85vh] overflow-hidden py-[clamp(3.5rem,7vw,6rem)]", animationsEnabled && "animations-enabled")}
       initial={undefined}
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <div className="pointer-events-none absolute inset-0">
-        <div className="hero-bg-flow" />
+        <div className={cn("hero-bg-flow", animationsEnabled && "animations-enabled")} />
         {!prefersReducedMotion &&
           HERO_PARTICLES.map((particle, index) => {
             const p = particle as { top?: string; left?: string; right?: string; bottom?: string; size: number; delay: string };

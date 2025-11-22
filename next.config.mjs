@@ -34,7 +34,9 @@ const nextConfig = {
   poweredByHeader: false,
   
   // Modern browser support - no legacy polyfills
-  // Next.js 14 defaults to modern browsers, but we make it explicit
+  // Browserslist config (.browserslistrc) targets modern browsers only
+  // This eliminates legacy polyfills (Array.flat, Object.fromEntries, etc.)
+  // Next.js 14 automatically respects browserslist for modern output
   
   // Experimental optimizations for better performance
   experimental: {
