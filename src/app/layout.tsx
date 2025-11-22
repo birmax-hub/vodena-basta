@@ -1,4 +1,5 @@
-// CSS is imported here - Next.js will optimize it automatically
+// CSS is imported here - Next.js 14 automatically optimizes and extracts critical CSS
+// The framework handles non-blocking CSS loading automatically
 import "./globals.css";
 
 import type { Metadata } from "next";
@@ -107,21 +108,32 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* Theme Color */}
         <meta name="theme-color" content="#0d3a35" />
         
-        {/* Preconnect for Supabase (used for storage) */}
-        <link rel="preconnect" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
-        
-        {/* Preconnect for Google Fonts (next/font uses these domains) */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        {/* Preconnect for critical domains (improves LCP and FCP) */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
         
         {/* DNS Prefetch for External Resources */}
-        {/* DNS-prefetch for GA (lighter than preconnect since GA loads on user interaction) */}
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        <link rel="dns-prefetch" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
         
         {/* Preload critical assets */}
         <link rel="preload" href="/logo/vodena-basta-site-icon.png" as="image" type="image/png" />
+        
+        {/* Critical CSS for hero section - inline to prevent FOUC */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* Critical hero styles - ensures H1 renders immediately */
+            body{background:linear-gradient(180deg,#0d3a35 0%,#0a2f2b 100%) fixed!important;min-height:100%;color:#d8e2d0;font-family:var(--font-inter),Inter,Satoshi,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}
+            h1{font-weight:600;line-height:1.08}
+            .hero-root{position:relative;isolation:isolate;min-height:85vh;overflow:hidden}
+            @media(min-width:768px){h1{line-height:1.06}}
+          `
+        }} />
         
         {/* Google Verification */}
         {googleVerification ? (

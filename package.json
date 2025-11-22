@@ -8,6 +8,12 @@
     "start": "next start",
     "lint": "eslint"
   },
+  "browserslist": [
+    "defaults",
+    ">0.5%",
+    "not IE 11",
+    "not dead"
+  ],
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
     "@upstash/ratelimit": "^2.0.7",
