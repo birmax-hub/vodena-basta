@@ -109,7 +109,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="theme-color" content="#0d3a35" />
         
         {/* Preconnect for critical domains (improves LCP and FCP) */}
-        <link rel="preconnect" href="https://www.vodenabasta.rs" />
+        <link rel="preconnect" href="https://www.vodenabasta.rs" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" crossOrigin="anonymous" />

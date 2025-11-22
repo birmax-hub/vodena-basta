@@ -38,6 +38,10 @@ const nextConfig = {
   // This eliminates legacy polyfills (Array.flat, Object.fromEntries, etc.)
   // Next.js 14 automatically respects browserslist for modern output
   
+  // Force modern ES2020+ output - no transpilation of node_modules
+  // This ensures only modern JavaScript is output, reducing bundle size
+  transpilePackages: [],
+  
   // Experimental optimizations for better performance
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
