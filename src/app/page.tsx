@@ -216,7 +216,7 @@ function HeroContent() {
 
   return (
     <MotionDivComponent
-      className="space-y-8 pt-16 sm:pt-20 md:pt-24 text-white max-w-[640px]"
+      className="space-y-8 text-white max-w-[720px] lg:max-w-[800px]"
       initial={undefined}
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -320,14 +320,14 @@ function Hero() {
   return (
     <MotionSectionComponent
       id="pocetak"
-      className={cn("hero-root relative isolate min-h-screen overflow-hidden pt-24 pb-20 sm:pt-32 sm:pb-24", animationsEnabled && "animations-enabled")}
+      className={cn("hero-root relative isolate min-h-screen overflow-hidden pt-10 pb-20 lg:pt-16 lg:pb-24", animationsEnabled && "animations-enabled")}
       initial={undefined}
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className={cn("hero-bg-flow", animationsEnabled && "animations-enabled")} />
-        <div className="relative max-w-[1350px] xl:max-w-[1450px] mx-auto h-full">
+        <div className="relative max-w-[1500px] mx-auto h-full">
           {!prefersReducedMotion &&
             HERO_PARTICLES.map((particle, index) => {
               const p = particle as { top?: string; left?: string; right?: string; bottom?: string; size: number; delay: string };
@@ -367,10 +367,16 @@ function Hero() {
         </div>
       </div>
 
-      <Container className="relative z-10 grid max-w-[1500px] items-center gap-10 px-6 mx-auto lg:grid-cols-2 lg:gap-14 xl:gap-20">
-        <HeroContent />
+      <Container className="relative z-10 grid grid-cols-1 lg:grid-cols-2 items-start lg:items-center max-w-[1500px] gap-8 lg:gap-12 xl:gap-16 px-6 mx-auto">
+        <div className="flex flex-col justify-center min-h-0">
+          <HeroContent />
+        </div>
         {/* StruriaShowcase is below fold on mobile, so no priority needed */}
-        <StruriaShowcase />
+        <div className="flex items-center justify-center lg:justify-end w-full max-h-[70vh] lg:max-h-[75vh] min-h-0">
+          <div className="scale-90 lg:scale-100 w-full max-w-full">
+            <StruriaShowcase />
+          </div>
+        </div>
       </Container>
     </MotionSectionComponent>
   );
