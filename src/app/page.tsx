@@ -144,10 +144,9 @@ const heroStaggerContainer = {
 };
 
 const heroStaggerItem = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: { duration: 0.5, ease: "easeOut" },
   },
 };
@@ -218,7 +217,7 @@ function HeroContent() {
     <MotionDivComponent
       className="space-y-8 text-white max-w-[720px] lg:max-w-[800px]"
       initial={undefined}
-      animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
+      animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <GradientBadge>Vodena Bašta · Premium Akvaponija</GradientBadge>
@@ -234,7 +233,9 @@ function HeroContent() {
             <motion.span
               key={line}
               className="block text-shimmer"
+              initial={undefined}
               variants={prefersReducedMotion ? undefined : heroStaggerItem}
+              animate={prefersReducedMotion || !shouldAnimate ? undefined : "visible"}
               transition={prefersReducedMotion || !shouldAnimate ? undefined : { delay: index * 0.2 }}
             >
               {line}
@@ -250,7 +251,7 @@ function HeroContent() {
       <motion.div
         className="grid grid-cols-1 gap-3 text-[clamp(0.92rem,1.25vw,1.05rem)] text-emerald-100/85 sm:grid-cols-2 lg:grid-cols-3"
         initial={undefined}
-        animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
+        animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1 }}
         transition={{ duration: 0.7, ease: "easeOut", delay: 0.4 }}
       >
         {["90% manje vode", "AI nadzor sistema", "Bez hemije"].map((badge) => (
@@ -289,19 +290,11 @@ function HeroContent() {
 function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const [shouldAnimate, setShouldAnimate] = useState(false);
-  const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
   useEffect(() => {
-    // Gate animations to start only after LCP window (2.5s) to ensure H1 is the LCP element
+    // Start Framer Motion animations after initial paint (no layout impact)
     const initAnimations = () => {
       setShouldAnimate(true);
-      // Enable CSS animations after LCP window to ensure hero background doesn't delay LCP
-      setTimeout(() => {
-        setAnimationsEnabled(true);
-        if (typeof document !== 'undefined') {
-          document.documentElement.classList.add('animations-enabled');
-        }
-      }, 2500);
     };
     
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
@@ -320,13 +313,13 @@ function Hero() {
   return (
     <MotionSectionComponent
       id="pocetak"
-      className={cn("hero-root relative isolate min-h-screen overflow-hidden pt-10 pb-20 lg:pt-16 lg:pb-24", animationsEnabled && "animations-enabled")}
+      className="hero-root relative isolate min-h-screen overflow-hidden py-16 lg:py-24"
       initial={undefined}
-      animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
+      animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className={cn("hero-bg-flow", animationsEnabled && "animations-enabled")} />
+        <div className="hero-bg-flow" />
         <div className="relative max-w-[1500px] mx-auto h-full">
           {!prefersReducedMotion &&
             HERO_PARTICLES.map((particle, index) => {
@@ -367,14 +360,16 @@ function Hero() {
         </div>
       </div>
 
-      <Container className="relative z-10 grid grid-cols-1 lg:grid-cols-2 items-start lg:items-center max-w-[1500px] gap-8 lg:gap-12 xl:gap-16 px-6 mx-auto">
-        <div className="flex flex-col justify-center min-h-0">
-          <HeroContent />
-        </div>
-        {/* StruriaShowcase is below fold on mobile, so no priority needed */}
-        <div className="flex items-center justify-center lg:justify-end w-full max-h-[70vh] lg:max-h-[75vh] min-h-0">
-          <div className="scale-90 lg:scale-100 w-full max-w-full">
-            <StruriaShowcase />
+      <Container className="relative z-10 max-w-[1500px] px-6 mx-auto h-full flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] items-center gap-8 lg:gap-12 xl:gap-16 w-full">
+          <div className="flex flex-col justify-center w-full max-w-[800px]">
+            <HeroContent />
+          </div>
+          {/* StruriaShowcase is below fold on mobile, so no priority needed */}
+          <div className="flex items-center justify-center lg:justify-end w-full min-h-[560px] lg:min-h-[620px]">
+            <div className="w-full max-w-[540px] h-auto">
+              <StruriaShowcase />
+            </div>
           </div>
         </div>
       </Container>

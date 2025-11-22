@@ -55,8 +55,9 @@ export function StruriaShowcase() {
     <motion.div
       className="relative mx-auto flex w-full max-w-[540px] flex-col gap-8"
       initial={undefined}
-      animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+      animate={prefersReducedMotion ? undefined : { opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
+      style={{ willChange: 'opacity' }}
     >
       <div className="pointer-events-none absolute -inset-x-16 -inset-y-12 opacity-70">
         {bubbles.map((bubble, idx) => (
