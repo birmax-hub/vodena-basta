@@ -128,7 +128,7 @@ const HERO_PARTICLES = [
 
 const HERO_ORBS = [
   { top: "12%", left: "18%", size: 240, delay: 0 },
-  { bottom: "20%", right: "10%", size: 280, delay: 1.4 },
+  { bottom: "20%", right: "10%", size: 260, delay: 1.4 },
   // Removed orb at top: "55%", left: "45%" - was causing dark halo behind CTA buttons
 ];
 
@@ -157,7 +157,22 @@ const MotionSectionComponent = (props: ComponentProps<typeof motion.section>) =>
 
 function GradientBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-teal-100">
+    <span
+      className="
+        inline-block
+        max-w-max
+        rounded-full
+        border border-white/25
+        bg-white/10
+        px-4
+        py-1
+        text-[11px]
+        font-semibold
+        uppercase
+        tracking-[0.18em]
+        text-teal-100
+      "
+    >
       {children}
     </span>
   );
@@ -201,16 +216,16 @@ function HeroContent() {
 
   return (
     <MotionDivComponent
-      className="space-y-8 pt-16 sm:pt-20 md:pt-24 text-white"
+      className="space-y-8 pt-16 sm:pt-20 md:pt-24 text-white max-w-[640px]"
       initial={undefined}
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <GradientBadge>Vodena Bašta · Premium Akvaponija</GradientBadge>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         <motion.h1
-          className="relative text-balance text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.08] md:leading-[1.06] tracking-[-0.015em] after:pointer-events-none after:absolute after:left-0 after:bottom-[-0.7rem] after:h-[2px] after:w-28 after:rounded-full after:bg-gradient-to-r after:from-accentBlue-400/90 after:via-accentYellow-400/70 after:to-transparent"
+          className="relative text-balance text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.08] md:leading-[1.06] tracking-[-0.015em] max-w-[16ch] after:pointer-events-none after:absolute after:left-0 after:bottom-[-0.4rem] after:h-[2px] after:w-28 after:rounded-full after:bg-gradient-to-r after:from-accentBlue-400/90 after:via-accentYellow-400/70 after:to-transparent"
           variants={prefersReducedMotion ? undefined : heroStaggerContainer}
           initial={undefined}
           animate={prefersReducedMotion ? undefined : shouldAnimate ? "visible" : undefined}
@@ -305,52 +320,54 @@ function Hero() {
   return (
     <MotionSectionComponent
       id="pocetak"
-      className={cn("hero-root relative isolate min-h-[85vh] overflow-hidden py-[clamp(3.5rem,7vw,6rem)]", animationsEnabled && "animations-enabled")}
+      className={cn("hero-root relative isolate min-h-screen overflow-hidden pt-24 pb-20 sm:pt-32 sm:pb-24", animationsEnabled && "animations-enabled")}
       initial={undefined}
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className={cn("hero-bg-flow", animationsEnabled && "animations-enabled")} />
-        {!prefersReducedMotion &&
-          HERO_PARTICLES.map((particle, index) => {
-            const p = particle as { top?: string; left?: string; right?: string; bottom?: string; size: number; delay: string };
-            const style: Record<string, string | number> = {
-              width: p.size,
-              height: p.size,
-              animationDelay: p.delay,
-            };
-            if (p.top) style.top = p.top;
-            if (p.left) style.left = p.left;
-            if (p.right) style.right = p.right;
-            if (p.bottom) style.bottom = p.bottom;
-            return (
+        <div className="relative max-w-[1350px] xl:max-w-[1450px] mx-auto h-full">
+          {!prefersReducedMotion &&
+            HERO_PARTICLES.map((particle, index) => {
+              const p = particle as { top?: string; left?: string; right?: string; bottom?: string; size: number; delay: string };
+              const style: Record<string, string | number> = {
+                width: p.size,
+                height: p.size,
+                animationDelay: p.delay,
+              };
+              if (p.top) style.top = p.top;
+              if (p.left) style.left = p.left;
+              if (p.right) style.right = p.right;
+              if (p.bottom) style.bottom = p.bottom;
+              return (
+                <span
+                  key={`hero-particle-${index}`}
+                  className="hero-particle absolute rounded-full bg-[radial-gradient(circle,rgba(87,255,214,0.28),rgba(87,255,214,0))]"
+                  style={style as React.CSSProperties}
+                />
+              );
+            })}
+          {!prefersReducedMotion &&
+            HERO_ORBS.map((orb, index) => (
               <span
-                key={`hero-particle-${index}`}
-                className="hero-particle absolute rounded-full bg-[radial-gradient(circle,rgba(87,255,214,0.28),rgba(87,255,214,0))]"
-                style={style as React.CSSProperties}
+                key={`hero-orb-${index}`}
+                className="hero-orb"
+                style={{
+                  top: orb.top,
+                  left: orb.left,
+                  right: orb.right,
+                  bottom: orb.bottom,
+                  width: orb.size,
+                  height: orb.size,
+                  animationDelay: `${orb.delay}s`,
+                }}
               />
-            );
-          })}
-        {!prefersReducedMotion &&
-          HERO_ORBS.map((orb, index) => (
-            <span
-              key={`hero-orb-${index}`}
-              className="hero-orb"
-              style={{
-                top: orb.top,
-                left: orb.left,
-                right: orb.right,
-                bottom: orb.bottom,
-                width: orb.size,
-                height: orb.size,
-                animationDelay: `${orb.delay}s`,
-              }}
-            />
-          ))}
+            ))}
+        </div>
       </div>
 
-      <Container className="relative z-10 grid max-w-[1200px] items-center gap-10 px-4 mx-auto lg:grid-cols-2 lg:gap-12 xl:gap-16">
+      <Container className="relative z-10 grid max-w-[1500px] items-center gap-10 px-6 mx-auto lg:grid-cols-2 lg:gap-14 xl:gap-20">
         <HeroContent />
         {/* StruriaShowcase is below fold on mobile, so no priority needed */}
         <StruriaShowcase />

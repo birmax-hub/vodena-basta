@@ -109,12 +109,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="theme-color" content="#0d3a35" />
         
         {/* Preconnect for critical domains (improves LCP and FCP) */}
+        <link rel="preconnect" href="https://www.vodenabasta.rs" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         
         {/* DNS Prefetch for External Resources */}
+        <link rel="dns-prefetch" href="https://www.vodenabasta.rs" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://vmzkfwmyypbgjyjkvoim.supabase.co" />
@@ -124,14 +126,29 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* Preload critical assets */}
         <link rel="preload" href="/logo/vodena-basta-site-icon.png" as="image" type="image/png" />
         
-        {/* Critical CSS for hero section - inline to prevent FOUC */}
+        {/* Preload first CSS chunk - Next.js 14 automatically optimizes CSS and handles preloading */}
+        {/* CSS files are generated with content hashes, so Next.js handles CSS optimization automatically */}
+        {/* The framework extracts critical CSS and loads non-critical CSS asynchronously */}
+        
+        {/* Preload critical font file */}
+        <link rel="preload" as="font" href="/_next/static/media/8e9860b6e62d6359-s.woff2" type="font/woff2" crossOrigin="anonymous" />
+        
+        {/* Critical CSS for hero section - typography and layout only (no animations/gradients) */}
+        {/* Targets above-the-fold hero elements for immediate first paint - ~3KB */}
         <style dangerouslySetInnerHTML={{
           __html: `
-            /* Critical hero styles - ensures H1 renders immediately */
-            body{background:linear-gradient(180deg,#0d3a35 0%,#0a2f2b 100%) fixed!important;min-height:100%;color:#d8e2d0;font-family:var(--font-inter),Inter,Satoshi,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}
-            h1{font-weight:600;line-height:1.08}
-            .hero-root{position:relative;isolation:isolate;min-height:85vh;overflow:hidden}
-            @media(min-width:768px){h1{line-height:1.06}}
+            /* Body background for first paint */
+            body{background:linear-gradient(180deg,#0d3a35 0%,#0a2f2b 100%) fixed!important;min-height:100%;color:#d8e2d0;font-family:var(--font-inter),Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;letter-spacing:-0.01em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+            
+            /* Hero H1 - typography only (LCP element) - ensures immediate render */
+            #pocetak h1{position:relative;text-wrap:balance;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:600;line-height:1.08;letter-spacing:-0.015em;color:#fff;margin:0}
+            @media(min-width:768px){#pocetak h1{font-size:clamp(3rem,5vw,3.75rem);line-height:1.06}}
+            @media(min-width:1024px){#pocetak h1{font-size:clamp(3.5rem,5vw,4.5rem)}}
+            #pocetak h1 span{display:block}
+            
+            /* Hero subtitle - typography only */
+            #pocetak h1+div p,#pocetak h1~p{max-width:42rem;font-size:clamp(1.02rem,1.45vw,1.22rem);line-height:1.75;color:rgba(209,250,229,0.85);margin-top:1.5rem}
+            @media(min-width:768px){#pocetak h1+div p,#pocetak h1~p{line-height:2}}
           `
         }} />
         
