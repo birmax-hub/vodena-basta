@@ -342,7 +342,7 @@ function Hero() {
   return (
     <MotionSectionComponent
       id="pocetak"
-      className="hero-root relative isolate min-h-screen overflow-hidden py-16 lg:py-24"
+      className="hero-root relative isolate min-h-screen overflow-hidden"
       initial={undefined}
       animate={prefersReducedMotion || !shouldAnimate ? undefined : { opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -389,14 +389,14 @@ function Hero() {
         </div>
       </div>
 
-      <Container className="relative z-10 max-w-[1500px] px-6 mx-auto h-full flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] items-center gap-8 lg:gap-12 xl:gap-16 w-full">
-          <div className="flex flex-col justify-center w-full max-w-[800px]">
+      <Container className="relative z-10 max-w-[1500px] px-6 mx-auto flex items-center pt-20 md:pt-24 lg:pt-28 xl:pt-32 2xl:pt-36 pb-16 md:pb-20 lg:pb-24 xl:pb-24 2xl:pb-26">
+        <div className="grid grid-cols-1 xl:grid-cols-[1fr_1fr] items-center gap-8 lg:gap-12 xl:gap-16 w-full max-w-full">
+          <div className="flex flex-col justify-center w-full max-w-[800px] pt-8 md:pt-12 lg:pt-0">
             <HeroContent />
           </div>
           {/* StruriaShowcase is below fold on mobile, so no priority needed */}
           {/* Defer JS hydration until requestIdleCallback to reduce TBT */}
-          <div className="flex items-center justify-center lg:justify-end w-full min-h-[560px] lg:min-h-[620px]">
+          <div className="flex items-center justify-center lg:justify-end w-full min-h-[560px] lg:min-h-[620px] 2xl:-mt-12">
             <div className="w-full max-w-[540px] h-auto">
               <DeferredStruriaShowcase />
             </div>
